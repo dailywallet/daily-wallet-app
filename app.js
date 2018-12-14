@@ -4,4 +4,4 @@ import App from './src/App';
 
 
 
-//const app = new App();
+const app = new App();
