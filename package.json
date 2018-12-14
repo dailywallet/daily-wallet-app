@@ -21,7 +21,7 @@
     "react-native-navigation": "^1.1.426",
     "react-native-tcp": "^3.3.0",
     "react-native-udp": "^2.3.1",
-    "universal-login-monorepo": "git+https://github.com/UniversalLogin/UniversalLoginSDK.git",
+    "universal-login-monorepo": "../../universal-eth2/UniversalLoginSDK",
     "assert": "^1.1.1",
     "browserify-zlib": "~0.1.4",
     "console-browserify": "^1.1.0",
