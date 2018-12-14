@@ -1,4 +1,4 @@
-package com.universalloginrnstarter;
+package com.dailywallet;
 import android.support.annotation.NonNull;
 
 import com.facebook.react.ReactPackage;

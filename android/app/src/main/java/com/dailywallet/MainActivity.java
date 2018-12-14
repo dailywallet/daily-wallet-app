@@ -1,4 +1,4 @@
-package com.universalloginrnstarter;
+package com.dailywallet;
 
 import com.reactnativenavigation.controllers.SplashActivity;
 

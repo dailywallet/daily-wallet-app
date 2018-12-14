@@ -17,7 +17,7 @@ class IntroScreen extends React.Component {
     }
     
     async componentDidMount() {
-	await this.sdk.start();
+	// await this.sdk.start();
     }
     
     componentWillUnmount() {

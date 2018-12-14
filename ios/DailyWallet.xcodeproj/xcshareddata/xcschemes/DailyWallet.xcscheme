@@ -7,45 +7,45 @@
       buildImplicitDependencies = "YES">
       <BuildActionEntries>
          <BuildActionEntry
-            buildForTesting = "YES"
+            buildForTesting = "NO"
             buildForRunning = "YES"
             buildForProfiling = "YES"
             buildForArchiving = "YES"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2D2A28121D9B038B00D4039D"
+               BlueprintIdentifier = "83CBBA2D1A601D0E00E9B192"
                BuildableName = "libReact.a"
-               BlueprintName = "React-tvOS"
+               BlueprintName = "React"
                ReferencedContainer = "container:../node_modules/react-native/React/React.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
-            buildForTesting = "YES"
+            buildForTesting = "NO"
             buildForRunning = "YES"
             buildForProfiling = "YES"
             buildForArchiving = "YES"
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "UniversalLoginRNStarter-tvOS.app"
-               BlueprintName = "UniversalLoginRNStarter-tvOS"
-               ReferencedContainer = "container:UniversalLoginRNStarter.xcodeproj">
+               BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+               BuildableName = "DailyWallet.app"
+               BlueprintName = "DailyWallet"
+               ReferencedContainer = "container:DailyWallet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
+            buildForTesting = "NO"
+            buildForRunning = "NO"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "UniversalLoginRNStarter-tvOSTests.xctest"
-               BlueprintName = "UniversalLoginRNStarter-tvOSTests"
-               ReferencedContainer = "container:UniversalLoginRNStarter.xcodeproj">
+               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
+               BuildableName = "DailyWalletTests.xctest"
+               BlueprintName = "DailyWalletTests"
+               ReferencedContainer = "container:DailyWallet.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -56,24 +56,14 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "UniversalLoginRNStarter-tvOSTests.xctest"
-               BlueprintName = "UniversalLoginRNStarter-tvOSTests"
-               ReferencedContainer = "container:UniversalLoginRNStarter.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "UniversalLoginRNStarter-tvOS.app"
-            BlueprintName = "UniversalLoginRNStarter-tvOS"
-            ReferencedContainer = "container:UniversalLoginRNStarter.xcodeproj">
+            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+            BuildableName = "DailyWallet.app"
+            BlueprintName = "DailyWallet"
+            ReferencedContainer = "container:DailyWallet.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -93,10 +83,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "UniversalLoginRNStarter-tvOS.app"
-            BlueprintName = "UniversalLoginRNStarter-tvOS"
-            ReferencedContainer = "container:UniversalLoginRNStarter.xcodeproj">
+            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+            BuildableName = "DailyWallet.app"
+            BlueprintName = "DailyWallet"
+            ReferencedContainer = "container:DailyWallet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -112,10 +102,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "UniversalLoginRNStarter-tvOS.app"
-            BlueprintName = "UniversalLoginRNStarter-tvOS"
-            ReferencedContainer = "container:UniversalLoginRNStarter.xcodeproj">
+            BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
+            BuildableName = "DailyWallet.app"
+            BlueprintName = "DailyWallet"
+            ReferencedContainer = "container:DailyWallet.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
