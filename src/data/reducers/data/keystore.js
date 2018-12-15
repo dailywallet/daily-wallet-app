@@ -1,14 +1,20 @@
 import {
-  CREATE_WALLET
+    actions
 } from './../../../actions/wallet'
 
-function keystore(state = null, action) {
-  switch (action.type) {
-    case CREATE_WALLET:
-      return action.paylod.keystore
-    default:
-      return state
-  }
+const initialState = {
+    pubKeyAddress: '',
+    keystore: ''
 }
 
-export default keystore
+export function keystore(state = initialState, action) {
+    switch (action.type) {
+    case actions.GENERATE_KEYSTORE:
+        const { address: pubKeyAddress, keystore } = action.payload;
+        return { pubKeyAddress, keystore };
+    case actions.DELETE_WALLET:
+        return initialState
+    default:
+        return state
+    }
+}

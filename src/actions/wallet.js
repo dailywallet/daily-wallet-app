@@ -1,20 +1,21 @@
 import {changeAppRoot} from './app';
-import {generateOrImportKeystore} from './../services/keystoreService';
+import * as ksService from './../services/keystoreService';
 
 export const actions = {
-    CREATE_WALLET: 'CREATE_WALLET',
+    ADD_IDENTITY_CONTRACT: 'ADD_IDENTITY_CONTRACT',
+    GENERATE_KEYSTORE: 'GENERATE_KEYSTORE',    
     DELETE_WALLET: 'DELETE_WALLET',
 };
 
 
-export function createWallet(password) {
+export function generateKeystore(password) {
     return async (dispatch, getState) => {
-        const {address, keystore} = await generateOrImportKeystore({password})
+        const {address, keystore} = await ksService.generateKeystore(password);
         dispatch({
-            type: 'CREATE_WALLET',
+            type: actions.GENERATE_KEYSTORE,
             payload: {keystore, address}
-        })
-        dispatch(changeAppRoot('BalanceScreen'))
+        });
+        dispatch(changeAppRoot('ClaimScreen'));
     };
 }
 

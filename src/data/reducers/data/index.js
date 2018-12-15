@@ -1,9 +1,13 @@
 import { combineReducers } from 'redux';
 import {
-    wallet,
+    wallet
 } from './wallet';
+import {
+    keystore
+} from './keystore';
 
 
 export default combineReducers({
-    wallet
+    wallet,
+    keystore
 });

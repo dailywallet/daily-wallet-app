@@ -72,7 +72,20 @@ export default class App extends React.Component {
                         navigatorButtons: {} // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
                     },
                 });
-                return;
+            return;
+            case 'ClaimScreen':
+                Navigation.startSingleScreenApp({
+                    screen: {
+                        screen: 'dailywallet.ClaimScreen', // unique ID registered with Navigation.registerScreen
+                        navigatorStyle: {
+                            orientation: 'portrait',
+                            //screenBackgroundColor: '#242836',
+                            // navBarHidden: true,
+                        }, // override the navigator style for the screen, see "Styling the navigator" below (optional)
+                        navigatorButtons: {} // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
+                    },
+                });
+                return;	    
             case 'ReceiveScreen':
                 Navigation.startSingleScreenApp({
                     screen: {

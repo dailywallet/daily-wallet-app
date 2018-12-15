@@ -220,10 +220,13 @@ ios/build/
 
 
 *~
-*/*~
-*/#*#
-#*#
+*#
+#*
 .#*
+build_webpack/
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
 
 node_modules/
 ios/build/

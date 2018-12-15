@@ -3,15 +3,14 @@ import {
 } from './../../../actions/wallet'
 
 const initialState = {
-    address: '',
-    keystore: ''
+    address: ''
 }
 
 export function wallet(state = initialState, action) {
     switch (action.type) {
-        case actions.CREATE_WALLET:
-            const { address, keystore } = action.payload
-            return { address, keystore }
+        case actions.ADD_IDENTITY_CONTRACT:
+        const { address } = action.payload
+        return { address };
         case actions.DELETE_WALLET:
             return initialState
         default:

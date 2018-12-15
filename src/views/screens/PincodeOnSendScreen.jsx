@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, TextInput, Text, } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import CodePin from 'react-native-pin-code'
-import PinView from 'react-native-pin-view'
-import { derivePkFromKeystore, deriveAddressFromPk } from './../../services/keystoreService';
+import CodePin from 'react-native-pin-code';
+import PinView from 'react-native-pin-view';
+import { decryptKeystore } from './../../services/keystoreService';
 import styles from './styles';
 
 
@@ -18,23 +18,23 @@ class PincodeOnSendScreen extends React.Component {
     }
 
     async _checkCode(code, clear) {
-        const wallet = this.props.wallet
-        const address = wallet.address
-        const keystore = wallet.keystore
-        const password = code
-        let privateKey;
-        let derivedAddress = '';
+
+	const { keystore, pubKeyAddress } = this.props.keystore;
+	
+
         try {
-            privateKey = await derivePkFromKeystore({ keystore, password })
-            derivedAddress = await deriveAddressFromPk({ privateKey })
+	    const { address, privateKey } = await decryptKeystore({ keystore, password:code });
+
+	    // check that pincode is correct
+            if (address.toUpperCase() !== pubKeyAddress.toUpperCase()) {
+		throw new Error("Wrong PIN, try again");
+	    }
+	    
+            this.props.navigator.push({ screen: 'dailywallet.ShareLinkScreen', passProps: { amount: this.props.amount } });	    
         } catch (e) {
-            console.log('callback error: ', e)
-        }
-        if (address.toUpperCase() === derivedAddress.toUpperCase()) {
-            this.props.navigator.push({ screen: 'dailywallet.ShareLinkScreen', passProps: { amount: this.props.amount } })
-        } else {
-            alert("Wrong PIN, try again")
-            clear()
+            console.log('callback error: ', e);
+            alert("Wrong PIN, try again");
+            clear();
         }
     }
 
@@ -82,7 +82,7 @@ class PincodeOnSendScreen extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        wallet: state.data.wallet || ''
+        keystore: state.data.keystore || ''
     }
 }
 
