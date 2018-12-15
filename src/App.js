@@ -3,7 +3,6 @@ import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import store from './data/store';
 import registerScreens from './views/screens';
-import web3Service from './services/web3Service';
 
 registerScreens(store, Provider);
 
@@ -97,6 +96,7 @@ export default class App extends React.Component {
                         }, // override the navigator style for the screen, see "Styling the navigator" below (optional)
                         navigatorButtons: {} // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
                     },
+		    passProps: {amount: 100}
                 });
                 return;
             // 	tabsStyle: { // optional, add this if you want to style the tab bar beyond the defaults

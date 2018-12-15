@@ -82,5 +82,11 @@ export default {
         fontSize: 20,
         fontWeight: 'bold',
         color: 'black'
+    },
+    activityIndicator: { 
+	flex: 1,
+	justifyContent: 'center',
+	alignItems: 'center',
+	height: 80
     }
 }

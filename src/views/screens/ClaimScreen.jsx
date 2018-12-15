@@ -1,8 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text, TextInput } from 'react-native';
 const qs = require('querystring');
 import identitySDK from 'DailyWallet/src/services/sdkService';
-
+import { claimLink } from './../../actions/wallet';
 import styles from './styles';
 
 export const TOKEN_ADDRESS = '0x0566C17c5E65d760243b9c57717031c708f13d26';
@@ -26,7 +27,7 @@ class ClaimScreen extends React.Component {
     
     async onSubmit() {
 	const { claimLink } = this.state;
-	console.log({claimLink});
+	// await this.props.claimLink();
 	
 	try {
 
@@ -38,7 +39,6 @@ class ClaimScreen extends React.Component {
 	    	sender,
 	    	sigSender,
 	    	transitPK,
-	    	identityPK: null
 	    });
 	    console.log({response, txHash, newIdentityPK});
 	    
@@ -47,8 +47,8 @@ class ClaimScreen extends React.Component {
 	    // });
 
 	    // // wait for tx to be mined
-	    const txReceipt = await identitySDK.waitForTxReceipt(txHash);
-	    console.log({txReceipt});
+	    // const txReceipt = await identitySDK.waitForTxReceipt(txHash);
+	    // console.log({txReceipt});
 	    // let newIdentity;
 	    
 	    // if (this.state.newIdentity) {
@@ -98,4 +98,4 @@ class ClaimScreen extends React.Component {
 }
 
 
-export default ClaimScreen;
+export default connect(null, { claimLink })(ClaimScreen);

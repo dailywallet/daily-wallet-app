@@ -1,11 +1,12 @@
+
 import EthereumIdentitySDK from 'universal-login-monorepo/universal-login-sdk';
-import ethers from 'ethers';
+import { providers } from 'ethers';
 
 
 class UniversalLoginSDK {
     start() {
 	const serverUrl = 'https://gasless-ropsten.eth2phone.com';
-	this.provider = new ethers.providers.JsonRpcProvider('https://ropsten.infura.io');
+	this.provider = new providers.JsonRpcProvider('https://ropsten.infura.io');
 
 	this.sdk = new EthereumIdentitySDK(
 	    serverUrl,

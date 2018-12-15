@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, TextInput, Text, } from 'react-native';
+import { View, TextInput, Text, ActivityIndicator } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import CodePin from 'react-native-pin-code';
 import PinView from 'react-native-pin-view';
 import { decryptKeystore } from './../../services/keystoreService';
 import styles from './styles';
@@ -10,17 +9,21 @@ import styles from './styles';
 
 class PincodeOnSendScreen extends React.Component {
     state = {
-        step: '1'
+        step: '1',
+	decrypting: false
     }
 
     static navigatorStyle = {
         navBarHidden: true,
     }
 
+    onComplete(code, clear) {
+	this.setState({decrypting: true});
+	setTimeout(async () =>  this._checkCode(code, clear), 0);
+    }
+    
     async _checkCode(code, clear) {
-
-	const { keystore, pubKeyAddress } = this.props.keystore;
-	
+	const { keystore, pubKeyAddress } = this.props.keystore;	
 
         try {
 	    const { address, privateKey } = await decryptKeystore({ keystore, password:code });
@@ -30,51 +33,41 @@ class PincodeOnSendScreen extends React.Component {
 		throw new Error("Wrong PIN, try again");
 	    }
 	    
-            this.props.navigator.push({ screen: 'dailywallet.ShareLinkScreen', passProps: { amount: this.props.amount } });	    
+            //this.props.navigator.push({ screen: 'dailywallet.ShareLinkScreen', passProps: { amount: this.props.amount } });
+	    this.props.onSuccess(privateKey);
         } catch (e) {
             console.log('callback error: ', e);
             alert("Wrong PIN, try again");
             clear();
         }
+	this.setState({decrypting:false});
     }
 
+
+    
     render() {
         return (
             <View style={styles.screenContainer}>
                 <View style={styles.centeredFlex}>
                     <Text style={styles.infoText}>Enter your 4-digit passcode</Text>
                 </View>
-                <View style={styles.pinContainer}>
-                    {/* <CodePin
-                            number={4}
-                            keyboardType='numeric'
-                            ref={ref => this.ref = ref}
-                            pinStyle={{ backgroundColor: 'white', borderWidth: 2 }}
-                            underlineColorAndroid="white"
-                            checkPinCode={async (code, callback) => {
-                                const password = code
-                                let privateKey;
-                                let derivedAddress = '';
-                                try {
-                                    privateKey = await derivePkFromKeystore({ keystore, password })
-                                    derivedAddress = await deriveAddressFromPk({ privateKey })
-                                } catch (e) {
-                                    console.log('callback error: ', e)
-                                }
-                                callback(address.toUpperCase() === derivedAddress.toUpperCase())
 
-                            }}
-                            success={() => this.props.navigator.push({ screen: 'dailywallet.ShareLinkScreen', passProps: { amount: this.props.amount } })}
-                            error="Wrong pin"
-                            autoFocusFirst={true}
-                            obfuscation={true}
-                        /> */}
+		{this.state.decrypting ? (
+		    <ActivityIndicator
+		       animating
+		       color="black"
+		       size="large"
+		       style={styles.activityIndicator}
+		       />
+		) : 
+                <View style={styles.pinContainer}>
                     <PinView
-                        onComplete={(code, clear) => this._checkCode(code, clear)}
+                 onComplete={this.onComplete.bind(this)}
                         pinLength={4}
                         inputActiveBgColor='#0ED226'
                     />
-                </View>
+                 </View>
+		}
             </View>
         );
     }

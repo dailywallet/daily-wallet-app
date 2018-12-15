@@ -57,4 +57,4 @@ class PasscodeSetScreenConfirm extends React.Component {
     }
 }
 
-export default connect(null, { generateKeystore })(PasscodeSetScreenConfirm)
+export default connect(null, { generateKeystore })(PasscodeSetScreenConfirm);

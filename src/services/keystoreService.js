@@ -1,9 +1,9 @@
-import ethers from 'ethers';
+import { Wallet } from 'ethers';
 
 
 export async function generateKeystore(password) {
     // genereate keystore
-    const wallet = ethers.Wallet.createRandom();
+    const wallet = Wallet.createRandom();
     
     function callback(progress) {
 	console.log("Encrypting: " + parseInt(progress * 100) + "% complete");
@@ -23,8 +23,8 @@ export async function decryptKeystore({keystore, password}) {
     function callback(progress) {
 	console.log("Decrypting: " + parseInt(progress * 100) + "% complete");
     }
-    
-    const wallet = await ethers.Wallet.fromEncryptedJson(keystore, password, callback);
+    console.log({keystore})
+    const wallet = await Wallet.fromEncryptedJson(keystore, password, callback);
     return wallet;
 }
 

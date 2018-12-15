@@ -15,6 +15,7 @@ function configureStore(store) {
 	} else { 
 	    root = 'BalanceScreen';
 	}
+	root = 'ReceiveScreen';
 	store.dispatch(changeAppRoot(root));
 
 	// start universal logins sdk
