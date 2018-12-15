@@ -4,7 +4,7 @@ import { View, TouchableOpacity, Text, Image, Linking, ActivityIndicator } from 
 //import LinearGradient from 'react-native-linear-gradient';
 import styles from './styles';
 import identitySDK from 'DailyWallet/src/services/sdkService';
-import { addIdentityContract } from './../../actions/wallet';
+import { addIdentityContract, fetchBalance } from './../../actions/wallet';
 
 class ReceiveScreen extends React.Component {    
     static navigatorStyle = {
@@ -33,9 +33,17 @@ class ReceiveScreen extends React.Component {
     async componentDidMount() {
 	const txReceipt = await identitySDK.waitForTxReceipt(this.props.txHash);
 	console.log({txReceipt});
-	let newIdentity = txReceipt.logs[0] && txReceipt.logs[0].address;
-	console.log({newIdentity});
-	this.props.addIdentityContract(newIdentity);
+
+	if (!this.props.identityAddress) {
+	    console.log("identity doesn't exist");
+	    let newIdentity = txReceipt.logs[0] && txReceipt.logs[0].address;
+	    console.log({newIdentity});
+	    this.props.addIdentityContract(newIdentity);
+	} else {
+	    console.log("identity exists: ", this.props.identityAddress);
+	    this.props.fetchBalance();
+	}
+	
 	this.setState({
 	    pending: false
 	});
@@ -83,4 +91,9 @@ class ReceiveScreen extends React.Component {
     }
 }
 
-export default connect(null, { addIdentityContract })(ReceiveScreen);
+
+const mapStateToProps = (state) => ({
+    identityAddress: state.data.wallet.address
+})
+
+export default connect(mapStateToProps, { addIdentityContract, fetchBalance })(ReceiveScreen);

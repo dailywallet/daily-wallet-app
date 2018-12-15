@@ -44,7 +44,7 @@ export const addIdentityContract = (identityContract) => {
 }
 
 
-const fetchBalance = () => {
+export const fetchBalance = () => {
     return async (dispatch, getState) => {	
 	const state = getState();
 	const address = state.data.wallet.address;
