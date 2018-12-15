@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { utils } from 'ethers';
 import {
     actions
 } from './../../../actions/wallet'
@@ -19,12 +18,12 @@ function address(state = '', action) {
 }
 
 
-const zero = utils.bigNumberify(0);
+const zero = 0;
 function balance(state = zero, action) {
     switch (action.type) {
     case actions.UPDATE_BALANCE:
         const { balance } = action.payload;
-        return balance.div(100);
+        return balance;
     case actions.DELETE_WALLET:
         return zero;
     default:

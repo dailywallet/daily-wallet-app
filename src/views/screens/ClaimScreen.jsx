@@ -16,7 +16,7 @@ class ClaimScreen extends React.Component {
     }
 
     state = {
-        claimlLink: ''
+        link: ''
     }
 
     _parseURL(url) {
@@ -26,41 +26,21 @@ class ClaimScreen extends React.Component {
     }
     
     async onSubmit() {
-	const { claimLink } = this.state;
-	// await this.props.claimLink();
+	const { link } = this.state;
+	// 
 	
 	try {
 
-	    const { a: amount, from: sender, sig: sigSender, pk: transitPK  } = this._parseURL(claimLink);
+	    const { a: amount, from: sender, sig: sigSender, pk: transitPK  } = this._parseURL(link);
 	    // send tx
-	    const { response, txHash, identityPK: newIdentityPK }  = await identitySDK.transferByLink({
+
+	    await this.props.claimLink({
 	    	amount,
 	    	sender,
 	    	sigSender,
 	    	transitPK,
-	    });
-	    console.log({response, txHash, newIdentityPK});
-	    
-	    // this.setState({
-	    // 	txHash
-	    // });
-
-	    // // wait for tx to be mined
-	    // const txReceipt = await identitySDK.waitForTxReceipt(txHash);
-	    // console.log({txReceipt});
-	    // let newIdentity;
-	    
-	    // if (this.state.newIdentity) {
-	    // 	newIdentity = txReceipt.logs[0] && txReceipt.logs[0].address;
-	    // }
-
-	    // this.setState({
-	    // 	txReceipt,
-	    // 	identity: newIdentity
-	    // });
-
-	    // #todo store identity PK in localstorage
-
+		navigator: this.props.navigator
+	    });	    
 	} catch (err) {
 	    console.log({err});
 	    this.setState({error: err});;
@@ -81,7 +61,7 @@ class ClaimScreen extends React.Component {
                      keyboardType='url'
                      autoFocus={true}
 		     style={{borderWidth: 1, borderColor: "black", width: '90%', height: 40, padding: 10}}
-                     onChangeText={(claimLink) => this.setState({ claimLink })}
+                     onChangeText={(link) => this.setState({ link })}
                     value={this.state.claimLink}
                     underlineColorAndroid='black'
                     />

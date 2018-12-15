@@ -70,7 +70,7 @@ class ReceiveScreen extends React.Component {
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
                     <Image source={require('./../../img/arrow.png')} />
                     <Text style={{...styles.balance, fontSize: 28}}>{title}</Text>
-                    <Text style={{...styles.balance, fontSize: 60}}>${this.props.amount}</Text>
+                    <Text style={{...styles.balance, fontSize: 60}}>${this.props.amount/100}</Text>
                 </View>
 
                 <View style={{alignItems: 'center', marginBottom: 30}}>

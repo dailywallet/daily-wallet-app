@@ -1,4 +1,5 @@
 import { Navigation } from 'react-native-navigation';
+import { utils } from 'ethers';
 import {changeAppRoot} from './app';
 import identitySDK from 'DailyWallet/src/services/sdkService';
 import * as ksService from './../services/keystoreService';
@@ -49,31 +50,79 @@ export const fetchBalance = () => {
 	const state = getState();
 	const address = state.data.wallet.address;
 	console.log({address});
-	const balance = await identitySDK.getBalance(address);
+	let balance = await identitySDK.getBalance(address);
+	balance = balance.div(100).toNumber();
 	console.log({balance});
 	dispatch(updateBalance(balance));
     };
 }
 
 
-const claimLinkWithPK = (privateKey) => {
+const claimLinkWithPK = ({
+    amount,
+    sender,
+    sigSender,
+    transitPK,
+    identityPK,
+    navigator
+}) => {
     return async (dispatch, getState) => {	
-	console.log("in claimLinkWithPK", privateKey);	
+	console.log("in claimLinkWithPK");
+
+	// send transaction
+	const { response, txHash }  = await identitySDK.transferByLink({
+	    	amount,
+	    	sender,
+	    	sigSender,
+	    	transitPK,
+		identityPK
+	    });
+	console.log({response, txHash});
+
+
+	// navigate to Receiving Screen
+	navigator.resetTo({
+	    screen: 'dailywallet.ReceiveScreen', // unique ID registered with Navigation.registerScreen
+	    title: undefined, // navigation bar title of the pushed screen (optional)
+	    passProps: {
+		amount,
+		txHash
+	    }, // simple serializable object that will pass as props to the pushed screen (optional)
+	    animated: false, // does the resetTo have transition animation or does it happen immediately (optional)
+	    animationType: 'none', // 'fade' (for both) / 'slide-horizontal' (for android) does the resetTo have different transition animation (optional)
+	    navigatorStyle: {}, // override the navigator style for the pushed screen (optional)
+	    navigatorButtons: {} // override the nav buttons for the pushed screen (optional)
+	});
+
+	Navigation.dismissModal({
+	    animationType: 'none' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+	});	
+	//
+	return { response, txHash };
     };
 }
 
 
-export const claimLink = () => {
+export const claimLink = ({
+    amount,
+    sender,
+    sigSender,
+    transitPK,
+    navigator
+}) => {
     return async (dispatch, getState) => {
 	// onSuccess callback
 	const onSuccess = (privateKey) => {
 	    console.log("got private Key: ", privateKey);
 
-	    dispatch(claimLinkWithPK(privateKey));
-	    
-	    Navigation.dismissModal({
-		animationType: 'none' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
-	    });
+	    dispatch(claimLinkWithPK({
+	    	amount,
+	    	sender,
+	    	sigSender,
+	    	transitPK,
+		navigator,
+		identityPK: privateKey
+	    }));	   	
 	};
 	
 	getPrivateKeyViaModal(onSuccess);

@@ -36,7 +36,7 @@ class BalanceScreen extends React.Component {
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
                     <Image source={require('./../../img/triangle.png')} />
                     <Text style={{...styles.balance, fontSize: 28}}>Your Balance</Text>
-                    <Text style={{...styles.balance, fontSize: 60}}>${this.props.balance.toString()}</Text>
+                    <Text style={{...styles.balance, fontSize: 60}}>${this.props.balance}</Text>
                 </View>
                 <View style={styles.centeredFlex}>
                     <Text style={styles.deleteWallet} onPress={() => {
