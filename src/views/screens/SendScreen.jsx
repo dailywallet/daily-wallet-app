@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text, TextInput } from 'react-native';
 import styles from './styles';
 
@@ -12,6 +13,13 @@ class SendScreen extends React.Component {
         navBarHidden: true,
     }
 
+    onSend() {
+	console.log("onSubmit"); 
+	if (this.props.balance < this.state.amount) {
+	    alert(`Amount should be less than balance ($${this.props.balance})`);
+	}
+    }
+    
     render() {
         return (
             <View style={styles.screenContainer}>
@@ -31,8 +39,8 @@ class SendScreen extends React.Component {
                         />
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                        <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigator.push({ screen: 'dailywallet.PincodeOnSendScreen', passProps: { amount: this.state.amount } })}>
-                            <Text style={styles.buttonText} onPress={() => {}}>Send</Text>
+                      <TouchableOpacity style={styles.buttonContainer} onPress={this.onSend.bind(this)}>
+                            <Text style={styles.buttonText}>Send</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -44,4 +52,11 @@ class SendScreen extends React.Component {
 }
 
 
-export default SendScreen
+function mapStateToProps(state) {
+    return {
+        balance: state.data.wallet.balance
+    }
+}
+
+export default connect(mapStateToProps, {  })(SendScreen);
+

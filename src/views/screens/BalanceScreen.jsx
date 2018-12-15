@@ -48,6 +48,13 @@ class BalanceScreen extends React.Component {
                         <Text style={styles.buttonText} onPress={() => this.props.navigator.push({ screen: 'dailywallet.SendScreen' })}>Send</Text>
                     </TouchableOpacity>
                 </View>
+
+                <View style={{alignItems: 'center', marginBottom: 30}}>
+                    <TouchableOpacity style={{ ...styles.buttonContainer }} onPress={() => { }}>
+                        <Text style={styles.buttonText} onPress={() => this.props.navigator.push({ screen: 'dailywallet.ClaimScreen' })}>Receive</Text>
+                    </TouchableOpacity>
+                </View>
+		
             </View>
         );
     }
