@@ -1,5 +1,6 @@
 import { Navigation } from 'react-native-navigation';
 import {changeAppRoot} from './app';
+import identitySDK from 'DailyWallet/src/services/sdkService';
 import * as ksService from './../services/keystoreService';
 
 
@@ -7,6 +8,7 @@ export const actions = {
     ADD_IDENTITY_CONTRACT: 'ADD_IDENTITY_CONTRACT',
     GENERATE_KEYSTORE: 'GENERATE_KEYSTORE',    
     DELETE_WALLET: 'DELETE_WALLET',
+    UPDATE_BALANCE: 'UPDATE_BALANCE'
 };
 
 
@@ -22,11 +24,44 @@ export const generateKeystore = (password) => {
 }
 
 
+const updateBalance = (balance) => {
+    return {
+	type: actions.UPDATE_BALANCE,
+	payload: { balance } 
+    };
+}
+
+
+export const addIdentityContract = (identityContract) => {
+    return (dispatch, getState) => {	
+	dispatch({
+	    type: actions.ADD_IDENTITY_CONTRACT,
+	    payload: { address: identityContract } 
+	});
+
+	dispatch(fetchBalance());
+    };
+}
+
+
+const fetchBalance = () => {
+    return async (dispatch, getState) => {	
+	const state = getState();
+	const address = state.data.wallet.address;
+	console.log({address});
+	const balance = await identitySDK.getBalance(address);
+	console.log({balance});
+	dispatch(updateBalance(balance));
+    };
+}
+
+
 const claimLinkWithPK = (privateKey) => {
     return async (dispatch, getState) => {	
 	console.log("in claimLinkWithPK", privateKey);	
     };
 }
+
 
 export const claimLink = () => {
     return async (dispatch, getState) => {

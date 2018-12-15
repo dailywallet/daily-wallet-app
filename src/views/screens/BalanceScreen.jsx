@@ -29,13 +29,14 @@ class BalanceScreen extends React.Component {
     }
 
     render() {
+	console.log({bal: this.props.balance})
         return (
             <View style={styles.screenContainer}>
                 <View/>
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
                     <Image source={require('./../../img/triangle.png')} />
                     <Text style={{...styles.balance, fontSize: 28}}>Your Balance</Text>
-                    <Text style={{...styles.balance, fontSize: 60}}>$0.00</Text>
+                    <Text style={{...styles.balance, fontSize: 60}}>${this.props.balance.toString()}</Text>
                 </View>
                 <View style={styles.centeredFlex}>
                     <Text style={styles.deleteWallet} onPress={() => {
@@ -54,7 +55,7 @@ class BalanceScreen extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        wallet: state.data.wallet || ''
+        balance: state.data.wallet.balance
     }
 }
 

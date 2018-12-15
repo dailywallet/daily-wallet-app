@@ -6,7 +6,7 @@ import identitySDK from 'DailyWallet/src/services/sdkService';
 import { claimLink } from './../../actions/wallet';
 import styles from './styles';
 
-export const TOKEN_ADDRESS = '0x0566C17c5E65d760243b9c57717031c708f13d26';
+
 
 
 
@@ -34,7 +34,6 @@ class ClaimScreen extends React.Component {
 	    const { a: amount, from: sender, sig: sigSender, pk: transitPK  } = this._parseURL(claimLink);
 	    // send tx
 	    const { response, txHash, identityPK: newIdentityPK }  = await identitySDK.transferByLink({
-	    	token: TOKEN_ADDRESS,
 	    	amount,
 	    	sender,
 	    	sigSender,

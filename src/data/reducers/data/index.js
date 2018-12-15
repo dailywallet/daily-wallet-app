@@ -1,7 +1,5 @@
 import { combineReducers } from 'redux';
-import {
-    wallet
-} from './wallet';
+import wallet from './wallet';
 import {
     keystore
 } from './keystore';

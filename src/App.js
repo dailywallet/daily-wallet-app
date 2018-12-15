@@ -96,7 +96,7 @@ export default class App extends React.Component {
                         }, // override the navigator style for the screen, see "Styling the navigator" below (optional)
                         navigatorButtons: {} // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
                     },
-		    passProps: {amount: 100}
+		    passProps: {amount: 100, txHash: "0xf671a366d81d1be315ece7b2add22c77e34866bf1b05ab941444e320667c8d47"}
                 });
                 return;
             // 	tabsStyle: { // optional, add this if you want to style the tab bar beyond the defaults
