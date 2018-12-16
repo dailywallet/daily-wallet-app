@@ -22,7 +22,7 @@ class ShareLinkScreen extends React.Component {
                 <View style={styles.centeredFlex}>
                     <TouchableOpacity style={styles.buttonContainer} onPress={() => {
                         Share.share({
-                            message: `Hey, I've sent you $${amount}`,
+                            message: `Hey, I've sent you $${amount}: ${this.props.link}`,
                             url: this.props.link,
                             title: 'Claim link'
                         }, {

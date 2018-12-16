@@ -60,7 +60,7 @@ export default {
         textAlign: 'center',
         color: 'red',
         fontSize: 20,
-        marginTop: 50
+        marginTop: 30
     },
     sendScreenContainer: { 
         flex: 1,
