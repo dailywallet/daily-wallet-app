@@ -20,7 +20,7 @@ export const generateKeystore = (password) => {
             type: actions.GENERATE_KEYSTORE,
             payload: {keystore, address}
         });
-        dispatch(changeAppRoot('ClaimScreen'));
+        dispatch(changeAppRoot('BalanceScreen'));
     };
 }
 
@@ -51,7 +51,7 @@ export const fetchBalance = () => {
 	const address = state.data.wallet.address;
 	console.log({address});
 	let balance = await identitySDK.getBalance(address);
-	balance = balance.div(100).toNumber();
+	balance = Number(balance.toString()) / 100;
 	console.log({balance});
 	dispatch(updateBalance(balance));
     };
@@ -76,7 +76,7 @@ const claimLinkWithPK = ({
 	    	sigSender,
 	    	transitPK,
 		identityPK
-	    });
+	});
 	console.log({response, txHash});
 
 
@@ -101,6 +101,7 @@ const claimLinkWithPK = ({
 	return { response, txHash };
     };
 }
+
 
 
 export const claimLink = ({
@@ -128,6 +129,73 @@ export const claimLink = ({
 	getPrivateKeyViaModal(onSuccess);
    }
 }
+
+
+const generateClaimLinkWithPK = ({
+    amount,
+    identityPK,
+    navigator
+}) => {
+    return async (dispatch, getState) => {	
+	console.log("in generateClaimLinkWithPK");
+	const state = getState();
+	const identityAddress = state.data.wallet.address;
+	console.log({
+	    amount,
+	    identityPK,
+	    identityAddress
+	})
+	// send transaction
+	const link  = identitySDK.generateLink({
+	    amount,
+	    privateKey: identityPK,
+	    identityAddress
+	});
+	console.log({link});
+	
+	
+	// navigate to Receiving Screen
+	navigator.push({
+	    screen: 'dailywallet.ShareLinkScreen', // unique ID registered with Navigation.registerScreen
+	    title: undefined, // navigation bar title of the pushed screen (optional)
+	    passProps: {
+		amount,
+		link
+	    }, // simple serializable object that will pass as props to the pushed screen (optional)
+	    animated: false, // does the resetTo have transition animation or does it happen immediately (optional)
+	    animationType: 'none', // 'fade' (for both) / 'slide-horizontal' (for android) does the resetTo have different transition animation (optional)
+	    navigatorStyle: {}, // override the navigator style for the pushed screen (optional)
+	    navigatorButtons: {} // override the nav buttons for the pushed screen (optional)
+	});
+
+	Navigation.dismissModal({
+	    animationType: 'none' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+	});	
+    };
+}
+
+
+export const generateClaimLink = ({
+    amount,
+    navigator
+}) => {
+    return async (dispatch, getState) => {
+	// onSuccess callback
+	const onSuccess = (privateKey) => {
+	    console.log("got private Key: ", privateKey);
+
+	    dispatch(generateClaimLinkWithPK({
+	    	amount,
+		navigator,
+		identityPK: privateKey
+	    }));	   	
+	};
+	
+	getPrivateKeyViaModal(onSuccess);
+   }
+}
+
+
 
 
 const getPrivateKeyViaModal = (onSuccess) => {

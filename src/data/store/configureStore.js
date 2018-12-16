@@ -5,13 +5,14 @@ import ulSdk from 'DailyWallet/src/services/sdkService';
 function configureStore(store) {  
     return () => {
 	const state = store.getState();			
+	console.log({state})
 	
 	// set root screen (add wallet screen or home screen with tabs)
 	let root;
  	if (state.data.keystore.pubKeyAddress === '') {
 	    root = 'IntroScreen';
-	} else if (state.data.wallet.address === '') {
-	    root = 'ClaimScreen';
+	// } else if (state.data.wallet.address === '') {
+	//     root = 'ClaimScreen';
 	} else { 
 	    root = 'BalanceScreen';
 	}

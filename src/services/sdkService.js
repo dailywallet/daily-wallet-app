@@ -25,6 +25,13 @@ class UniversalLoginSDK {
 	return this.sdk.transferByLink({...params, token: TOKEN_ADDRESS});
     }
 
+    generateLink({amount, privateKey, identityAddress}) {
+	const { sigSender, transitPK } = this.sdk.generateLink({ privateKey, token: TOKEN_ADDRESS, amount });
+	const url  = `https://gasless-wallet.volca.tech/#/claim?sig=${sigSender}&pk=${transitPK}&a=${amount}&from=${identityAddress}`;
+	return url;
+    }
+    
+    
     waitForTxReceipt(params) {
 	return this.sdk.waitForTxReceipt(params);
     }

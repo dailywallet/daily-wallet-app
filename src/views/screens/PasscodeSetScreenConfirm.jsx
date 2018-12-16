@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, Text, } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import PinView from 'react-native-pin-view'
 import { generateKeystore } from './../../actions/wallet'
 import styles from './styles';
@@ -10,17 +10,27 @@ class PasscodeSetScreenConfirm extends React.Component {
     static navigatorStyle = {
         navBarHidden: true,
     }
+    state = {
+	decrypting: false
+    }
 
 
-    _checkCode(code, clear) {
+    onComplete(code, clear) {
+	this.setState({decrypting: true});
+	setTimeout(async () =>  this._checkCode(code, clear), 0);
+    }
+
+    
+    async _checkCode(code, clear) {
         console.log("CODE: ", code, this.props.code)
         if (code === this.props.code) {
-            this.props.generateKeystore(this.props.code)
+            await this.props.generateKeystore(this.props.code)
             this.props.navigator.push({ screen: 'dailywallet.BalanceScreen' })
         } else {
             alert("Codes do not match, try again")
             clear()
         }
+	this.setState({decrypting:false});	
     }
 
     render() {
@@ -29,29 +39,22 @@ class PasscodeSetScreenConfirm extends React.Component {
                 <View style={styles.centeredFlex}>
                     <Text style={styles.infoText}>Confirm your passcode</Text>
                 </View>
+		{this.state.decrypting ? (
+		    <ActivityIndicator
+		       animating
+		       color="black"
+		       size="large"
+		       style={styles.activityIndicator}
+		       />
+		) : 
                 <View style={styles.pinContainer}>
-                    {/* <CodePin
-                        keyboardType='numeric'
-                        number={4}
-                        text="Confirm pin code"
-                        pinStyle={{ backgroundColor: 'white', borderWidth: 1 }}
-                        underlineColorAndroid="white"
-                        checkPinCode={(code, callback) => callback(code === this.props.code)}
-                        success={() => {
-                            this.props.createWallet(this.props.code)
-                            this.props.navigator.push({ screen: 'dailywallet.BalanceScreen' })
-                        }
-                        }
-                        error="Codes do not match"
-                        autoFocusFirst={true}
-                        obfuscation={true}
-                    /> */}
                     <PinView
-                        onComplete={(code, clear) => this._checkCode(code, clear)}
+                 onComplete={this.onComplete.bind(this)}
                         pinLength={4}
                         inputActiveBgColor='#0ED226'
                     />
-                </View>
+                 </View>		 
+		}
             </View>
         )
     }

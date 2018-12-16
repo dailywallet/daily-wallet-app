@@ -9,8 +9,12 @@ export async function generateKeystore(password) {
 	console.log("Encrypting: " + parseInt(progress * 100) + "% complete");
     }
 
+    const options = {
+	scrypt: { N: 1024 }
+    }
+    
     // encrypt private key
-    const keystore = await wallet.encrypt(password, callback);
+    const keystore = await wallet.encrypt(password, options, callback);
     const {  mnemonic, address } = wallet;
     console.log({keystore, mnemonic});
     

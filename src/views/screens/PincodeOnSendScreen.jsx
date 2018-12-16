@@ -9,7 +9,6 @@ import styles from './styles';
 
 class PincodeOnSendScreen extends React.Component {
     state = {
-        step: '1',
 	decrypting: false
     }
 

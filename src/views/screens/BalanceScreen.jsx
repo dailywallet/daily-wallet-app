@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, TouchableOpacity, Text, Image } from 'react-native';
-import { deleteWallet } from './../../actions/wallet'
+import { ScrollView, View, TouchableOpacity, Text, Image, RefreshControl } from 'react-native';
+import { deleteWallet, fetchBalance } from './../../actions/wallet';
 import styles from './styles';
 
 
@@ -9,6 +9,10 @@ class BalanceScreen extends React.Component {
     static navigatorStyle = {
         navBarTextColor: 'white',
         navBarBackgroundColor: '#302E2E',
+    }
+
+    state = {
+	fetchingBalance: false
     }
 
     componentWillMount() {
@@ -28,11 +32,25 @@ class BalanceScreen extends React.Component {
         this.props.navigator.push({ screen: 'dailywallet.IntroScreen' })
     }
 
+    onRefresh() {
+	this.setState({fetchingBalance: true});
+	setTimeout(async () => { 
+	    try { 
+		await this.props.fetchBalance();
+	    } catch(err) {
+		console.log(err);
+		alert("Error")
+	    }
+	    this.setState({fetchingBalance: false});
+	});
+    }
+    
     render() {
-	console.log({bal: this.props.balance})
         return (
-            <View style={styles.screenContainer}>
-                <View/>
+            <ScrollView contentContainerStyle={styles.screenContainer}
+			refreshControl={<RefreshControl onRefresh={this.onRefresh.bind(this)} refreshing={this.state.fetchingBalance}/>}
+			>
+
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
                     <Image source={require('./../../img/triangle.png')} />
                     <Text style={{...styles.balance, fontSize: 28}}>Your Balance</Text>
@@ -55,7 +73,7 @@ class BalanceScreen extends React.Component {
                     </TouchableOpacity>
                 </View>
 		
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -66,4 +84,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { deleteWallet })(BalanceScreen)
+export default connect(mapStateToProps, { deleteWallet, fetchBalance })(BalanceScreen)

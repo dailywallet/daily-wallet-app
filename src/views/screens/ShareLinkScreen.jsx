@@ -9,20 +9,22 @@ class ShareLinkScreen extends React.Component {
     }
 
     render() {
+	const amount = this.props.amount / 100;
+	console.log("link", this.props.link);
         return (
             <View style={styles.screenContainer}>
                 <View style={styles.centeredFlex}>
                     <Text style={styles.title}>Share Link Screen</Text>
                 </View>
                 <View style={styles.centeredFlex}>
-                    <Text style={styles.shareScreenText}>Share this link to send ${this.props.amount || '0'}</Text>
+                    <Text style={styles.shareScreenText}>Share this link to send ${amount}</Text>
                 </View>
                 <View style={styles.centeredFlex}>
                     <TouchableOpacity style={styles.buttonContainer} onPress={() => {
                         Share.share({
-                            message: 'Some text',
-                            url: 'Some link',
-                            title: 'Some text'
+                            message: `Hey, I've sent you $${amount}`,
+                            url: this.props.link,
+                            title: 'Claim link'
                         }, {
                                 // Android only:
                                 dialogTitle: 'Share the link',
@@ -41,4 +43,4 @@ class ShareLinkScreen extends React.Component {
 }
 
 
-export default ShareLinkScreen
+export default ShareLinkScreen;

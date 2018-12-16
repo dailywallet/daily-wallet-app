@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text, TextInput } from 'react-native';
+import { generateClaimLink } from './../../actions/wallet';
 import styles from './styles';
 
 
@@ -17,6 +18,16 @@ class SendScreen extends React.Component {
 	console.log("onSubmit"); 
 	if (this.props.balance < this.state.amount) {
 	    alert(`Amount should be less than balance ($${this.props.balance})`);
+	    return;
+	}
+	try { 
+	    this.props.generateClaimLink({
+		amount: this.state.amount * 100,
+		navigator: this.props.navigator
+	    });
+	} catch(err) {
+	    console.log({err});
+	    alert("Error");
 	}
     }
     
@@ -58,5 +69,5 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {  })(SendScreen);
+export default connect(mapStateToProps, { generateClaimLink })(SendScreen);
 
