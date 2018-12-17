@@ -1,16 +1,22 @@
+console.log("in App.jsx")
 import React from 'react';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import store from './data/store';
+console.log("registered store")
 import registerScreens from './views/screens';
+
+console.log("registered screens")
 
 registerScreens(store, Provider);
 
 
 export default class App extends React.Component {
     constructor(props) {
+	console.log("constructor start")
         super(props);
         store.subscribe(this.onStoreUpdate.bind(this));
+	console.log("constructor enddzxs")	
         // LINKING.getInitialURL().then(url => {		
         //     console.log({url});
         //     if (url) {	
@@ -18,7 +24,7 @@ export default class App extends React.Component {
         // });
 
         // Linking.addEventListener('url', this.handleOpenURL);
-        // 	//this.startApp('WebView');
+        //this.startApp('IntroScreen');
     }
 
     // handleOpenURL = (event) => {
@@ -32,6 +38,7 @@ export default class App extends React.Component {
 
 
     onStoreUpdate() {
+	console.log("on store updated")
         const state = store.getState();
         const root = state.appRoot;
         // handle a root change
