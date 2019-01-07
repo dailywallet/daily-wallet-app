@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "universal-login-monorepo": "../../universal-eth2/UniversalLoginSDK",
+    "universal-login-monorepo": "git+https://github.com/VolcaTech/gasless-webwallet",
     "@tradle/react-native-http": "^2.0.1",
     "assert": "^1.1.1",
     "bluebird": "^3.5.2",
