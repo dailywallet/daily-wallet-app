@@ -44,6 +44,7 @@ class ClaimScreen extends React.Component {
 	} catch (err) {
 	    console.log({err});
 	    this.setState({error: err});;
+	    alert("Error! Check the url")
 	}
 	
     }

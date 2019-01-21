@@ -1,6 +1,7 @@
 import EthereumIdentitySDK from 'universal-login-monorepo/universal-login-sdk';
 import { providers } from 'ethers';
 import TokenService from './tokenService';
+import { generatePrivateKey } from './keystoreService.js';
 
 // #todo  move to config
 const TOKEN_ADDRESS = '0x0566C17c5E65d760243b9c57717031c708f13d26';
@@ -25,9 +26,10 @@ class UniversalLoginSDK {
 	return this.sdk.transferByLink({...params, token: TOKEN_ADDRESS});
     }
 
-    generateLink({amount, privateKey, identityAddress}) {
-	const { sigSender, transitPK } = this.sdk.generateLink({ privateKey, token: TOKEN_ADDRESS, amount });
-	const url  = `https://gasless-wallet.volca.tech/#/claim?sig=${sigSender}&pk=${transitPK}&a=${amount}&from=${identityAddress}`;
+    async generateLink({amount, privateKey, identityAddress}) {
+	const transitPrivKey = await generatePrivateKey();
+	const { sigSender, transitPK } = this.sdk.generateLink({ privateKey, token: TOKEN_ADDRESS, amount, transitPrivKey });
+	const url  = `https://gasless-wallet.volca.tech/#/claim?sig=${sigSender}&pk=${transitPrivKey}&a=${amount}&from=${identityAddress}`;
 	return url;
     }
     
