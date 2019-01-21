@@ -58,24 +58,27 @@ export const fetchBalance = () => {
 }
 
 
-const claimLinkWithPK = ({
+export const claimLink = ({
     amount,
     sender,
     sigSender,
     transitPK,
-    identityPK,
     navigator
 }) => {
     return async (dispatch, getState) => {	
 	console.log("in claimLinkWithPK");
 
+	const state = getState();
+
+	const receiverPubKey = state.data.keystore.pubKeyAddress;
+	
 	// send transaction
 	const { response, txHash }  = await identitySDK.transferByLink({
-	    	amount,
-	    	sender,
-	    	sigSender,
-	    	transitPK,
-		identityPK
+	    amount,
+	    sender,
+	    sigSender,
+	    transitPK,
+	    receiverPubKey
 	});
 	console.log({response, txHash});
 
@@ -97,38 +100,37 @@ const claimLinkWithPK = ({
 	Navigation.dismissModal({
 	    animationType: 'none' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
 	});	
-	//
+	
 	return { response, txHash };
     };
 }
 
 
 
-export const claimLink = ({
-    amount,
-    sender,
-    sigSender,
-    transitPK,
-    navigator
-}) => {
-    return async (dispatch, getState) => {
-	// onSuccess callback
-	const onSuccess = (privateKey) => {
-	    console.log("got private Key: ", privateKey);
+// export const claimLink = ({
+//     amount,
+//     sender,
+//     sigSender,
+//     transitPK,
+//     navigator
+// }) => {
+//     return async (dispatch, getState) => {
+// 	// onSuccess callback
+// 	const onSuccess = (privateKey) => {
+// 	    console.log("got private Key: ", privateKey);
 
-	    dispatch(claimLinkWithPK({
-	    	amount,
-	    	sender,
-	    	sigSender,
-	    	transitPK,
-		navigator,
-		identityPK: privateKey
-	    }));	   	
-	};
+// 	    dispatch(claimLinkWithPK({
+// 	    	amount,
+// 	    	sender,
+// 	    	sigSender,
+// 	    	transitPK,
+// 		navigator
+// 	    }));	   	
+// 	};
 	
-	getPrivateKeyViaModal(onSuccess);
-   }
-}
+// 	getPrivateKeyViaModal(onSuccess);
+//    }
+// }
 
 
 const generateClaimLinkWithPK = ({
