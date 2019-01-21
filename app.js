@@ -1,5 +1,6 @@
+//import 'ethers/dist/shims.js';
 import './shim';
-import 'ethers/dist/shims.js';
+//import 'ethers/dist/shims.js';
 
 import App from './src/App';
 

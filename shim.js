@@ -31,4 +31,3 @@ window.randomBytes = asyncRandomBytes;
 window.scryptsy = fastCrypto.scrypt;
 
 global.crypto = require('crypto');
-    

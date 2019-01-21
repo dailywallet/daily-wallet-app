@@ -144,9 +144,9 @@ const generateClaimLinkWithPK = ({
 	    amount,
 	    identityPK,
 	    identityAddress
-	})
+	});
 	// send transaction
-	const link  = identitySDK.generateLink({
+	const link = await identitySDK.generateLink({
 	    amount,
 	    privateKey: identityPK,
 	    identityAddress

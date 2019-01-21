@@ -16,7 +16,10 @@ export default class App extends React.Component {
 	console.log("constructor start")
         super(props);
         store.subscribe(this.onStoreUpdate.bind(this));
-	console.log("constructor enddzxs")	
+	console.log("constructor enddzxs")
+	const state = store.getState();
+	console.log("state: ", state);
+        //this.startApp(state.appRoot);	
         // LINKING.getInitialURL().then(url => {		
         //     console.log({url});
         //     if (url) {	
