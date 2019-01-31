@@ -48,7 +48,7 @@ class PincodeOnSendScreen extends React.Component {
         return (
             <View style={styles.screenContainer}>
                 <View style={styles.centeredFlex}>
-                    <Text style={styles.infoText}>Enter your 4-digit passcode</Text>
+                  <Text style={{ ...styles.infoText, marginTop: 60}}>Enter your 4-digit passcode</Text>
                 </View>
 
 		{this.state.decrypting ? (

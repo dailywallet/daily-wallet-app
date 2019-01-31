@@ -76,13 +76,13 @@ export default {
     },
     sendScreenText: {
         textAlign: 'center',
-        fontSize: 20 / divider,
+        fontSize: 30 / divider,
         fontWeight: 'bold',
         color: 'black'
     },
     shareScreenText: {
         textAlign: 'center',
-        fontSize: 20 / divider,
+        fontSize: 30 / divider,
         fontWeight: 'bold',
         color: 'black'
     },
