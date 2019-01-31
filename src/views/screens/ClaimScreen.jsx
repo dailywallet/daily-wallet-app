@@ -8,8 +8,6 @@ import styles from './styles';
 
 
 
-
-
 class ClaimScreen extends React.Component {
     static navigatorStyle = {
         navBarHidden: true,
@@ -54,7 +52,7 @@ class ClaimScreen extends React.Component {
         return (
             <View style={styles.screenContainer}>
                 <View style={{ flex: 1 }}>
-                    <Text style={styles.title}>Intro Screen</Text>
+                    <Text style={styles.title}>Claim Screen</Text>
                 </View>
                 <View style={styles.centeredFlex}>
 

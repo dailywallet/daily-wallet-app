@@ -4,7 +4,7 @@ export default {
     screenContainer: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        justifyContent:'space-between', //'flex-start',
         backgroundColor: '#fff'
     },
     screenContainerCentered: {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text, Image, Linking, ActivityIndicator } from 'react-native';
-//import LinearGradient from 'react-native-linear-gradient';
 import styles from './styles';
 import identitySDK from 'DailyWallet/src/services/sdkService';
 import { addIdentityContract, fetchBalance } from './../../actions/wallet';
@@ -16,18 +15,8 @@ class ReceiveScreen extends React.Component {
 	pending: true
     }
     
-    
-    
     componentWillMount() {
         this.props.navigator.setTitle({ title: 'Daily' });
-        // this.props.navigator.setButtons({
-        //     rightButtons: [
-        //         {
-        //             id: 'settingsIcon',
-        //             icon: require('./../../img/settings.png'),
-        //         },
-        //     ],
-        // });
     }
 
     async componentDidMount() {
@@ -66,25 +55,25 @@ class ReceiveScreen extends React.Component {
 	const title = this.state.pending ? "Receving..." : "You received";
         return (
             <View colors={['rgba(195, 249, 207, 1)', 'rgba(114, 231, 130, 1)', 'rgba(103, 227, 118, 1)']} style={styles.screenContainer}>
-                <View/>
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                    <Image source={require('./../../img/arrow.png')} />
-                    <Text style={{...styles.balance, fontSize: 28}}>{title}</Text>
-                    <Text style={{...styles.balance, fontSize: 60}}>${this.props.amount/100}</Text>
+                  <Image style={{marginTop: 150}} source={require('./../../img/arrow.png')} />
+                  <Text style={{...styles.balance, fontSize: 28/ 1.5, margin: 10}}>{title}</Text>
+                    <Text style={{...styles.balance, fontSize: 60 / 1.5}}>${this.props.amount / 100}</Text>
                 </View>
+
 
                 <View style={{alignItems: 'center', marginBottom: 30}}>
 		  { !this.state.pending ? 		      
-                  <TouchableOpacity style={{ ...styles.buttonContainer }} onPress={this.onSubmit.bind(this)}>
-                        <Text style={styles.buttonText}>Done</Text>
-                      </TouchableOpacity> :
+                      <TouchableOpacity style={{ ...styles.buttonContainer }} onPress={this.onSubmit.bind(this)}>
+                            <Text style={styles.buttonText}>Done</Text>
+			  </TouchableOpacity> :
 		      <View>
 			    <ActivityIndicator/>
-		      <TouchableOpacity  onPress={() => Linking.openURL(`https://ropsten.etherscan.io/tx/${this.props.txHash}`).catch(() => null) }>
-			    <Text style={styles.buttonText}>Pending Tx Details >></Text>
-			  </TouchableOpacity>
+				<TouchableOpacity  onPress={() => Linking.openURL(`https://ropsten.etherscan.io/tx/${this.props.txHash}`).catch(() => null) }>
+				      <Text style={styles.buttonText}>Pending Tx Details >></Text>
+				    </TouchableOpacity>
 			  </View>
-			 }
+		      }
                 </View> 
             </View>
         );
