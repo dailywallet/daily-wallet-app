@@ -18,7 +18,7 @@ export default {
         paddingTop: 30,
         color: 'black',
         textAlign: 'center',
-        fontSize: 20 / divider,
+        fontSize: 20,
         fontWeight: 'bold'
     },
     buttonContainer: {
@@ -39,12 +39,13 @@ export default {
         flex: 1,
         alignItems: 'center',
     },
-    infoText: { 
-        padding: 30,
-        paddingTop: 40,
+    infoText: {
+	// paddingTop: 40,
+	paddingLeft: 15,
+	paddingRight: 15,
         textAlign: 'center',
         textAlign: 'center',
-        fontSize: 20 / divider,
+        fontSize: 20,
         color: 'gray'
     },
     pinContainer: { 

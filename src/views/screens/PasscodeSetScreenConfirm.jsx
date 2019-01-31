@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { View, Text, ActivityIndicator } from 'react-native';
-import PinView from 'react-native-pin-view'
-import { generateKeystore } from './../../actions/wallet'
+import PinView from 'react-native-pin-view';
+import { generateKeystore } from './../../actions/wallet';
 import styles from './styles';
 
 
@@ -37,7 +37,7 @@ class PasscodeSetScreenConfirm extends React.Component {
         return (
             <View style={styles.screenContainer}>
                 <View style={styles.centeredFlex}>
-                    <Text style={styles.infoText}>Confirm your passcode</Text>
+                  <Text style={{...styles.infoText, paddingTop: 60}}>Confirm your passcode</Text>
                 </View>
 		{this.state.decrypting ? (
 		    <ActivityIndicator
