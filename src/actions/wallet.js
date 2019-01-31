@@ -71,10 +71,6 @@ export const claimLink = ({
 	const state = getState();
 
 	const receiverPubKey = state.data.keystore.pubKeyAddress;
-
-	Navigation.dismissModal({
-	    animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
-	});	
 	
 	// send transaction
 	const { response, txHash }  = await identitySDK.transferByLink({
@@ -101,6 +97,9 @@ export const claimLink = ({
 	    navigatorButtons: {} // override the nav buttons for the pushed screen (optional)
 	});
 
+	Navigation.dismissModal({
+	    animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+	});	
 	
 	return { response, txHash };
     };
