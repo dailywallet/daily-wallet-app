@@ -51,29 +51,31 @@ class BalanceScreen extends React.Component {
             <ScrollView contentContainerStyle={styles.screenContainer}
 			refreshControl={<RefreshControl onRefresh={this.onRefresh.bind(this)} refreshing={this.state.fetchingBalance}/>}
 			>
-
+	      <View style={{flex: 1, flexDirection: 'column', justifyContent:'center'}}>
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                  <Image style={{marginTop: 150}} source={require('./../../img/triangle.png')} />
+                  <Image style={{}} source={require('./../../img/triangle.png')} />
                     <Text style={{...styles.balance, fontSize: 28/ 1.5}}>Your Balance</Text>
                     <Text style={{...styles.balance, fontSize: 60 / 1.5}}>${this.props.balance}</Text>
                 </View>
+	      </View>
+	      <View style={{flex: 1}}>	      
                 <View style={styles.centeredFlex}>
                     <Text style={styles.deleteWallet} onPress={() => {
                         this._deleteWallet()
                     }}>Delete wallet</Text>
                 </View>
-                <View style={{alignItems: 'center', marginBottom: 30}}>
+                <View style={{alignItems: 'center', marginBottom: 10}}>
                     <TouchableOpacity style={{ ...styles.buttonContainer }} onPress={() => { }}>
                         <Text style={styles.buttonText} onPress={() => this.props.navigator.push({ screen: 'dailywallet.SendScreen' })}>Send</Text>
                     </TouchableOpacity>
                 </View>
 
-                <View style={{alignItems: 'center', marginBottom: 30}}>
+                <View style={{alignItems: 'center', marginBottom: 50}}>
                     <TouchableOpacity style={{ ...styles.buttonContainer }} onPress={() => { }}>
                         <Text style={styles.buttonText} onPress={() => this.props.navigator.push({ screen: 'dailywallet.ClaimScreen' })}>Receive</Text>
                     </TouchableOpacity>
                 </View>
-		
+	      </View>
             </ScrollView>
         );
     }

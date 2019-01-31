@@ -62,7 +62,7 @@ class ReceiveScreen extends React.Component {
                 </View>
 
 
-                <View style={{alignItems: 'center', marginBottom: 30}}>
+                <View style={{alignItems: 'center', marginBottom: 50}}>
 		  { !this.state.pending ? 		      
                       <TouchableOpacity style={{ ...styles.buttonContainer }} onPress={this.onSubmit.bind(this)}>
                             <Text style={styles.buttonText}>Done</Text>

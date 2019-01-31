@@ -121,10 +121,6 @@ const generateClaimLinkWithPK = ({
 	    identityPK,
 	    identityAddress
 	});
-
-	Navigation.dismissModal({
-	    animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
-	});	
 		
 	// send transaction
 	const link = await identitySDK.generateLink({
@@ -149,7 +145,9 @@ const generateClaimLinkWithPK = ({
 	    navigatorButtons: {} // override the nav buttons for the pushed screen (optional)
 	});
 	
-	
+	Navigation.dismissModal({
+	    animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+	});	
     };
 }
 

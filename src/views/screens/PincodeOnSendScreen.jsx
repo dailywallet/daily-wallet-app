@@ -38,8 +38,9 @@ class PincodeOnSendScreen extends React.Component {
             console.log('callback error: ', e);
             alert("Wrong PIN, try again");
             clear();
+	    this.setState({decrypting:false});	    
         }
-	this.setState({decrypting:false});
+
     }
 
 
