@@ -9,6 +9,7 @@ class BalanceScreen extends React.Component {
     static navigatorStyle = {
         navBarTextColor: 'white',
         navBarBackgroundColor: '#302E2E',
+	navBarButtonColor: 'white',
     }
 
     state = {
@@ -52,9 +53,9 @@ class BalanceScreen extends React.Component {
 			>
 
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                    <Image source={require('./../../img/triangle.png')} />
-                    <Text style={{...styles.balance, fontSize: 28}}>Your Balance</Text>
-                    <Text style={{...styles.balance, fontSize: 60}}>${this.props.balance}</Text>
+                  <Image style={{marginTop: 150}} source={require('./../../img/triangle.png')} />
+                    <Text style={{...styles.balance, fontSize: 28/ 2}}>Your Balance</Text>
+                    <Text style={{...styles.balance, fontSize: 60 / 2}}>${this.props.balance}</Text>
                 </View>
                 <View style={styles.centeredFlex}>
                     <Text style={styles.deleteWallet} onPress={() => {

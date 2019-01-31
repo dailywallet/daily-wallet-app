@@ -1,3 +1,5 @@
+const divider = 1.5;
+
 export default {
     screenContainer: {
         flex: 1,
@@ -16,21 +18,21 @@ export default {
         paddingTop: 30,
         color: 'black',
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 20 / divider,
         fontWeight: 'bold'
     },
     buttonContainer: {
         marginTop: 20,
-        width: 206,
-        height: 72,
+        width: 206 / divider ,
+        height: 72 / divider,
         borderWidth: 2,
         backgroundColor: 'white'
     },
     buttonText: {
         textAlign: 'center',
-        fontSize: 28,
+        fontSize: 28 / divider,
         fontWeight: 'bold',
-        paddingTop: 13,
+        paddingTop: 13 / divider,
         color: 'black'
     },
     centeredFlex: {
@@ -42,7 +44,7 @@ export default {
         paddingTop: 40,
         textAlign: 'center',
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 20 / divider,
         color: 'gray'
     },
     pinContainer: { 
@@ -52,14 +54,14 @@ export default {
     },
     balance: { 
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 20 / divider,
         fontWeight: 'bold',
         color: 'black'
     },
     deleteWallet: {
         textAlign: 'center',
         color: 'red',
-        fontSize: 20,
+        fontSize: 20 / divider,
         marginTop: 30
     },
     sendScreenContainer: { 
@@ -73,13 +75,13 @@ export default {
     },
     sendScreenText: {
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 20 / divider,
         fontWeight: 'bold',
         color: 'black'
     },
     shareScreenText: {
         textAlign: 'center',
-        fontSize: 20,
+        fontSize: 20 / divider,
         fontWeight: 'bold',
         color: 'black'
     },
@@ -87,6 +89,6 @@ export default {
 	flex: 1,
 	justifyContent: 'center',
 	alignItems: 'center',
-	height: 80
+	height: 80 / divider
     }
 }
