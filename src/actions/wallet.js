@@ -98,39 +98,12 @@ export const claimLink = ({
 	});
 
 	Navigation.dismissModal({
-	    animationType: 'none' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+	    animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
 	});	
 	
 	return { response, txHash };
     };
 }
-
-
-
-// export const claimLink = ({
-//     amount,
-//     sender,
-//     sigSender,
-//     transitPK,
-//     navigator
-// }) => {
-//     return async (dispatch, getState) => {
-// 	// onSuccess callback
-// 	const onSuccess = (privateKey) => {
-// 	    console.log("got private Key: ", privateKey);
-
-// 	    dispatch(claimLinkWithPK({
-// 	    	amount,
-// 	    	sender,
-// 	    	sigSender,
-// 	    	transitPK,
-// 		navigator
-// 	    }));	   	
-// 	};
-	
-// 	getPrivateKeyViaModal(onSuccess);
-//    }
-// }
 
 
 const generateClaimLinkWithPK = ({
@@ -147,6 +120,7 @@ const generateClaimLinkWithPK = ({
 	    identityPK,
 	    identityAddress
 	});
+		
 	// send transaction
 	const link = await identitySDK.generateLink({
 	    amount,
@@ -154,7 +128,7 @@ const generateClaimLinkWithPK = ({
 	    identityAddress
 	});
 	console.log({link});
-	
+
 	
 	// navigate to Receiving Screen
 	navigator.push({
@@ -169,9 +143,9 @@ const generateClaimLinkWithPK = ({
 	    navigatorStyle: {}, // override the navigator style for the pushed screen (optional)
 	    navigatorButtons: {} // override the nav buttons for the pushed screen (optional)
 	});
-
+	
 	Navigation.dismissModal({
-	    animationType: 'none' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+	    animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
 	});	
     };
 }
@@ -208,7 +182,7 @@ const getPrivateKeyViaModal = (onSuccess) => {
 	passProps: {onSuccess}, // simple serializable object that will pass as props to the modal (optional)
 	navigatorStyle: {}, // override the navigator style for the screen, see "Styling the navigator" below (optional)
 	navigatorButtons: {}, // override the nav buttons for the screen, see "Adding buttons to the navigator" below (optional)
-	animationType: 'none', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
+	animationType: 'slide-up', // 'none' / 'slide-up' , appear animation for the modal (optional, default 'slide-up')
 	overrideBackPress: false // true / false, (Android only), prevents back button and hardware back button from hiding the dialog on Android, instead the [navigator event](https://wix.github.io/react-native-navigation/#/screen-api?id=setonnavigatoreventcallback) 'backPress' will be sent (optional)
     });
 }

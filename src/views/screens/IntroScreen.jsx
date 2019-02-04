@@ -15,8 +15,8 @@ class IntroScreen extends React.Component {
                     <Text style={styles.title}>Intro Screen</Text>
                 </View>
                 <View style={styles.centeredFlex}>
-                    <TouchableOpacity style={styles.buttonContainer} onPress={() => this.props.navigator.push({ screen: 'dailywallet.PasscodeSetScreen2' })}>
-                        <Text style={{...styles.buttonText, fontSize: 20}}>Create New Wallet</Text>
+                  <TouchableOpacity style={{...styles.buttonContainer, width: 200}} onPress={() => this.props.navigator.push({ screen: 'dailywallet.PasscodeSetScreen' })}>
+                      <Text style={styles.buttonText}>Create New Wallet</Text>
                     </TouchableOpacity>
                 </View>
             </View>

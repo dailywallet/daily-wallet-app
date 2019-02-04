@@ -38,10 +38,10 @@ class SendScreen extends React.Component {
                     <View>
                         <Text style={styles.title}>Send Screen</Text>
                     </View>
-                    <View style={styles.sendInputContainer}>
+                    <View style={{...styles.sendInputContainer, marginTop:50}}>
                         <Text style={styles.sendScreenText}>You're sending $</Text>
                         <TextInput
-                            keyboardType='numeric'
+                            keyboardType='numbers-and-punctuation'
                             autoFocus={true}
                             style={{ ...styles.sendScreenText, width: 50 }}
                             onChangeText={(amount) => this.setState({ amount })}
