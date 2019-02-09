@@ -9,11 +9,16 @@ class BalanceScreen extends React.Component {
     static navigatorStyle = {
         navBarTextColor: 'white',
         navBarBackgroundColor: '#302E2E',
-	navBarButtonColor: 'white',
+        navBarButtonColor: 'white',
     }
 
+    constructor(props) {
+        super(props);
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+      }
+
     state = {
-	fetchingBalance: false
+        fetchingBalance: false
     }
 
     componentWillMount() {
@@ -21,11 +26,25 @@ class BalanceScreen extends React.Component {
         this.props.navigator.setButtons({
             rightButtons: [
                 {
-                    id: 'settingsIcon',
-                    icon: require('./../../img/settings.png'),
+                    id: 'deleteWallet',
+                    title: 'Erase wallet',
+                    showAsAction: 'withText'
+                },
+                {
+                    id: 'infoButton',
+                    title: 'Info',
+                    showAsAction: 'withText'
                 },
             ],
         });
+    }
+
+    onNavigatorEvent(event) {
+        if (event.type == 'NavBarButtonPress') {
+            if (event.id == 'deleteWallet') {
+                this._deleteWallet();
+            }
+        }
     }
 
     _deleteWallet() {
@@ -34,52 +53,59 @@ class BalanceScreen extends React.Component {
     }
 
     onRefresh() {
-	this.setState({fetchingBalance: true});
-	setTimeout(async () => { 
-	    try { 
-		await this.props.fetchBalance();
-	    } catch(err) {
-		console.log(err);
-		alert("Error")
-	    }
-	    this.setState({fetchingBalance: false});
-	});
+        this.setState({ fetchingBalance: true });
+        setTimeout(async () => {
+            try {
+                await this.props.fetchBalance();
+            } catch (err) {
+                console.log(err);
+                alert("Error")
+            }
+            this.setState({ fetchingBalance: false });
+        });
     }
-    
+
+    _renderStatusBar(status) {
+        switch (status) {
+            case 'pending':
+                return (
+                    <View style={styles.statusBarContainer}>
+                        <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>
+                            + $2.00 is pending
+                        </Text>
+                    </View>
+                )
+        }
+    }
+
+
     render() {
         return (
             <ScrollView contentContainerStyle={styles.screenContainer}
-			refreshControl={<RefreshControl onRefresh={this.onRefresh.bind(this)} refreshing={this.state.fetchingBalance}/>}
-			>
-	      <View style={{flex: 1, flexDirection: 'column', justifyContent:'center'}}>
-                <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                  <Image style={{}} source={require('./../../img/triangle.png')} />
-                    <Text style={{...styles.balance, fontSize: 28/ 1.5}}>Your Balance</Text>
-                    <Text style={{...styles.balance, fontSize: 60 / 1.5}}>${this.props.balance}</Text>
+                refreshControl={<RefreshControl onRefresh={this.onRefresh.bind(this)} refreshing={this.state.fetchingBalance} />}
+            >
+                <View style={styles.balanceContainer}>
+                    <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Your Balance is</Text>
+                    <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>${this.props.balance}</Text>
+                    {this._renderStatusBar('pending')}
                 </View>
-	      </View>
-	      <View style={{flex: 1}}>	      
-                <View style={styles.centeredFlex}>
-                    <Text style={styles.deleteWallet} onPress={() => {
-                        this._deleteWallet()
-                    }}>Delete wallet</Text>
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                    <View style={{ alignItems: 'center', marginBottom: 50 }}>
+                        <TouchableOpacity onPress={() => this.props.navigator.push({ screen: 'dailywallet.ClaimScreen' })}>
+                            <Image source={require('./../../img/redeem_icon.png')}></Image>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={{ alignItems: 'center', marginBottom: 10 }}>
+                        <TouchableOpacity onPress={() => this.props.navigator.push({ screen: 'dailywallet.SendScreen' })}>
+                            <Image source={require('./../../img/send_icon.png')}></Image>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={{alignItems: 'center', marginBottom: 10}}>
-                    <TouchableOpacity style={{ ...styles.buttonContainer }} onPress={() => { }}>
-                        <Text style={styles.buttonText} onPress={() => this.props.navigator.push({ screen: 'dailywallet.SendScreen' })}>Send</Text>
-                    </TouchableOpacity>
-                </View>
-
-                <View style={{alignItems: 'center', marginBottom: 50}}>
-                    <TouchableOpacity style={{ ...styles.buttonContainer }} onPress={() => { }}>
-                        <Text style={styles.buttonText} onPress={() => this.props.navigator.push({ screen: 'dailywallet.ClaimScreen' })}>Receive</Text>
-                    </TouchableOpacity>
-                </View>
-	      </View>
             </ScrollView>
         );
     }
 }
+
 
 function mapStateToProps(state) {
     return {

@@ -53,17 +53,25 @@ export default {
         alignItems: 'center',
         justifyContent: 'flex-start',
     },
+    balanceContainer: { 
+        flex: 2, 
+        flexDirection: 'column', 
+        justifyContent: 'center', 
+        alignItems: 'center'  
+    },
     balance: { 
         textAlign: 'center',
         fontSize: 20 / divider,
-        fontWeight: 'bold',
-        color: 'black'
+        color: 'black',
+        fontWeight: 'bold'
     },
-    deleteWallet: {
-        textAlign: 'center',
-        color: 'red',
-        fontSize: 20 / divider,
-        marginTop: 30
+    statusBarContainer: { 
+        width: '100%', 
+        height: 50 / 1.5, 
+        backgroundColor: 'rgba(38,207,54,0.3)', 
+        textAlign: 'center', 
+        paddingTop: 2, 
+        marginTop: 5 
     },
     sendScreenContainer: { 
         flex: 1,
