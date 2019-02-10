@@ -3,6 +3,7 @@ import { utils } from 'ethers';
 import {changeAppRoot} from './app';
 import identitySDK from 'DailyWallet/src/services/sdkService';
 import * as ksService from './../services/keystoreService';
+import { Alert } from 'react-native';
 
 
 export const actions = {
@@ -195,13 +196,21 @@ export function deleteWallet() {
 	    dispatch({
 		type: 'DELETE_WALLET'
 	    });
-
 	    dispatch(changeAppRoot('IntroScreen'));	    
 	};
 	
-	getPrivateKeyViaModal(onSuccess);
-	
-
+	Alert.alert(
+	    'Are you sure?',
+	    'Are you sure you want to delete your wallet?',
+	    [
+		{
+		    text: 'Yes, delete my wallet',
+		    onPress: () => onSuccess()
+		},
+		{text: "No, don't delete my wallet", onPress: () => console.log('Cancelled')},		
+		{cancelable: true},	
+	    ]
+	);
 
     };
 }
