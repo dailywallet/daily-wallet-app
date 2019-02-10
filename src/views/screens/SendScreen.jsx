@@ -6,12 +6,14 @@ import styles from './styles';
 
 
 class SendScreen extends React.Component {
+    static navigatorStyle = {
+        navBarTextColor: 'white',
+        navBarBackgroundColor: '#302E2E',
+        navBarButtonColor: 'white',
+    }
+    
     state = {
         amount: ''
-    }
-
-    static navigatorStyle = {
-        navBarHidden: true,
     }
 
     onSend() {
