@@ -1,5 +1,5 @@
 import { changeAppRoot } from 'DailyWallet/src/actions/app';
-import { waitForPendingTxMined } from 'DailyWallet/src/actions/wallet';
+import { waitForPendingTxMined, fetchBalance } from 'DailyWallet/src/actions/wallet';
 import ulSdk from 'DailyWallet/src/services/sdkService';
 
 
@@ -22,7 +22,9 @@ function configureStore(store) {
 	// start universal logins sdk
 	ulSdk.start();
 
-	store.dispatch(waitForPendingTxMined());	
+	store.dispatch(fetchBalance());
+	store.dispatch(waitForPendingTxMined());
+
    };
 }
 

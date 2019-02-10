@@ -52,11 +52,11 @@ export const fetchBalance = () => {
     return async (dispatch, getState) => {	
 	const state = getState();
 	const address = state.data.wallet.address;
-	console.log({address});
-	let balance = await identitySDK.getBalance(address);
-	balance = Number(balance.toString()) / 100;
-	console.log({balance});
-	dispatch(updateBalance(balance));
+	if (address) { 
+	    let balance = await identitySDK.getBalance(address);
+	    balance = Number(balance.toString()) / 100;
+	    dispatch(updateBalance(balance));
+	}
     };
 }
 
@@ -136,7 +136,7 @@ export const waitForPendingTxMined = () => {
 		    isPending: false
 		}
 	    });
-	}	
+	} 
     };
 }
 
@@ -251,8 +251,6 @@ export const generateClaimLink = ({
 	getPrivateKeyViaModal(onSuccess);
    }
 }
-
-
 
 
 const getPrivateKeyViaModal = (onSuccess) => {
