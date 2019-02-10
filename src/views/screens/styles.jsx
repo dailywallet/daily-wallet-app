@@ -44,7 +44,6 @@ export default {
 	paddingLeft: 15,
 	paddingRight: 15,
         textAlign: 'center',
-        textAlign: 'center',
         fontSize: 20,
         color: 'gray'
     },
@@ -67,10 +66,8 @@ export default {
     },
     statusBarContainer: { 
         width: '100%', 
-        height: 50 / 1.5, 
+        height: 40, 
         backgroundColor: 'rgba(38,207,54,0.3)', 
-        //textAlign: 'center', 
-        paddingTop: 2, 
         marginTop: 5 
     },
     sendScreenContainer: { 

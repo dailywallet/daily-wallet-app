@@ -69,8 +69,8 @@ class BalanceScreen extends React.Component {
     _renderStatusBar() {
         if (this.props.isPendingTx) {
             return (
-                <View style={styles.statusBarContainer}>
-                  <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>
+                <View style={{...styles.statusBarContainer }}>
+                  <Text style={{ ...styles.balance, fontSize: 28 / 1.5, marginTop: 8}}>
                     + ${this.props.pendingClaimTx.amount / 100} is pending
                   </Text>
                 </View>
@@ -85,7 +85,7 @@ class BalanceScreen extends React.Component {
                 refreshControl={<RefreshControl onRefresh={this.onRefresh.bind(this)} refreshing={this.state.fetchingBalance} />}
             >
                 <View style={styles.balanceContainer}>
-                    <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Your Balance is</Text>
+                    <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Your balance is</Text>
                     <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>${this.props.balance}</Text>
                     {this._renderStatusBar()}
                 </View>
