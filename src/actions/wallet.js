@@ -11,7 +11,8 @@ export const actions = {
     ADD_IDENTITY_CONTRACT: 'ADD_IDENTITY_CONTRACT',
     GENERATE_KEYSTORE: 'GENERATE_KEYSTORE',    
     DELETE_WALLET: 'DELETE_WALLET',
-    UPDATE_BALANCE: 'UPDATE_BALANCE'
+    UPDATE_BALANCE: 'UPDATE_BALANCE',
+    UPDATE_PENDING_CLAIM_TX: 'UPDATE_PENDING_CLAIM_TX'
 };
 
 
@@ -83,26 +84,17 @@ export const claimLink = ({
 	    receiverPubKey
 	});
 	console.log({response, txHash});
-
-
-	// navigate to Receiving Screen
-	navigator.resetTo({
-	    screen: 'dailywallet.ReceiveScreen', // unique ID registered with Navigation.registerScreen
-	    title: undefined, // navigation bar title of the pushed screen (optional)
-	    passProps: {
+	
+	// update redux store 
+	dispatch({
+	    type: actions.UPDATE_PENDING_CLAIM_TX,
+	    payload: {
+		txHash,
 		amount,
-		txHash
-	    }, // simple serializable object that will pass as props to the pushed screen (optional)
-	    animated: false, // does the resetTo have transition animation or does it happen immediately (optional)
-	    animationType: 'none', // 'fade' (for both) / 'slide-horizontal' (for android) does the resetTo have different transition animation (optional)
-	    navigatorStyle: {}, // override the navigator style for the pushed screen (optional)
-	    navigatorButtons: {} // override the nav buttons for the pushed screen (optional)
+		isPending: true
+	    }
 	});
 
-	Navigation.dismissModal({
-	    animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
-	});	
-	
 	return { response, txHash };
     };
 }
@@ -140,7 +132,6 @@ export const onPressRedeemBtn = (navigator) => {
 	    console.log(err);
 	    Alert.alert("Link is invalid", "The link you copied doesn’t exist or has already been redeemed.");
 	}
-	//AlertIOS.alert
     };
 }
 

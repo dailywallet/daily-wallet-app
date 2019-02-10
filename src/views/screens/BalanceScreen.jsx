@@ -22,7 +22,7 @@ class BalanceScreen extends React.Component {
     }
 
     componentWillMount() {
-        this.props.navigator.setTitle({ title: 'Daily' })
+        this.props.navigator.setTitle({ title: 'Daily' });
         this.props.navigator.setButtons({
             rightButtons: [
                 {
@@ -65,16 +65,15 @@ class BalanceScreen extends React.Component {
         });
     }
 
-    _renderStatusBar(status) {
-        switch (status) {
-            case 'pending':
-                return (
-                    <View style={styles.statusBarContainer}>
-                        <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>
-                            + $2.00 is pending
-                        </Text>
-                    </View>
-                )
+    _renderStatusBar() {
+        if (this.props.isPendingTx) {
+            return (
+                <View style={styles.statusBarContainer}>
+                  <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>
+                    + ${this.props.pendingClaimTx.amount / 100} is pending
+                  </Text>
+                </View>
+            );
         }
     }
 
@@ -87,7 +86,7 @@ class BalanceScreen extends React.Component {
                 <View style={styles.balanceContainer}>
                     <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Your Balance is</Text>
                     <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>${this.props.balance}</Text>
-                    {this._renderStatusBar('pending')}
+                    {this._renderStatusBar()}
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-evenly' }}>
                     <View style={{ alignItems: 'center', marginBottom: 50 }}>
@@ -109,8 +108,10 @@ class BalanceScreen extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        balance: state.data.wallet.balance
+        balance: state.data.wallet.balance,
+	pendingClaimTx: state.data.pendingClaimTx,
+	isPendingTx: state.data.pendingClaimTx.isPending
     }
 }
 
-export default connect(mapStateToProps, { deleteWallet, fetchBalance, onPressRedeemBtn })(BalanceScreen)
+export default connect(mapStateToProps, { deleteWallet, fetchBalance, onPressRedeemBtn })(BalanceScreen);
