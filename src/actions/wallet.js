@@ -154,6 +154,13 @@ export const onPressRedeemBtn = (navigator) => {
 	    Alert.alert("No link detected", "Copy the text with the link from your messaging application, open Daily Wallet, and tap on Redeem link again.");
 	    return null;
 	}
+
+	const state = getState();
+	if (state.data.pendingClaimTx.isPending) { 
+	    Alert.alert("Wait for previous claim link", "You can't claim several links at the same time. Please wait until the first link is redeemed.");
+	    return null;
+	}
+
 	
 	try { 
 	    // parse url
