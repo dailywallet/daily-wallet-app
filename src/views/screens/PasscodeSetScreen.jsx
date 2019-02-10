@@ -16,8 +16,8 @@ class PasscodeSetScreen extends React.Component {
         return (
             <View style={styles.screenContainer}>
                 <View style={styles.centeredFlex}>
-                  <Text style={{...styles.infoText, paddingTop: 46}}>Enter a four-digit passcode.</Text>
-                  <Text style={{...styles.infoText, paddingTop: 20, paddingBottom: 30 }}>You'll need to enter it every time you send money.</Text>		  
+                  <Text style={{...styles.infoText, paddingTop: 20}}>Enter a four-digit passcode.</Text>
+                  <Text style={{...styles.infoText, paddingTop: 10, paddingBottom: 40 }}>You'll need to enter it every time you send money.</Text>		  
                 </View>
                 <View style={styles.pinContainer}>
                     <PinView
