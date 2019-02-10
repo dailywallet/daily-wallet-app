@@ -95,9 +95,51 @@ export const claimLink = ({
 	    }
 	});
 
+
+	// subscribe for mining event
+	dispatch(waitForPendingTxMined());
+	
 	return { response, txHash };
     };
 }
+
+
+export const waitForPendingTxMined = () => {
+    return async (dispatch, getState) => {
+	const state = getState();
+	// wait only if there is pending tx
+	const { isPending, txHash } = state.data.pendingClaimTx;
+
+	console.log({txHash, isPending });
+	
+	if (isPending) {
+	    const txReceipt = await identitySDK.waitForTxReceipt(txHash);
+	    console.log({txReceipt});
+	    
+	    // check if needed to update wallet address (which is smart-contract address)
+	    if (!state.data.wallet.address) {
+		console.log("identity doesn't exist");
+		let newIdentity = txReceipt.logs[0] && txReceipt.logs[0].address;
+		console.log({newIdentity});
+		dispatch(addIdentityContract(newIdentity));
+	    }
+
+	    // update balance
+	    await dispatch(fetchBalance());
+
+	    // update app state that tx was mined
+	    dispatch({
+		type: actions.UPDATE_PENDING_CLAIM_TX,
+		payload: {
+		    txHash: null,
+		    amount: null,
+		    isPending: false
+		}
+	    });
+	}	
+    };
+}
+
 
 export const onPressRedeemBtn = (navigator) => {
     return async (dispatch, getState) => {
@@ -127,6 +169,7 @@ export const onPressRedeemBtn = (navigator) => {
 		transitPK,
 		navigator
 	    }));
+
 	    
 	} catch (err) {
 	    console.log(err);

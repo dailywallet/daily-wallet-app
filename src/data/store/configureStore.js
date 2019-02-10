@@ -1,4 +1,5 @@
 import { changeAppRoot } from 'DailyWallet/src/actions/app';
+import { waitForPendingTxMined } from 'DailyWallet/src/actions/wallet';
 import ulSdk from 'DailyWallet/src/services/sdkService';
 
 
@@ -11,17 +12,17 @@ function configureStore(store) {
 	let root;
  	if (state.data.keystore.pubKeyAddress === '') {
 	    root = 'IntroScreen';
-	// } else if (state.data.wallet.address === '') {
-	//     root = 'ClaimScreen';
 	} else { 
 	    root = 'BalanceScreen';
 	}
-	//root = 'ReceiveScreen';
-	console.log("Changing root", root)	
+	
+	console.log("Changing root", root);
 	store.dispatch(changeAppRoot(root));
 
 	// start universal logins sdk
 	ulSdk.start();
+
+	store.dispatch(waitForPendingTxMined());	
    };
 }
 
