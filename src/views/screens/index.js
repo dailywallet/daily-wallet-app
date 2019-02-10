@@ -6,6 +6,7 @@ import PasscodeSetScreenConfirm from './PasscodeSetScreenConfirm';
 import PincodeOnSendScreen from './PincodeOnSendScreen';
 import ShareLinkScreen from './ShareLinkScreen';
 import SendScreen from './SendScreen';
+import InfoScreen from './InfoScreen';
 
 
 export default (store, Provider) => {
@@ -17,4 +18,5 @@ export default (store, Provider) => {
     Navigation.registerComponent('dailywallet.PincodeOnSendScreen', () => PincodeOnSendScreen, store, Provider);
     Navigation.registerComponent('dailywallet.ShareLinkScreen', () => ShareLinkScreen, store, Provider);
     Navigation.registerComponent('dailywallet.SendScreen', () => SendScreen, store, Provider);
+    Navigation.registerComponent('dailywallet.InfoScreen', () => InfoScreen, store, Provider);
 };

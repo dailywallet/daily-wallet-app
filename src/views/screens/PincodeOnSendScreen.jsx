@@ -8,14 +8,44 @@ import styles from './styles';
 
 
 class PincodeOnSendScreen extends React.Component {
-    state = {
-	decrypting: false
-    }
-
     static navigatorStyle = {
-        navBarHidden: true,
+        navBarTextColor: 'white',
+        navBarBackgroundColor: '#302E2E',
+        navBarButtonColor: 'white',
     }
 
+    constructor(props) {
+        super(props);
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+	this.state = {
+	    decrypting: false
+	};
+      }
+
+
+    componentWillMount() {
+        this.props.navigator.setTitle({ title: 'Send via link' });
+        this.props.navigator.setButtons({
+            leftButtons: [
+                {
+                    id: 'closeModal',
+                    title: 'Close'
+                }
+            ],
+        });
+    }
+
+    onNavigatorEvent(event) {
+        if (event.type == 'NavBarButtonPress') {
+            if (event.id == 'closeModal') {
+		Navigation.dismissModal({
+		    animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+		});	
+            }
+        }
+    }
+    
+    
     onComplete(code, clear) {
 	this.setState({decrypting: true});
 	setTimeout(async () =>  this._checkCode(code, clear), 0);

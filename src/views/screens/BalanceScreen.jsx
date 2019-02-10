@@ -15,10 +15,9 @@ class BalanceScreen extends React.Component {
     constructor(props) {
         super(props);
         this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
-      }
-
-    state = {
-        fetchingBalance: false
+	this.state = {
+            fetchingBalance: false
+	};
     }
 
     componentWillMount() {
@@ -43,7 +42,9 @@ class BalanceScreen extends React.Component {
         if (event.type == 'NavBarButtonPress') {
             if (event.id == 'deleteWallet') {
                 this._deleteWallet();
-            }
+            } else if (event.id == 'infoButton') {
+		this.props.navigator.push({ screen: 'dailywallet.InfoScreen' });
+            }	    
         }
     }
 

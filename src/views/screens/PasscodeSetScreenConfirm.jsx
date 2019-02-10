@@ -8,8 +8,11 @@ import styles from './styles';
 
 class PasscodeSetScreenConfirm extends React.Component {
     static navigatorStyle = {
-        navBarHidden: true,
+        navBarTextColor: 'white',
+        navBarBackgroundColor: '#302E2E',
+        navBarButtonColor: 'white',
     }
+    
     state = {
 	decrypting: false
     }

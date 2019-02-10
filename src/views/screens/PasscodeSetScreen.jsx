@@ -4,10 +4,13 @@ import PinView from 'react-native-pin-view';
 import styles from './styles';
 
 
-class PasscodeSetScreen2 extends React.Component {
+class PasscodeSetScreen extends React.Component {
     static navigatorStyle = {
-        navBarHidden: true,
+        navBarTextColor: 'white',
+        navBarBackgroundColor: '#302E2E',
+        navBarButtonColor: 'white',
     }
+    
 
     render() {
         return (
@@ -28,4 +31,4 @@ class PasscodeSetScreen2 extends React.Component {
     }
 }
 
-export default PasscodeSetScreen2
+export default PasscodeSetScreen

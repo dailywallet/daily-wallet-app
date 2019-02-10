@@ -5,8 +5,10 @@ import styles from './styles';
 
 class ShareLinkScreen extends React.Component {
     static navigatorStyle = {
-        navBarHidden: true,
-    }
+        navBarTextColor: 'white',
+        navBarBackgroundColor: '#302E2E',
+        navBarButtonColor: 'white',
+    }    
 
     render() {
 	const amount = this.props.amount / 100;
