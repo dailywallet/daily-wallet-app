@@ -5,6 +5,8 @@ import styles from './styles';
 import identitySDK from 'DailyWallet/src/services/sdkService';
 import { addIdentityContract, fetchBalance } from './../../actions/wallet';
 
+
+
 class ReceiveScreen extends React.Component {    
     static navigatorStyle = {
         navBarTextColor: 'white',
@@ -64,7 +66,7 @@ class ReceiveScreen extends React.Component {
 
                 <View style={{alignItems: 'center', marginBottom: 50}}>
 		  { !this.state.pending ? 		      
-                      <TouchableOpacity style={{ ...styles.buttonContainer }} onPress={this.onSubmit.bind(this)}>
+                      <TouchableOpacity style={{ ...styles.buttonContainer }} onPress={() => this.props.pressRedeemBtn(this.props.navigator)}>
                             <Text style={styles.buttonText}>Done</Text>
 			  </TouchableOpacity> :
 		      <View>

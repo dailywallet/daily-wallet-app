@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, View, TouchableOpacity, Text, Image, RefreshControl } from 'react-native';
-import { deleteWallet, fetchBalance } from './../../actions/wallet';
+import { deleteWallet, fetchBalance, onPressRedeemBtn } from './../../actions/wallet';
 import styles from './styles';
 
 
@@ -91,7 +91,7 @@ class BalanceScreen extends React.Component {
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-evenly' }}>
                     <View style={{ alignItems: 'center', marginBottom: 50 }}>
-                        <TouchableOpacity onPress={() => this.props.navigator.push({ screen: 'dailywallet.ClaimScreen' })}>
+                      <TouchableOpacity onPress={() => this.props.onPressRedeemBtn(this.props.navigator)}>
                             <Image source={require('./../../img/redeem_icon.png')}></Image>
                         </TouchableOpacity>
                     </View>
@@ -113,4 +113,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { deleteWallet, fetchBalance })(BalanceScreen)
+export default connect(mapStateToProps, { deleteWallet, fetchBalance, onPressRedeemBtn })(BalanceScreen)

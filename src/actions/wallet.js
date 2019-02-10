@@ -1,9 +1,10 @@
 import { Navigation } from 'react-native-navigation';
 import { utils } from 'ethers';
+import { Alert, Clipboard } from 'react-native';
+const qs = require('querystring');
 import {changeAppRoot} from './app';
 import identitySDK from 'DailyWallet/src/services/sdkService';
 import * as ksService from './../services/keystoreService';
-import { Alert } from 'react-native';
 
 
 export const actions = {
@@ -105,6 +106,44 @@ export const claimLink = ({
 	return { response, txHash };
     };
 }
+
+export const onPressRedeemBtn = (navigator) => {
+    return async (dispatch, getState) => {
+
+
+	const linkInClipboard = await Clipboard.getString();
+	console.log({ linkInClipboard });
+
+	// No link detected alert
+	const linkBase = 'https://gasless-wallet.volca.tech/#/claim?';
+	if (!(linkInClipboard && linkInClipboard.indexOf(linkBase) > -1)) { 
+	    Alert.alert("No link detected", "Copy the text with the link from your messaging application, open Daily Wallet, and tap on Redeem link again.");
+	    return null;
+	}
+	
+	try { 
+	    // parse url
+	    const urlParams = linkInClipboard.substring(linkInClipboard.search('claim?') + 6);
+	    const parsedParams = qs.parse(urlParams);
+	    const { a: amount, from: sender, sig: sigSender, pk: transitPK } = parsedParams;
+
+
+	    await dispatch(claimLink({
+		amount,
+		sender,
+		sigSender,
+		transitPK,
+		navigator
+	    }));
+	    
+	} catch (err) {
+	    console.log(err);
+	    Alert.alert("Link is invalid", "The link you copied doesn’t exist or has already been redeemed.");
+	}
+	//AlertIOS.alert
+    };
+}
+
 
 
 const generateClaimLinkWithPK = ({
