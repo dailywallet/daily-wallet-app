@@ -189,10 +189,21 @@ const getPrivateKeyViaModal = (onSuccess) => {
 
 
 export function deleteWallet() {
-    return {
-        type: 'DELETE_WALLET',
-        payload: null
-    }
+    return async (dispatch, getState) => {	
+	const onSuccess = (privateKey) => {
+	    
+	    dispatch({
+		type: 'DELETE_WALLET'
+	    });
+
+	    dispatch(changeAppRoot('IntroScreen'));	    
+	};
+	
+	getPrivateKeyViaModal(onSuccess);
+	
+
+
+    };
 }
 
 

@@ -48,8 +48,8 @@ class BalanceScreen extends React.Component {
     }
 
     _deleteWallet() {
-        this.props.deleteWallet()
-        this.props.navigator.push({ screen: 'dailywallet.IntroScreen' })
+        this.props.deleteWallet();
+        //this.props.navigator.push({ screen: 'dailywallet.IntroScreen' })
     }
 
     onRefresh() {
