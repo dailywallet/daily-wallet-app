@@ -69,7 +69,7 @@ export default {
         width: '100%', 
         height: 50 / 1.5, 
         backgroundColor: 'rgba(38,207,54,0.3)', 
-        textAlign: 'center', 
+        //textAlign: 'center', 
         paddingTop: 2, 
         marginTop: 5 
     },
