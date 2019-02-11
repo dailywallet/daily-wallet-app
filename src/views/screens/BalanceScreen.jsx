@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, View, TouchableOpacity, Text, Image, RefreshControl } from 'react-native';
+import { ScrollView, View, TouchableOpacity, Text, Image, RefreshControl, Platform, ActionSheetIOS } from 'react-native';
 import { deleteWallet, fetchBalance, onPressRedeemBtn } from './../../actions/wallet';
 import styles from './styles';
 
@@ -22,19 +22,32 @@ class BalanceScreen extends React.Component {
 
     componentWillMount() {
         this.props.navigator.setTitle({ title: 'Daily' });
-        this.props.navigator.setButtons({
-            rightButtons: [
+	let rightButtons = [];
+	if (Platform.OS === 'ios') {
+	    //
+	    rightButtons = [
+		{
+		    id: 'settingsIOS',
+		    icon: require('../../img/settings.png')
+		}		
+	    ]
+	} else { // Action Bar on android
+	    rightButtons = [
                 {
-                    id: 'deleteWallet',
-                    title: 'Erase wallet',
+		    id: 'deleteWallet',
+		    title: 'Erase wallet',
                     showAsAction: 'withText'
                 },
                 {
                     id: 'infoButton',
                     title: 'Info',
                     showAsAction: 'withText'
-                },
-            ],
+                },		
+	    ]
+	}
+
+	this.props.navigator.setButtons({
+	    rightButtons
         });
     }
 
@@ -44,8 +57,24 @@ class BalanceScreen extends React.Component {
                 this._deleteWallet();
             } else if (event.id == 'infoButton') {
 		this.props.navigator.push({ screen: 'dailywallet.InfoScreen' });
+            } else if (event.id == 'settingsIOS') {
+		this._showActionSheetIOS();
             }	    
         }
+    }
+
+    _showActionSheetIOS() {
+	ActionSheetIOS.showActionSheetWithOptions( {
+	    options: ['Cancel', 'Info', 'Delete Wallet'],
+	    destructiveButtonIndex: 2,
+	    cancelButtonIndex: 0,
+	},  (buttonIndex) => {
+	    if (buttonIndex === 1) {
+		this.props.navigator.push({ screen: 'dailywallet.InfoScreen' });		
+	    } else if (buttonIndex === 2) {
+		this._deleteWallet();
+	    }
+	});		
     }
 
     _deleteWallet() {
