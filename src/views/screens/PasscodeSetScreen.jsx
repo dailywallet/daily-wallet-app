@@ -4,17 +4,20 @@ import PinView from 'react-native-pin-view';
 import styles from './styles';
 
 
-class PasscodeSetScreen2 extends React.Component {
+class PasscodeSetScreen extends React.Component {
     static navigatorStyle = {
-        navBarHidden: true,
+        navBarTextColor: 'white',
+        navBarBackgroundColor: '#302E2E',
+        navBarButtonColor: 'white',
     }
+    
 
     render() {
         return (
             <View style={styles.screenContainer}>
                 <View style={styles.centeredFlex}>
-                  <Text style={{...styles.infoText, paddingTop: 46}}>Enter a four-digit passcode.</Text>
-                  <Text style={{...styles.infoText, paddingTop: 20, paddingBottom: 30 }}>You'll need to enter it every time you send money.</Text>		  
+                  <Text style={{...styles.infoText, paddingTop: 20}}>Enter a four-digit passcode.</Text>
+                  <Text style={{...styles.infoText, paddingTop: 10, paddingBottom: 40 }}>You'll need to enter it every time you send money.</Text>		  
                 </View>
                 <View style={styles.pinContainer}>
                     <PinView
@@ -28,4 +31,4 @@ class PasscodeSetScreen2 extends React.Component {
     }
 }
 
-export default PasscodeSetScreen2
+export default PasscodeSetScreen

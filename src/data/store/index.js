@@ -25,13 +25,13 @@ const persistedReducer = combineReducers({
     // marketData: persistReducer(createPersistConfig('marketData', 0), reducers.marketData)
 })
 
-console.log("creating store config")
+
 const store = createStore(persistedReducer, undefined, enhancers);
-console.log("created store config")
+
 
 const configureStoreFunc = createConfigStoreFunc(store);
-console.log("configuring func")
+
 persistStore(store, null, configureStoreFunc);
-console.log("persisted store")
+
 
 export default store;
