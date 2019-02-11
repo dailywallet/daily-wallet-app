@@ -10,15 +10,16 @@
     "test": "jest"
   },
   "dependencies": {
-    "universal-login-monorepo": "git+https://github.com/VolcaTech/gasless-webwallet",
     "@tradle/react-native-http": "^2.0.1",
     "assert": "^1.1.1",
+    "bip39": "github:NoahHydro/bip39",
     "bluebird": "^3.5.2",
     "browserify-zlib": "~0.1.4",
     "console-browserify": "^1.1.0",
     "constants-browserify": "^1.0.0",
     "dns.js": "^1.0.1",
     "domain-browser": "^1.1.1",
+    "ethereumjs-wallet-react-native": "git+https://github.com/Dobrokhvalov/ethereumjs-wallet-react-native.git",
     "ethers": "^4.0.17",
     "https-browserify": "~0.0.0",
     "path-browserify": "0.0.0",
@@ -40,7 +41,6 @@
     "react-native-udp": "^2.3.1",
     "react-redux": "^5.1.0",
     "readable-stream": "1.0.33",
-    "ethereumjs-wallet-react-native": "git+https://github.com/Dobrokhvalov/ethereumjs-wallet-react-native.git",
     "redux": "^4.0.1",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
@@ -48,6 +48,7 @@
     "string_decoder": "~0.10.25",
     "timers-browserify": "^1.0.1",
     "tty-browserify": "0.0.0",
+    "universal-login-monorepo": "git+https://github.com/VolcaTech/gasless-webwallet",
     "url": "~0.10.1",
     "vm-browserify": "0.0.4"
   },

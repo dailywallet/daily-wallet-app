@@ -1,36 +1,30 @@
 import { Wallet } from 'ethers';
 import * as EthereumJsWallet from 'ethereumjs-wallet-react-native';
+const bip39 = require('bip39'); // a forked version, see package.json
+import { asyncRandomBytes } from 'react-native-secure-randombytes';
+const hdkey = require('ethereumjs-wallet-react-native/hdkey');
 
-// Ethers version
-//
-// export async function generateKeystore(password) {
-//     // genereate keystore
-//     const wallet = Wallet.createRandom();
-    
-//     function callback(progress) {
-// 	console.log("Encrypting: " + parseInt(progress * 100) + "% complete");
-//     }
-
-//     const options = {
-// 	scrypt: { N: 1024 }
-//     }
-    
-//     // encrypt private key
-//     const keystore = await wallet.encrypt(password, options, callback);
-//     const {  mnemonic, address } = wallet;
-//     console.log({keystore, mnemonic});
-    
-//     return { keystore, address, mnemonic };    
-// }
 
 // Ethereumjs-wallet version
 //
 export async function generateKeystore(password) {
-    // genereate keystore
-    const wallet = await EthereumJsWallet.generate();
 
-    //console.log({wallet});
-    //const wallet = Wallet.createRandom();
+    
+    // var hashedEntropy = ethUtil.sha256(entropy + extraEntropy).slice(0, 16);
+
+    const randomBytes = await asyncRandomBytes(16);
+    console.log({randomBytes})
+    
+    var mnemonic = bip39.generateMnemonic(undefined, () => { return randomBytes; });
+
+    var seed = bip39.mnemonicToSeed(mnemonic);
+    console.log({seed, mnemonic});
+    const wallet = hdkey.fromMasterSeed(seed).
+	    derivePath(`m/44'/60'/0'/0`).
+	      deriveChild(0).getWallet();
+    
+    // genereate keystore
+    // const wallet = await EthereumJsWallet.generate();
     
     // encrypt private key
     const keystore = await encryptPrivateKeyFastCrypto(wallet.getPrivateKey(), password);
@@ -38,7 +32,7 @@ export async function generateKeystore(password) {
     console.log({keystore});
 
     const address = wallet.getChecksumAddressString();
-    const mnemonic = '';
+    //const mnemonic = '';
     
     return { keystore, address, mnemonic };    
 }
