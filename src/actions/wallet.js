@@ -127,7 +127,7 @@ export const waitForPendingTxMined = () => {
 	    // update balance
 	    await dispatch(fetchBalance());
 
-	    // update app state that tx was mined
+ 	    // update app state that tx was mined
 	    dispatch({
 		type: actions.UPDATE_PENDING_CLAIM_TX,
 		payload: {
@@ -162,7 +162,18 @@ export const onPressRedeemBtn = (navigator) => {
 	}
 
 	
-	try { 
+	try {
+
+	    // update app state that tx was mined
+	    dispatch({
+		type: actions.UPDATE_PENDING_CLAIM_TX,
+		payload: {
+		    txHash: null,
+		    amount: null,
+		    isPending: true
+		}
+	    });
+	    
 	    // parse url
 	    const urlParams = linkInClipboard.substring(linkInClipboard.search('claim?') + 6);
 	    const parsedParams = qs.parse(urlParams);
@@ -181,6 +192,16 @@ export const onPressRedeemBtn = (navigator) => {
 	} catch (err) {
 	    console.log(err);
 	    Alert.alert("Link is invalid", "The link you copied doesn’t exist or has already been redeemed.");
+
+	    // update app state that tx was mined
+	    dispatch({
+		type: actions.UPDATE_PENDING_CLAIM_TX,
+		payload: {
+		    txHash: null,
+		    amount: null,
+		    isPending: false
+		}
+	    });	  	    
 	}
     };
 }

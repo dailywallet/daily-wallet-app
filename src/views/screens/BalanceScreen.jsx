@@ -68,13 +68,15 @@ class BalanceScreen extends React.Component {
 
     _renderStatusBar() {
         if (this.props.isPendingTx) {
-            return (
+	    return (
                 <View style={{...styles.statusBarContainer }}>
-                  <Text style={{ ...styles.balance, fontSize: 28 / 1.5, marginTop: 8}}>
-                    + ${this.props.pendingClaimTx.amount / 100} is pending
+                  <Text style={{ ...styles.balance, fontSize: 28 / 1.5, marginTop: 7}}>
+		    { this.props.pendingAmount ? 
+			`+ $${this.props.pendingClaimTx.amount / 100} is pending` :
+		     'Checking copied link...' }
                   </Text>
                 </View>
-            );
+	    );
         }
     }
 
@@ -111,7 +113,8 @@ function mapStateToProps(state) {
     return {
         balance: state.data.wallet.balance,
 	pendingClaimTx: state.data.pendingClaimTx,
-	isPendingTx: state.data.pendingClaimTx.isPending
+	isPendingTx: state.data.pendingClaimTx.isPending,
+	pendingAmount: state.data.pendingClaimTx.amount
     }
 }
 

@@ -17,7 +17,11 @@ class SendScreen extends React.Component {
     }
 
     onSend() {
-	console.log("onSubmit"); 
+	if (this.state.amount <= 0) {
+	    alert(`Amount should be more than 0`);
+	    return;
+	}	
+	
 	if (this.props.balance < this.state.amount) {
 	    alert(`Amount should be less than balance ($${this.props.balance})`);
 	    return;
