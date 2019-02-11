@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, View, TouchableOpacity, Text, Image, RefreshControl, Platform, ActionSheetIOS } from 'react-native';
 import { deleteWallet, fetchBalance, onPressRedeemBtn } from './../../actions/wallet';
+import { formatAmount } from '../../utils/helpers';
 import styles from './styles';
 
 
@@ -101,7 +102,7 @@ class BalanceScreen extends React.Component {
                 <View style={{...styles.statusBarContainer }}>
                   <Text style={{ ...styles.balance, fontSize: 28 / 1.5, marginTop: 7}}>
 		    { this.props.pendingAmount ? 
-			`+ $${this.props.pendingClaimTx.amount / 100} is pending` :
+			`+ $${formatAmount(this.props.pendingClaimTx.amount / 100)} is pending` :
 		     'Checking copied link...' }
                   </Text>
                 </View>
@@ -117,18 +118,20 @@ class BalanceScreen extends React.Component {
             >
                 <View style={styles.balanceContainer}>
                     <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Your balance is</Text>
-                    <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>${this.props.balance}</Text>
+                    <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>${formatAmount(this.props.balance)}</Text>
                     {this._renderStatusBar()}
                 </View>
-                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
                     <View style={{ alignItems: 'center', marginBottom: 50 }}>
                       <TouchableOpacity onPress={() => this.props.onPressRedeemBtn(this.props.navigator)}>
-                            <Image source={require('./../../img/redeem_icon.png')}></Image>
+                        <Image source={require('./../../img/redeem_icon.png')}></Image>
+			<Text style={{ ...styles.balance, fontSize: 28 / 1.5, width: 100, marginTop: 8}}>Redeem link</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={{ alignItems: 'center', marginBottom: 10 }}>
                         <TouchableOpacity onPress={() => this.props.navigator.push({ screen: 'dailywallet.SendScreen' })}>
-                            <Image source={require('./../../img/send_icon.png')}></Image>
+                          <Image source={require('./../../img/send_icon.png')}></Image>
+			  <Text style={{ ...styles.balance, fontSize: 28 / 1.5, width: 100, marginTop: 8}}>Send money</Text>			  
                         </TouchableOpacity>
                     </View>
                 </View>

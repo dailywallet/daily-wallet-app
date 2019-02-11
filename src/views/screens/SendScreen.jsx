@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text, TextInput } from 'react-native';
 import { generateClaimLink } from './../../actions/wallet';
+import { formatAmount } from '../../utils/helpers';
 import styles from './styles';
 
 
@@ -23,7 +24,7 @@ class SendScreen extends React.Component {
 	}	
 	
 	if (this.props.balance < this.state.amount) {
-	    alert(`Amount should be less than balance ($${this.props.balance})`);
+	    alert(`Amount should be less than balance ($${formatAmount(this.props.balance)})`);
 	    return;
 	}
 	try { 
@@ -47,11 +48,29 @@ class SendScreen extends React.Component {
                     <View style={{...styles.sendInputContainer, marginTop:50}}>
                         <Text style={styles.sendScreenText}>You're sending $</Text>
                         <TextInput
-                            keyboardType='numbers-and-punctuation'
+                            keyboardType='numeric'
                             autoFocus={true}
-                            style={{ ...styles.sendScreenText, width: 50 }}
-                            onChangeText={(amount) => this.setState({ amount })}
-                            value={this.state.amount}
+                            style={{ ...styles.sendScreenText, width: 100 }}
+                           onChangeText={(val) => {
+			       let amount;
+			       console.log({val});
+			       if (val.length < 4) {
+				    amount = val / 100;
+				} else {
+				   const digits = val.substring(val.indexOf('.') + 1).length;
+						    if (digits === 3) {
+							amount = val * 10;
+						    } else {							
+							amount = val;
+						    }
+ 						    }
+						    if (!amount || amount === NaN || amount === "NaN") {
+							amount = 0;
+						    }
+						    console.log({amount});
+						    this.setState({ amount: String(Number(amount).toFixed(2)) });
+						}}
+			    value={this.state.amount}
                             underlineColorAndroid='black'
                         />
                     </View>
