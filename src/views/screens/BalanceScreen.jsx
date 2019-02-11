@@ -8,6 +8,7 @@ import styles from './styles';
 
 class BalanceScreen extends React.Component {
     static navigatorStyle = {
+	orientation: 'portrait',	
         navBarTextColor: 'white',
         navBarBackgroundColor: '#302E2E',
         navBarButtonColor: 'white',
