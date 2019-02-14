@@ -61,7 +61,7 @@ export const fetchBalance = () => {
 }
 
 
-export const startMnemonicBackup = () => {
+export const startMnemonicBackup = (navigator) => {
     return async (dispatch, getState) => {	
 	const onSuccess = async (privateKey) => {
 	    console.log("got private Key: ", privateKey);
@@ -70,7 +70,22 @@ export const startMnemonicBackup = () => {
 	    console.log({ ciphertext, iv })
 	    const mnemonic = await ksService.decryptMnemonicWithPK(ciphertext, iv, privateKey);
 	    console.log({mnemonic});
-	    alert("done");
+	    if (!mnemonic) { 
+		alert("Error while decrypting mnemonic");
+		return null;
+	    } 
+
+	    //  navigate to new screen
+	    navigator.push({
+		screen: 'dailywallet.BackupWalletWordScreen',
+		passProps: { mnemonic, n: 1 },
+		//backButtonTitle: "" // override the back button title (optional)
+	    });
+
+	    // dismiss pincode modal
+	    Navigation.dismissModal({
+		animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+	    });	
 	};
 	
 	getPrivateKeyViaModal(onSuccess);

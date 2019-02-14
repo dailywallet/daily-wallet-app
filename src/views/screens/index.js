@@ -9,6 +9,7 @@ import SendScreen from './SendScreen';
 import InfoScreen from './InfoScreen';
 
 import BackupWalletStartScreen from './BackupWalletStartScreen';
+import BackupWalletWordScreen from './BackupWalletWordScreen';
 
 export default (store, Provider) => {
     // SCREENS
@@ -20,5 +21,6 @@ export default (store, Provider) => {
     Navigation.registerComponent('dailywallet.ShareLinkScreen', () => ShareLinkScreen, store, Provider);
     Navigation.registerComponent('dailywallet.SendScreen', () => SendScreen, store, Provider);
     Navigation.registerComponent('dailywallet.InfoScreen', () => InfoScreen, store, Provider);
-    Navigation.registerComponent('dailywallet.BackupWalletStartScreen', () => BackupWalletStartScreen, store, Provider);    
+    Navigation.registerComponent('dailywallet.BackupWalletStartScreen', () => BackupWalletStartScreen, store, Provider);
+    Navigation.registerComponent('dailywallet.BackupWalletWordScreen', () => BackupWalletWordScreen, store, Provider);
 };

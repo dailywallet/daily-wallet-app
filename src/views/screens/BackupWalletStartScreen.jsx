@@ -41,7 +41,7 @@ class BackupWalletStartScreen extends React.Component {
 	    money, so store it in a safe place!</Text>
                 </View>
                 <View style={styles.centeredFlex}>
-                <TouchableOpacity style={{...styles.buttonContainer, width: 165}} onPress={() => this.props.startMnemonicBackup()}>
+                <TouchableOpacity style={{...styles.buttonContainer, width: 165}} onPress={() => this.props.startMnemonicBackup(this.props.navigator)}>
                       <Text style={styles.buttonText}>Continue</Text>
                     </TouchableOpacity>
                 </View>		
