@@ -1,12 +1,9 @@
-console.log("in App.jsx")
 import React from 'react';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
 import store from './data/store';
-console.log("registered store")
 import registerScreens from './views/screens';
 
-console.log("registered screens")
 
 registerScreens(store, Provider);
 
@@ -54,7 +51,6 @@ export default class App extends React.Component {
     startApp(root, params = null) {
         //root = 'ReceiveScreen'
 
-	console.log("Start App")
         switch (root) {
             case 'IntroScreen':
                 Navigation.startSingleScreenApp({

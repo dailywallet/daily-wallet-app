@@ -6,7 +6,7 @@ import { formatAmount } from '../../utils/helpers';
 import styles from './styles';
 
 
-class BackupWalletStartScreen extends React.Component {
+class BackupWalletWordScreen extends React.Component {
     static navigatorStyle = {
 	orientation: 'portrait',	
         navBarTextColor: 'white',
@@ -29,7 +29,11 @@ class BackupWalletStartScreen extends React.Component {
 		passProps: { mnemonic, n: n + 1 },
 	    });
 	} else {
-	    alert("Done");
+	    //alert("Please verify that you have written down recovery phrase correctly");
+	    this.props.navigator.push({
+		screen: 'dailywallet.BackupWalletInputWordScreen',
+		passProps: { mnemonic, n: 1 },
+	    });
 	}
     }
     
@@ -55,4 +59,4 @@ class BackupWalletStartScreen extends React.Component {
     }
 }
 
-export default BackupWalletStartScreen;
+export default BackupWalletWordScreen;
