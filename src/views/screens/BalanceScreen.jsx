@@ -128,7 +128,7 @@ class BalanceScreen extends React.Component {
                 refreshControl={<RefreshControl onRefresh={this.onRefresh.bind(this)} refreshing={this.state.fetchingBalance} />}
             >
                 <View style={styles.balanceContainer}>
-                    <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Your balance is</Text>
+                    <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Your phone has</Text>
                     <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>${formatAmount(this.props.balance)}</Text>
                     {this._renderStatusBar()}
                 </View>
