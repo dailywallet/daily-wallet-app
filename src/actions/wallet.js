@@ -18,10 +18,10 @@ export const actions = {
 
 export const generateKeystore = (password) => {
     return async (dispatch, getState) => {
-        const {address, keystore} = await ksService.generateKeystore(password);
+        const { address, keystore, encryptedMnemonic } = await ksService.generateKeystore(password);
         dispatch({
             type: actions.GENERATE_KEYSTORE,
-            payload: {keystore, address}
+            payload: { keystore, address, encryptedMnemonic }
         });
         dispatch(changeAppRoot('BalanceScreen'));
     };

@@ -24,8 +24,6 @@ export async function generateKeystore(password) {
 	    derivePath(`m/44'/60'/0'/0`).
 	      deriveChild(0).getWallet();
     
-    // genereate keystore
-    // const wallet = await EthereumJsWallet.generate();
     
     // encrypt private key
     const keystore = await encryptPrivateKeyFastCrypto(wallet.getPrivateKey(), password);
@@ -34,17 +32,15 @@ export async function generateKeystore(password) {
 
     const address = wallet.getChecksumAddressString();
     const encryptedMnemonic = await encryptMnemonicWithPK(mnemonic, wallet.getPrivateKey().toString('hex')) ;
-    const decryptedMnemonic = await decryptMnemonicWithPK(encryptedMnemonic.ciphertext, encryptedMnemonic.iv, wallet.getPrivateKey().toString('hex'));
-
-    console.log({decryptedMnemonic});
     
-    return { keystore, address, mnemonic };    
+    return { keystore, address, encryptedMnemonic };    
 }
 
 async function encryptPrivateKeyFastCrypto(privateKey, password) {
     const wallet = await EthereumJsWallet.fromPrivateKey(new Buffer(privateKey, 'hex'));
     const params = {
 	n: 1024  // todo, use 65536 for better security
+	// n:262144, r:1, p:8 GETH params
     };
     const keystore = JSON.stringify(await wallet.toV3(password, params));
     return keystore;

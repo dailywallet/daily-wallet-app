@@ -143,6 +143,7 @@ class BalanceScreen extends React.Component {
 
 
 function mapStateToProps(state) {
+    console.log({state})
     return {
         balance: state.data.wallet.balance,
 	pendingClaimTx: state.data.pendingClaimTx,
