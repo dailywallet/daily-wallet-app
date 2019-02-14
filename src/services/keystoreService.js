@@ -31,8 +31,7 @@ export async function generateKeystore(password) {
     console.log({keystore});
 
     const address = wallet.getChecksumAddressString();
-    const encryptedMnemonic = await encryptMnemonicWithPK(mnemonic, wallet.getPrivateKey().toString('hex')) ;
-    
+    const encryptedMnemonic = await encryptMnemonicWithPK(mnemonic, '0x' + wallet.getPrivateKey().toString('hex')) ;
     return { keystore, address, encryptedMnemonic };    
 }
 
@@ -62,8 +61,8 @@ async function encryptMnemonicWithPK (mnemonic, privateKey) {
     };
 }
 
-async function decryptMnemonicWithPK (mnemonicCiphertext, mnemonicIV, privateKey) {
-    var decrypted = CryptoJS.AES.decrypt(mnemonicCiphertext, privateKey, { iv: mnemonicIV});
+export function decryptMnemonicWithPK (ciphertext, iv, privateKey) {
+    var decrypted = CryptoJS.AES.decrypt(ciphertext, privateKey, { iv: iv});
     return decrypted.toString(CryptoJS.enc.Utf8);
 }
 

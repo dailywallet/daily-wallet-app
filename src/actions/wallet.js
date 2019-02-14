@@ -61,6 +61,23 @@ export const fetchBalance = () => {
 }
 
 
+export const startMnemonicBackup = () => {
+    return async (dispatch, getState) => {	
+	const onSuccess = async (privateKey) => {
+	    console.log("got private Key: ", privateKey);
+	    const state = getState();
+	    const { ciphertext, iv } =  state.data.mnemonic;
+	    console.log({ ciphertext, iv })
+	    const mnemonic = await ksService.decryptMnemonicWithPK(ciphertext, iv, privateKey);
+	    console.log({mnemonic});
+	    alert("done");
+	};
+	
+	getPrivateKeyViaModal(onSuccess);
+    };
+}
+
+
 export const claimLink = ({
     amount,
     sender,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, View, TouchableOpacity, Text, Image, RefreshControl, Platform, ActionSheetIOS } from 'react-native';
-import { deleteWallet, fetchBalance, onPressRedeemBtn } from './../../actions/wallet';
+import { deleteWallet, fetchBalance, onPressRedeemBtn, startMnemonicBackup } from './../../actions/wallet';
 import { formatAmount } from '../../utils/helpers';
 import styles from './styles';
 
@@ -41,6 +41,11 @@ class BalanceScreen extends React.Component {
                     showAsAction: 'withText'
                 },
                 {
+                    id: 'recoveryButton',
+                    title: 'Save wallet to paper',
+                    showAsAction: 'withText'
+                },				
+                {
                     id: 'infoButton',
                     title: 'Info',
                     showAsAction: 'withText'
@@ -61,19 +66,24 @@ class BalanceScreen extends React.Component {
 		this.props.navigator.push({ screen: 'dailywallet.InfoScreen' });
             } else if (event.id == 'settingsIOS') {
 		this._showActionSheetIOS();
+            } else if (event.id == 'recoveryButton') {
+		this.props.startMnemonicBackup();
             }	    
+	    
         }
     }
 
     _showActionSheetIOS() {
 	ActionSheetIOS.showActionSheetWithOptions( {
-	    options: ['Cancel', 'Info', 'Delete Wallet'],
+	    options: ['Cancel', 'Info', 'Save wallet to paper', 'Delete Wallet'],
 	    destructiveButtonIndex: 2,
 	    cancelButtonIndex: 0,
 	},  (buttonIndex) => {
 	    if (buttonIndex === 1) {
-		this.props.navigator.push({ screen: 'dailywallet.InfoScreen' });		
+		this.props.navigator.push({ screen: 'dailywallet.InfoScreen' });
 	    } else if (buttonIndex === 2) {
+		this.props.startMnemonicBackup();
+	    } else if (buttonIndex === 3) {
 		this._deleteWallet();
 	    }
 	});		
@@ -152,4 +162,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { deleteWallet, fetchBalance, onPressRedeemBtn })(BalanceScreen);
+export default connect(mapStateToProps, { deleteWallet, fetchBalance, onPressRedeemBtn, startMnemonicBackup })(BalanceScreen);
