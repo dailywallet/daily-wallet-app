@@ -1,5 +1,6 @@
 import { Wallet } from 'ethers';
 import * as EthereumJsWallet from 'ethereumjs-wallet-react-native';
+const CryptoJS = require('crypto-js');
 const bip39 = require('bip39'); // a forked version, see package.json
 import { asyncRandomBytes } from 'react-native-secure-randombytes';
 const hdkey = require('ethereumjs-wallet-react-native/hdkey');
@@ -32,7 +33,10 @@ export async function generateKeystore(password) {
     console.log({keystore});
 
     const address = wallet.getChecksumAddressString();
-    //const mnemonic = '';
+    const encryptedMnemonic = await encryptMnemonicWithPK(mnemonic, wallet.getPrivateKey().toString('hex')) ;
+    const decryptedMnemonic = await decryptMnemonicWithPK(encryptedMnemonic.ciphertext, encryptedMnemonic.iv, wallet.getPrivateKey().toString('hex'));
+
+    console.log({decryptedMnemonic});
     
     return { keystore, address, mnemonic };    
 }
@@ -46,6 +50,28 @@ async function encryptPrivateKeyFastCrypto(privateKey, password) {
     return keystore;
 }
 
+async function encryptMnemonicWithPK (mnemonic, privateKey) {
+    const AESBlockSize = 16;
+    const randomBytes = (await asyncRandomBytes(16)).toString("hex");
+    const words = [];
+    for (var i = 0; i < AESBlockSize * 2; i += 8) {
+    	words.push('0x' + randomBytes.substring(i, i + 8));
+    }
+    var iv = new CryptoJS.lib.WordArray.init(words, AESBlockSize);
+    var ciphertext = CryptoJS.AES.encrypt(mnemonic, privateKey, { iv: iv });
+
+    return {
+	ciphertext: ciphertext.toString(),
+	iv: iv
+    };
+}
+
+async function decryptMnemonicWithPK (mnemonicCiphertext, mnemonicIV, privateKey) {
+    var decrypted = CryptoJS.AES.decrypt(mnemonicCiphertext, privateKey, { iv: mnemonicIV});
+    return decrypted.toString(CryptoJS.enc.Utf8);
+}
+
+
 
 export async function decryptKeystore({keystore, password}) {
     const w = await EthereumJsWallet.fromV3(keystore, password);
@@ -58,6 +84,5 @@ export async function decryptKeystore({keystore, password}) {
 export async function generatePrivateKey() {
     const wallet = await EthereumJsWallet.generate();
     const pk = '0x' + wallet.getPrivateKey().toString('hex');
-    console.log({pk});
     return pk;
 }
