@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, View, TouchableOpacity, Text, Image, RefreshControl, Platform, ActionSheetIOS } from 'react-native';
-import { deleteWallet, fetchBalance, onPressRedeemBtn, startMnemonicBackup } from './../../actions/wallet';
+import { deleteWallet, fetchBalance, onPressRedeemBtn } from './../../actions/wallet';
 import { formatAmount } from '../../utils/helpers';
 import styles from './styles';
 
@@ -67,7 +67,7 @@ class BalanceScreen extends React.Component {
             } else if (event.id == 'settingsIOS') {
 		this._showActionSheetIOS();
             } else if (event.id == 'recoveryButton') {
-		this.props.startMnemonicBackup();
+		this.props.navigator.push({ screen: 'dailywallet.BackupWalletStartScreen' });
             }	    
 	    
         }
@@ -76,13 +76,13 @@ class BalanceScreen extends React.Component {
     _showActionSheetIOS() {
 	ActionSheetIOS.showActionSheetWithOptions( {
 	    options: ['Cancel', 'Info', 'Save wallet to paper', 'Delete Wallet'],
-	    destructiveButtonIndex: 2,
+	    destructiveButtonIndex: 3,
 	    cancelButtonIndex: 0,
 	},  (buttonIndex) => {
 	    if (buttonIndex === 1) {
 		this.props.navigator.push({ screen: 'dailywallet.InfoScreen' });
 	    } else if (buttonIndex === 2) {
-		this.props.startMnemonicBackup();
+		this.props.navigator.push({ screen: 'dailywallet.BackupWalletStartScreen' });
 	    } else if (buttonIndex === 3) {
 		this._deleteWallet();
 	    }
@@ -162,4 +162,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { deleteWallet, fetchBalance, onPressRedeemBtn, startMnemonicBackup })(BalanceScreen);
+export default connect(mapStateToProps, { deleteWallet, fetchBalance, onPressRedeemBtn })(BalanceScreen);
