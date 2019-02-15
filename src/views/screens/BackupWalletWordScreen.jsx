@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {  View, TouchableOpacity, Text, Image, RefreshControl, Platform, ActionSheetIOS } from 'react-native';
 import { startMnemonicBackup } from './../../actions/wallet';
-import { formatAmount } from '../../utils/helpers';
+import { formatAmount, shuffleArray } from '../../utils/helpers';
 import styles from './styles';
 
 
@@ -30,9 +30,11 @@ class BackupWalletWordScreen extends React.Component {
 	    });
 	} else {
 	    //alert("Please verify that you have written down recovery phrase correctly");
+	    const wordsToTest = shuffleArray(mnemonic.split(" ")).filter((w, i) => i < 3).join(" ");
+	    
 	    this.props.navigator.push({
 		screen: 'dailywallet.BackupWalletInputWordScreen',
-		passProps: { mnemonic, n: 1 },
+		passProps: { mnemonic, leftWords: wordsToTest },
 	    });
 	}
     }
@@ -47,7 +49,7 @@ class BackupWalletWordScreen extends React.Component {
                     <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Write the number and word in paper</Text>
                 <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>{n}. {word}</Text>
                 </View>
-                <View style={{marginTop: 220, padding: 20}}>
+                <View style={{marginTop: 180, padding: 20}}>
                 </View>
                 <View style={styles.centeredFlex}>
                 <TouchableOpacity style={{...styles.buttonContainer, width: 165}} onPress={this._onContinuePress.bind(this)}>

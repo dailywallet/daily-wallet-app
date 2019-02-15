@@ -25,25 +25,27 @@ class BackupWalletInputWordScreen extends React.Component {
     }
 
     _checkWord() {
-	const { mnemonic, n } = this.props;
-	return (mnemonic.split(" ")[n-1].toLowerCase() === this.state.inputWord.toLowerCase());
+	return (this.props.word === this.state.inputWord.toLowerCase());
     }
     
     _onContinuePress () {
-	const { mnemonic, n } = this.props;
+	const { mnemonic, leftWords } = this.props;
 
 	// validate mnemonic word
 	if (!this._checkWord()) {
-	    alert("Incorrect word #" + n);
+	    alert("Incorrect word #" + this.props.n);
 	    return null;
 	}
+
+	const updatedWords = leftWords.split(" ");
+	updatedWords.shift();
+	console.log({updatedWords})
 	
-	
-	if (n < mnemonic.split(" ").length) { 
+	if (updatedWords.length > 0) { 
 	     //  navigate to next screen
 	    this.props.navigator.push({
 	 	screen: 'dailywallet.BackupWalletInputWordScreen',
-	 	passProps: { mnemonic, n: n + 1 },
+	 	passProps: { mnemonic, leftWords: updatedWords.join(" ")}
 	    });
 	} else {
 	    //Alert.alert("Success!", "You have successfully backed up your wallet.");
@@ -52,8 +54,6 @@ class BackupWalletInputWordScreen extends React.Component {
     }
     
     render() {
-	const { mnemonic, n } = this.props;
-	console.log({mnemonic});
         return (
 		<View style={{ flex: 1,
 			       backgroundColor: '#fff'}}>
@@ -72,9 +72,9 @@ class BackupWalletInputWordScreen extends React.Component {
                 />		   
                 </View>
 		<View style={{marginTop: 20}}>
-		  <Text style={{...styles.balance, fontSize: 14, textAlign: 'center'}}>{n}</Text>
+		  <Text style={{...styles.balance, fontSize: 14, textAlign: 'center'}}>{this.props.n}</Text>
 		</View>
-                <View style={{marginTop: 200, padding: 20}}>
+                <View style={{marginTop: 120, padding: 20}}>
                 </View>
                 <View style={styles.centeredFlex}>
                 <TouchableOpacity style={{...styles.buttonContainer, width: 165}} onPress={this._onContinuePress.bind(this)}>
@@ -86,4 +86,16 @@ class BackupWalletInputWordScreen extends React.Component {
     }
 }
 
-export default connect(null, { changeAppRoot })( BackupWalletInputWordScreen);
+const mapStateToProps = (state, props) => {
+    console.log({props})    
+    const { mnemonic, leftWords } = props;
+    const word = leftWords.split(" ")[0].toLowerCase();
+    const n = mnemonic.split(" ").indexOf(word) + 1;
+
+    return {
+	word,
+	n
+    }
+}
+
+export default connect(mapStateToProps, { changeAppRoot })( BackupWalletInputWordScreen);
