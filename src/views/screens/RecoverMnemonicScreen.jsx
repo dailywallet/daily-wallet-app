@@ -62,6 +62,7 @@ class RecoverMnemonicScreen extends React.Component {
 			       backgroundColor: '#fff'}}>
                 <View style={{marginTop: 100}}>
                 <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Type the words again to confirm</Text>
+                <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>{this.props.n}</Text>				
 		</View>
 		<View style={{ flexDirection: 'row', justifyContent: 'center'}}>
                 <TextInput
@@ -74,9 +75,6 @@ class RecoverMnemonicScreen extends React.Component {
             underlineColorAndroid='black'
                 />		   
                 </View>
-		<View style={{marginTop: 20}}>
-		  <Text style={{...styles.balance, fontSize: 14, textAlign: 'center'}}>{this.props.n}</Text>
-		</View>
                 <View style={{marginTop: 120, padding: 20}}>
                 </View>
                 <View style={styles.centeredFlex}>

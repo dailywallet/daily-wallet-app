@@ -58,9 +58,11 @@ class BackupWalletInputWordScreen extends React.Component {
 		<View style={{ flex: 1,
 			       backgroundColor: '#fff'}}>
                 <View style={{marginTop: 100}}>
-                <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Type the words again to confirm</Text>
+                <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Type the words from the recovery paper</Text>
+                <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>{this.props.n}</Text>				
 		</View>
 		<View style={{ flexDirection: 'row', justifyContent: 'center'}}>
+		
                 <TextInput
             autoFocus={true}
 	    ref={ref => this.textInputRef = ref}
@@ -71,9 +73,6 @@ class BackupWalletInputWordScreen extends React.Component {
             underlineColorAndroid='black'
                 />		   
                 </View>
-		<View style={{marginTop: 20}}>
-		  <Text style={{...styles.balance, fontSize: 14, textAlign: 'center'}}>{this.props.n}</Text>
-		</View>
                 <View style={{marginTop: 120, padding: 20}}>
                 </View>
                 <View style={styles.centeredFlex}>
