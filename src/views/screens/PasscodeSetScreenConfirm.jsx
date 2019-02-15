@@ -1,8 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { View, Text, ActivityIndicator } from 'react-native';
 import PinView from 'react-native-pin-view';
-import { generateKeystore } from './../../actions/wallet';
 import styles from './styles';
 
 
@@ -25,13 +23,11 @@ class PasscodeSetScreenConfirm extends React.Component {
 
     
     async _checkCode(code, clear) {
-        console.log("CODE: ", code, this.props.code)
         if (code === this.props.code) {
-            await this.props.generateKeystore(this.props.code)
-            this.props.navigator.push({ screen: 'dailywallet.BalanceScreen' })
+            await this.props.onConfirm(this.props.code);
         } else {
-            alert("Codes do not match, try again")
-            clear()
+            alert("Codes do not match, try again");
+            clear();
         }
 	this.setState({decrypting:false});	
     }
@@ -63,4 +59,4 @@ class PasscodeSetScreenConfirm extends React.Component {
     }
 }
 
-export default connect(null, { generateKeystore })(PasscodeSetScreenConfirm);
+export default PasscodeSetScreenConfirm;

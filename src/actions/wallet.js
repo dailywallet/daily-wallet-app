@@ -18,7 +18,19 @@ export const actions = {
 
 export const generateKeystore = (password) => {
     return async (dispatch, getState) => {
-        const { address, keystore, encryptedMnemonic } = await ksService.generateKeystore(password);
+	const { address, privateKey, mnemonic } = await ksService.generatePrivateKey();
+        const { keystore, encryptedMnemonic } = await ksService.generateKeystore({password, mnemonic, privateKey});
+        dispatch({
+            type: actions.GENERATE_KEYSTORE,
+            payload: { keystore, address, encryptedMnemonic }
+        });
+        dispatch(changeAppRoot('BalanceScreen'));
+    };
+}
+
+export const generateKeystoreFromMnemonic = ({ address, privateKey, mnemonic, password }) => {
+    return async (dispatch, getState) => {
+        const { keystore, encryptedMnemonic } = await ksService.generateKeystore({password, mnemonic, privateKey});
         dispatch({
             type: actions.GENERATE_KEYSTORE,
             payload: { keystore, address, encryptedMnemonic }
@@ -51,12 +63,43 @@ export const addIdentityContract = (identityContract) => {
 export const fetchBalance = () => {
     return async (dispatch, getState) => {	
 	const state = getState();
-	const address = state.data.wallet.address;
-	if (address) { 
-	    let balance = await identitySDK.getBalance(address);
-	    balance = Number(balance.toString()) / 100;
-	    dispatch(updateBalance(balance));
-	}
+	let address = state.data.wallet.address;
+	console.log({address});
+	if (!address) {
+	    address = await identitySDK.getIdentityByPublicKey(state.data.keystore.pubKeyAddress);
+	    console.log({address})
+	    if (address !== '0x0000000000000000000000000000000000000000') { 
+		dispatch(addIdentityContract(address));
+	    }
+	} 
+	let balance = await identitySDK.getBalance(address);
+	console.log({balance});
+	balance = Number(balance.toString()) / 100;
+	dispatch(updateBalance(balance));
+    };
+}
+
+
+export const recoverFromMnemonic = (mnemonic, navigator) => {
+    return async (dispatch, getState) => {
+
+	// recover key pair from mnemonic
+	console.log({mnemonic})
+	const { address, privateKey } = ksService.recoverWalletFromMnemonic(mnemonic);
+	
+	// check that this key is attached to an identity contract
+	// throw new Error("Invalid mnemonic");
+	//
+	navigator.push({
+	    screen: 'dailywallet.PasscodeSetScreen',
+	    passProps: {
+		onConfirm: (password) => {
+		    dispatch(generateKeystoreFromMnemonic({ address, privateKey, mnemonic, password }));
+		}
+	    }
+	});
+	
+	
     };
 }
 
@@ -148,13 +191,13 @@ export const waitForPendingTxMined = () => {
 	    const txReceipt = await identitySDK.waitForTxReceipt(txHash);
 	    console.log({txReceipt});
 	    
-	    // check if needed to update wallet address (which is smart-contract address)
-	    if (!state.data.wallet.address) {
-		console.log("identity doesn't exist");
-		let newIdentity = txReceipt.logs[0] && txReceipt.logs[0].address;
-		console.log({newIdentity});
-		dispatch(addIdentityContract(newIdentity));
-	    }
+	    // // check if needed to update wallet address (which is smart-contract address)
+	    // if (!state.data.wallet.address) {
+	    // 	console.log("identity doesn't exist");
+	    // 	let newIdentity = txReceipt.logs[0] && txReceipt.logs[0].address;
+	    // 	console.log({newIdentity});
+	    // 	dispatch(addIdentityContract(newIdentity));
+	    // }
 
 	    // update balance
 	    await dispatch(fetchBalance());
@@ -345,5 +388,3 @@ export function deleteWallet() {
 
     };
 }
-
-

@@ -6,33 +6,21 @@ import { asyncRandomBytes } from 'react-native-secure-randombytes';
 const hdkey = require('ethereumjs-wallet-react-native/hdkey');
 
 
-// Ethereumjs-wallet version
-//
-export async function generateKeystore(password) {
-
-    
-    // var hashedEntropy = ethUtil.sha256(entropy + extraEntropy).slice(0, 16);
-
+export async function generatePrivateKey() {
     const randomBytes = await asyncRandomBytes(16);
-    console.log({randomBytes})
-    
-    var mnemonic = bip39.generateMnemonic(undefined, () => { return randomBytes; });
+    const mnemonic = bip39.generateMnemonic(undefined, () => { return randomBytes; });
+    const { address, privateKey } = recoverWalletFromMnemonic(mnemonic);
+    return { address, privateKey, mnemonic };
+}
 
-    var seed = bip39.mnemonicToSeed(mnemonic);
-    console.log({seed, mnemonic});
-    const wallet = hdkey.fromMasterSeed(seed).
-	    derivePath(`m/44'/60'/0'/0`).
-	      deriveChild(0).getWallet();
-    
+export async function generateKeystore({password, mnemonic, privateKey}) {
     
     // encrypt private key
-    const keystore = await encryptPrivateKeyFastCrypto(wallet.getPrivateKey(), password);
-    //const {  mnemonic, address } = wallet;
-    console.log({keystore});
-
-    const address = wallet.getChecksumAddressString();
-    const encryptedMnemonic = await encryptMnemonicWithPK(mnemonic, '0x' + wallet.getPrivateKey().toString('hex')) ;
-    return { keystore, address, encryptedMnemonic };    
+    const keystore = await encryptPrivateKeyFastCrypto(privateKey, password);
+    console.log({keystore, privateKey});
+    
+    const encryptedMnemonic = await encryptMnemonicWithPK(mnemonic, '0x' + privateKey) ;
+    return { keystore, encryptedMnemonic };    
 }
 
 async function encryptPrivateKeyFastCrypto(privateKey, password) {
@@ -43,6 +31,18 @@ async function encryptPrivateKeyFastCrypto(privateKey, password) {
     };
     const keystore = JSON.stringify(await wallet.toV3(password, params));
     return keystore;
+}
+
+export function recoverWalletFromMnemonic(mnemonic) {
+    var seed = bip39.mnemonicToSeed(mnemonic);
+    const wallet = hdkey.fromMasterSeed(seed).
+	      derivePath(`m/44'/60'/0'/0`).
+	      deriveChild(0).getWallet();
+    
+    return {
+	address: wallet.getChecksumAddressString(),
+	privateKey: wallet.getPrivateKey().toString('hex')
+    };
 }
 
 async function encryptMnemonicWithPK (mnemonic, privateKey) {
@@ -76,8 +76,3 @@ export async function decryptKeystore({keystore, password}) {
 }
 
 
-export async function generatePrivateKey() {
-    const wallet = await EthereumJsWallet.generate();
-    const pk = '0x' + wallet.getPrivateKey().toString('hex');
-    return pk;
-}

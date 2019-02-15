@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {  View, TouchableOpacity, Text, Image, RefreshControl, Platform, ActionSheetIOS, TextInput } from 'react-native';
-import { startMnemonicBackup } from './../../actions/wallet';
-import { changeAppRoot } from 'DailyWallet/src/actions/app';
+import { recoverFromMnemonic } from './../../actions/wallet';
+//import { recoverFromMnemonic } from 'DailyWallet/src/actions/wallet';
 import { formatAmount } from '../../utils/helpers';
 import styles from './styles';
 import { Alert, Clipboard } from 'react-native';
@@ -39,7 +39,7 @@ class RecoverMnemonicScreen extends React.Component {
 	// validate mnemonic word
 
 	
-	if (mnemonic.length < 11) { 
+	if (mnemonic.length < 1) { 
 	     //  navigate to next screen
 	    this.props.navigator.push({
 	 	screen: 'dailywallet.RecoverMnemonicScreen',
@@ -47,8 +47,18 @@ class RecoverMnemonicScreen extends React.Component {
 	    });
 	} else {
 	    //Alert.alert("Success!", "You have successfully backed up your wallet.");
-	    alert("Done!");
-	    //this.props.navigator.popToRoot({});
+	    this._recoverFromMnemonic(newMnemonic);
+	}
+    }
+
+    async _recoverFromMnemonic(mnemonic) {
+	try {
+	    //mnemonic = "humble element sausage paddle market frequent vintage harvest vote away giggle force";
+	    mnemonic = "tragic wish satoshi possible window crew punch split crouch fashion gallery burst";
+	    await this.props.recoverFromMnemonic(mnemonic, this.props.navigator);
+	} catch (err) {
+	    console.log({err});
+	    alert(err);
 	}
     }
     
@@ -102,4 +112,4 @@ const mapStateToProps = (state, props) => {
     }
 }
 
-export default connect(mapStateToProps, { changeAppRoot })(RecoverMnemonicScreen);
+export default connect(mapStateToProps, { recoverFromMnemonic })(RecoverMnemonicScreen);
