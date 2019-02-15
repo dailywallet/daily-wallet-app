@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navigation } from 'react-native-navigation';
 import { Provider } from 'react-redux';
+import { Linking } from 'react-native';
 import store from './data/store';
 import registerScreens from './views/screens';
 
@@ -10,35 +11,34 @@ registerScreens(store, Provider);
 
 export default class App extends React.Component {
     constructor(props) {
-	console.log("constructor start")
         super(props);
         store.subscribe(this.onStoreUpdate.bind(this));
-	console.log("constructor enddzxs")
 	const state = store.getState();
-	console.log("state: ", state);
-        //this.startApp(state.appRoot);	
-        // LINKING.getInitialURL().then(url => {		
-        //     console.log({url});
-        //     if (url) {	
-        //     }
-        // });
+        //this.startApp(state.appRoot);
+	console.log("in constructor...")
+        Linking.getInitialURL().then(url => {		
+	    //alert(url);
+	    console.log({url});
+            // if (url) {	
+            // }
+        });
 
-        // Linking.addEventListener('url', this.handleOpenURL);
+        Linking.addEventListener('url', this.handleOpenURL);
         //this.startApp('IntroScreen');
     }
 
-    // handleOpenURL = (event) => {
-    // 	if (event && event.url) {
-    // 	    //
-    // 	    // redirect here
-    // 	    console.log({event})
-    // 	    store.dispatch(claimTokens(event.url));
-    // 	}
-    // }
+    handleOpenURL = (event) => {
+	console.log({event})
+    	// if (event && event.url) {
+    	//     //
+    	//     // redirect here
+    	//     console.log({event})
+    	//     store.dispatch(claimTokens(event.url));
+    	// }
+    }
 
 
     onStoreUpdate() {
-	console.log("on store updated")
         const state = store.getState();
         const root = state.appRoot;
         // handle a root change
