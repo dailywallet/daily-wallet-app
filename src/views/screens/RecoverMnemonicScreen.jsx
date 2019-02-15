@@ -34,27 +34,21 @@ class RecoverMnemonicScreen extends React.Component {
 	    return null;
 	}
 	
-	const newMnemonic = [...mnemonic, this.state.inputWord].join(" ");
+	const newMnemonic = [...mnemonic, this.state.inputWord.toLowerCase()].join(" ");
 
-	// validate mnemonic word
-
-	
-	if (mnemonic.length < 1) { 
+	if (mnemonic.length < 11) { 
 	     //  navigate to next screen
 	    this.props.navigator.push({
 	 	screen: 'dailywallet.RecoverMnemonicScreen',
 	 	passProps: { mnemonic:  newMnemonic }
 	    });
 	} else {
-	    //Alert.alert("Success!", "You have successfully backed up your wallet.");
 	    this._recoverFromMnemonic(newMnemonic);
 	}
     }
 
     async _recoverFromMnemonic(mnemonic) {
 	try {
-	    //mnemonic = "humble element sausage paddle market frequent vintage harvest vote away giggle force";
-	    mnemonic = "tragic wish satoshi possible window crew punch split crouch fashion gallery burst";
 	    await this.props.recoverFromMnemonic(mnemonic, this.props.navigator);
 	} catch (err) {
 	    console.log({err});
