@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { Linking } from 'react-native';
 import store from './data/store';
 import registerScreens from './views/screens';
+import { claimFromDeepLink } from './actions/wallet';
 
 
 registerScreens(store, Provider);
@@ -17,10 +18,11 @@ export default class App extends React.Component {
         //this.startApp(state.appRoot);
 	console.log("in constructor...")
         Linking.getInitialURL().then(url => {		
-	    //alert(url);
 	    console.log({url});
-            // if (url) {	
-            // }
+	    if (url) {
+		console.log("Deep link detected" + url);		
+		alert("Deep link detected" + url);		
+	    }
         });
 
         Linking.addEventListener('url', this.handleOpenURL);
@@ -29,12 +31,12 @@ export default class App extends React.Component {
 
     handleOpenURL = (event) => {
 	console.log({event})
-    	// if (event && event.url) {
-    	//     //
-    	//     // redirect here
-    	//     console.log({event})
-    	//     store.dispatch(claimTokens(event.url));
-    	// }
+    	if (event && event.url) {
+    	    //
+    	    // redirect here
+    	    console.log({event})
+    	    store.dispatch(claimFromDeepLink(event.url));
+    	}
     }
 
 

@@ -139,42 +139,69 @@ export const startMnemonicBackup = (navigator) => {
 }
 
 
-export const claimLink = ({
-    amount,
-    sender,
-    sigSender,
-    transitPK,
-    navigator
-}) => {
+export const claimLink = (link) => {
     return async (dispatch, getState) => {	
 	const state = getState();
+	console.log("in claim link");
+	try {
 
-	const receiverPubKey = state.data.keystore.pubKeyAddress;
-	
-	// send transaction
-	const { response, txHash }  = await identitySDK.transferByLink({
-	    amount,
-	    sender,
-	    sigSender,
-	    transitPK,
-	    receiverPubKey
-	});
-	
-	// update redux store 
-	dispatch({
-	    type: actions.UPDATE_PENDING_CLAIM_TX,
-	    payload: {
-		txHash,
+	    // update app state that tx is pending
+	    dispatch({
+		type: actions.UPDATE_PENDING_CLAIM_TX,
+		payload: {
+		    txHash: null,
+		    amount: null,
+		    isPending: true
+		}
+	    });
+	    
+	    // parse url
+	    const urlParams = link.substring(link.search('claim?') + 6);
+	    const parsedParams = qs.parse(urlParams);
+	    const { a: amount, from: sender, sig: sigSender, pk: transitPK } = parsedParams;
+
+	    const receiverPubKey = state.data.keystore.pubKeyAddress;
+	    
+	    // send transaction
+	    const { response, txHash }  = await identitySDK.transferByLink({
 		amount,
-		isPending: true
-	    }
-	});
+		sender,
+		sigSender,
+		transitPK,
+		receiverPubKey
+	    });
+	    
+	    // update redux store 
+	    dispatch({
+		type: actions.UPDATE_PENDING_CLAIM_TX,
+		payload: {
+		    txHash,
+		    amount,
+		    isPending: true
+		}
+	    });
 
 
-	// subscribe for mining event
-	dispatch(waitForPendingTxMined());
+	    // subscribe for mining event
+	    dispatch(waitForPendingTxMined());
+	    
+	    return { response, txHash };
+	    
+	} catch (err) {
+	    console.log(err);
+	    Alert.alert("Link is invalid", "The link you copied doesn’t exist or has already been redeemed.");
+
+	    // update app state that tx was mined
+	    dispatch({
+		type: actions.UPDATE_PENDING_CLAIM_TX,
+		payload: {
+		    txHash: null,
+		    amount: null,
+		    isPending: false
+		}
+	    });	  	    
+	}
 	
-	return { response, txHash };
     };
 }
 
@@ -205,7 +232,7 @@ export const waitForPendingTxMined = () => {
 }
 
 
-export const onPressRedeemBtn = (navigator) => {
+export const onPressRedeemBtn = () => {
     return async (dispatch, getState) => {
 
 
@@ -224,48 +251,8 @@ export const onPressRedeemBtn = (navigator) => {
 	    return null;
 	}
 
-	
-	try {
+	await dispatch(claimLink(linkInClipboard));	
 
-	    // update app state that tx was mined
-	    dispatch({
-		type: actions.UPDATE_PENDING_CLAIM_TX,
-		payload: {
-		    txHash: null,
-		    amount: null,
-		    isPending: true
-		}
-	    });
-	    
-	    // parse url
-	    const urlParams = linkInClipboard.substring(linkInClipboard.search('claim?') + 6);
-	    const parsedParams = qs.parse(urlParams);
-	    const { a: amount, from: sender, sig: sigSender, pk: transitPK } = parsedParams;
-
-
-	    await dispatch(claimLink({
-		amount,
-		sender,
-		sigSender,
-		transitPK,
-		navigator
-	    }));
-
-	    
-	} catch (err) {
-	    console.log(err);
-	    Alert.alert("Link is invalid", "The link you copied doesn’t exist or has already been redeemed.");
-
-	    // update app state that tx was mined
-	    dispatch({
-		type: actions.UPDATE_PENDING_CLAIM_TX,
-		payload: {
-		    txHash: null,
-		    amount: null,
-		    isPending: false
-		}
-	    });	  	    
-	}
     };
 }
 
@@ -365,4 +352,18 @@ export function deleteWallet() {
 	);
 
     };
+}
+
+
+export function claimFromDeepLink (url) {
+    return async (dispatch, getState) => {
+	const state = getState();
+	
+	// if wallet hasn't been setup yet
+	if (!state.data.keystore.pubKeyAddress) {
+	    alert("Please setup a wallet first");
+	}
+
+	dispatch(claimLink(url));
+    }
 }
