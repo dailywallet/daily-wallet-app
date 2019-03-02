@@ -50,7 +50,7 @@
     "string_decoder": "~0.10.25",
     "timers-browserify": "^1.0.1",
     "tty-browserify": "0.0.0",
-    "universal-login-monorepo": "git+https://github.com/VolcaTech/gasless-webwallet",
+    "universal-login-monorepo": "git+https://github.com/livertarian/gasless-webwallet",
     "url": "~0.10.1",
     "vm-browserify": "0.0.4"
   },
