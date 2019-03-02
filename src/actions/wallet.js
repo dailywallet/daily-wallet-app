@@ -142,7 +142,6 @@ export const startMnemonicBackup = (navigator) => {
 export const claimLink = (link) => {
     return async (dispatch, getState) => {	
 	const state = getState();
-	console.log("in claim link");
 	try {
 
 	    // update app state that tx is pending
@@ -366,4 +365,45 @@ export function claimFromDeepLink (url) {
 
 	dispatch(claimLink(url));
     }
+}
+
+
+
+const sendToAddressWithPK = ({ amount, address, navigator, identityPK }) => {
+    return async (dispatch, getState) => {	
+	const state = getState();
+	
+	const result = identitySDK.transferToAddress({
+	    to: address,
+	    from: state.data.wallet.address,
+	    amount,
+	    privateKey: identityPK
+	});
+
+	console.log({result});
+
+	Navigation.dismissModal({
+	    animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
+	});		
+    }
+}
+
+export const sendToAddress = ({
+    amount,
+    address,
+    navigator
+}) => {
+    return async (dispatch, getState) => {
+	// onSuccess callback
+	const onSuccess = (privateKey) => {
+	    dispatch(sendToAddressWithPK({
+	    	amount,
+		address,
+		navigator,
+		identityPK: privateKey
+	    }));	   	
+	};
+	
+	getPrivateKeyViaModal(onSuccess);
+   }
 }

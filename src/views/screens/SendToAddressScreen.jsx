@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, View, TouchableOpacity, Text, TextInput, ActionSheetIOS, Platform } from 'react-native';
-import { generateClaimLink } from './../../actions/wallet';
+import { sendToAddress } from './../../actions/wallet';
 import { formatAmount } from '../../utils/helpers';
 import { utils } from 'ethers';
 import styles from './styles';
@@ -43,11 +43,12 @@ class SendToAddressScreen extends React.Component {
 
 	try {
 
-	    alert("Success");
-	    //     this.props.generateClaimLink({
-	    // 	amount: this.state.amount,
-	    // 	navigator: this.props.navigator
-	    //     });
+	    
+	    this.props.sendToAddress({
+	    	amount: this.state.amount,
+		address: this.state.address,
+	    	navigator: this.props.navigator
+	    });
 	} catch(err) {
 	    console.log({err});
 	    alert("Error");
@@ -129,5 +130,5 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { generateClaimLink })(SendToAddressScreen);
+export default connect(mapStateToProps, { sendToAddress })(SendToAddressScreen);
 

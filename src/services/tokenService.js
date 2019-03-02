@@ -6,7 +6,8 @@ class TokenService {
     constructor(tokenContractAddress, provider) {
 	this.tokenContractAddress = tokenContractAddress;
 	this.provider = provider;
-	this.tokenContract = new Contract(this.tokenContractAddress, Token.interface, this.provider);
+	this.interface = Token.interface;
+	this.tokenContract = new Contract(this.tokenContractAddress, this.interface , this.provider);
     }
 
     async getBalance(address) {

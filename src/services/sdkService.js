@@ -1,5 +1,5 @@
 import EthereumIdentitySDK from 'universal-login-monorepo/universal-login-sdk';
-import { providers } from 'ethers';
+import { providers, Wallet, utils } from 'ethers';
 import TokenService from './tokenService';
 import IdentityFactoryService from './IdentityFactoryService';
 import { generatePrivateKey } from './keystoreService.js';
@@ -40,7 +40,20 @@ class UniversalLoginSDK {
 	const url  = `https://gasless-wallet.volca.tech/#/claim?sig=${sigSender}&pk=${transitPrivKey}&a=${amount}&from=${identityAddress}`;
 	return url;
     }
-    
+
+    async transferToAddress({ amount, to, privateKey, from }) {
+	const amountHex = utils.hexlify(Number(amount));
+	const erc20Data = '0xa9059cbb' + utils.hexZeroPad(to, 32).substring(2) + utils.hexZeroPad(amountHex, 32).substring(2);
+	const message = {
+	    to: TOKEN_ADDRESS,
+	    from,
+	    value: 0,
+	    data: erc20Data,
+	    gasPrice: 0,
+	    gasToken: TOKEN_ADDRESS 
+	};
+	return await this.sdk.execute(message, privateKey);
+    }
     
     waitForTxReceipt(params) {
 	return this.sdk.waitForTxReceipt(params);
