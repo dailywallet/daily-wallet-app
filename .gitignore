@@ -231,3 +231,6 @@ build_webpack/
 node_modules/
 ios/build/
 android/build/
+
+*.keystore
+.env

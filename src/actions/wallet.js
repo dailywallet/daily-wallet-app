@@ -181,7 +181,7 @@ export const onPressRedeemBtn = (navigator) => {
 	console.log({ linkInClipboard });
 
 	// No link detected alert
-	const linkBase = 'https://gasless-wallet.volca.tech/#/claim?';
+	const linkBase = 'https://daily-relayer.herokuapp.com/#/claim?';
 	if (!(linkInClipboard && linkInClipboard.indexOf(linkBase) > -1)) { 
 	    Alert.alert("No link detected", "Copy the text with the link from your messaging application, open Daily Wallet, and tap on Redeem link again.");
 	    return null;
@@ -222,6 +222,7 @@ export const onPressRedeemBtn = (navigator) => {
 
 	    
 	} catch (err) {
+		console.log("There was an error claiming the link");
 	    console.log(err);
 	    Alert.alert("Link is invalid", "The link you copied doesn’t exist or has already been redeemed.");
 
