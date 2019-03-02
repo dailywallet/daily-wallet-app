@@ -7,8 +7,7 @@ import com.bitgo.randombytes.RandomBytesPackage;
 import co.airbitz.fastcrypto.RNFastCryptoPackage;
 import java.util.Arrays;
 import java.util.List;
-
-
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 
 public class MainApplication extends NavigationApplication {
 
@@ -24,7 +23,8 @@ public class MainApplication extends NavigationApplication {
 	return Arrays.<ReactPackage>asList(
 					   // eg. new VectorIconsPackage()
 					   new RandomBytesPackage(),
-					   new RNFastCryptoPackage()
+					   new RNFastCryptoPackage(),
+					   new ReactNativeConfigPackage()
 					   );
     }
     

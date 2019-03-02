@@ -11,6 +11,8 @@ Daily Wallet React Native app.
 
 New to React Native? Here's a helpful introduction: https://facebook.github.io/react-native/docs/getting-started.html
 
+In case a secret API key is needed for the connection to the relay server, please copy the file `.env.template` as `.env` and change the corresponding key.
+
 #### iOS
 
 1.  Clone the GitHub repository to your machine.
