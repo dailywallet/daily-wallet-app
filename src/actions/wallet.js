@@ -18,12 +18,25 @@ export const actions = {
 
 export const generateKeystore = (password) => {
     return async (dispatch, getState) => {
-        const { address, keystore, encryptedMnemonic } = await ksService.generateKeystore(password);
+	const { address, privateKey, mnemonic } = await ksService.generatePrivateKey();
+        const { keystore, encryptedMnemonic } = await ksService.generateKeystore({password, mnemonic, privateKey});
         dispatch({
             type: actions.GENERATE_KEYSTORE,
             payload: { keystore, address, encryptedMnemonic }
         });
         dispatch(changeAppRoot('BalanceScreen'));
+    };
+}
+
+export const generateKeystoreFromMnemonic = ({ address, privateKey, mnemonic, password }) => {
+    return async (dispatch, getState) => {
+        const { keystore, encryptedMnemonic } = await ksService.generateKeystore({password, mnemonic, privateKey});
+        dispatch({
+            type: actions.GENERATE_KEYSTORE,
+            payload: { keystore, address, encryptedMnemonic }
+        });
+        dispatch(changeAppRoot('BalanceScreen'));
+	return null;
     };
 }
 
@@ -51,12 +64,48 @@ export const addIdentityContract = (identityContract) => {
 export const fetchBalance = () => {
     return async (dispatch, getState) => {	
 	const state = getState();
-	const address = state.data.wallet.address;
-	if (address) { 
-	    let balance = await identitySDK.getBalance(address);
-	    balance = Number(balance.toString()) / 100;
-	    dispatch(updateBalance(balance));
+	let address = state.data.wallet.address;	
+	//don't fetch balance if wallet is not set up yet
+	if (!state.data.keystore.pubKeyAddress) { return null; } 
+	
+	if (!address) {
+	    address = await identitySDK.getIdentityByPublicKey(state.data.keystore.pubKeyAddress);
+	    if (address !== '0x0000000000000000000000000000000000000000') { 
+		dispatch(addIdentityContract(address));
+	    }
+	} 
+	let balance = await identitySDK.getBalance(address);
+	balance = Number(balance.toString()) / 100;
+	dispatch(updateBalance(balance));
+    };
+}
+
+
+export const recoverFromMnemonic = (mnemonic, navigator) => {
+    return async (dispatch, getState) => {
+
+	// recover key pair from mnemonic
+	const { address, privateKey } = ksService.recoverWalletFromMnemonic(mnemonic);
+	
+	// check that this key is attached to an identity contract
+	// fetch identity address from identity factory by pub key
+	const identity = await identitySDK.getIdentityByPublicKey(address);
+	if (identity === '0x0000000000000000000000000000000000000000') {
+	    throw new Error("Invalid mnemonic");
+	    return null;
 	}
+
+	navigator.push({
+	    screen: 'dailywallet.PasscodeSetScreen',
+	    passProps: {
+		onConfirm: async (password) => {
+		    await dispatch(generateKeystoreFromMnemonic({ address, privateKey, mnemonic, password }));
+		    dispatch(fetchBalance());		    
+		}
+	    }
+	});
+	
+	
     };
 }
 
@@ -64,12 +113,9 @@ export const fetchBalance = () => {
 export const startMnemonicBackup = (navigator) => {
     return async (dispatch, getState) => {	
 	const onSuccess = async (privateKey) => {
-	    console.log("got private Key: ", privateKey);
 	    const state = getState();
 	    const { ciphertext, iv } =  state.data.mnemonic;
-	    console.log({ ciphertext, iv })
 	    const mnemonic = await ksService.decryptMnemonicWithPK(ciphertext, iv, privateKey);
-	    console.log({mnemonic});
 	    if (!mnemonic) { 
 		alert("Error while decrypting mnemonic");
 		return null;
@@ -93,45 +139,69 @@ export const startMnemonicBackup = (navigator) => {
 }
 
 
-export const claimLink = ({
-    amount,
-    sender,
-    sigSender,
-    transitPK,
-    navigator
-}) => {
+export const claimLink = (link) => {
     return async (dispatch, getState) => {	
-	console.log("in claimLinkWithPK");
-
 	const state = getState();
+	console.log("in claim link");
+	try {
 
-	const receiverPubKey = state.data.keystore.pubKeyAddress;
-	
-	// send transaction
-	const { response, txHash }  = await identitySDK.transferByLink({
-	    amount,
-	    sender,
-	    sigSender,
-	    transitPK,
-	    receiverPubKey
-	});
-	console.log({response, txHash});
-	
-	// update redux store 
-	dispatch({
-	    type: actions.UPDATE_PENDING_CLAIM_TX,
-	    payload: {
-		txHash,
+	    // update app state that tx is pending
+	    dispatch({
+		type: actions.UPDATE_PENDING_CLAIM_TX,
+		payload: {
+		    txHash: null,
+		    amount: null,
+		    isPending: true
+		}
+	    });
+	    
+	    // parse url
+	    const urlParams = link.substring(link.search('claim?') + 6);
+	    const parsedParams = qs.parse(urlParams);
+	    const { a: amount, from: sender, sig: sigSender, pk: transitPK } = parsedParams;
+
+	    const receiverPubKey = state.data.keystore.pubKeyAddress;
+	    
+	    // send transaction
+	    const { response, txHash }  = await identitySDK.transferByLink({
 		amount,
-		isPending: true
-	    }
-	});
+		sender,
+		sigSender,
+		transitPK,
+		receiverPubKey
+	    });
+	    
+	    // update redux store 
+	    dispatch({
+		type: actions.UPDATE_PENDING_CLAIM_TX,
+		payload: {
+		    txHash,
+		    amount,
+		    isPending: true
+		}
+	    });
 
 
-	// subscribe for mining event
-	dispatch(waitForPendingTxMined());
+	    // subscribe for mining event
+	    dispatch(waitForPendingTxMined());
+	    
+	    return { response, txHash };
+	    
+	} catch (err) {
+	    console.log(err);
+	    Alert.alert("Link is invalid", "The link you copied doesn’t exist or has already been redeemed.");
+
+	    // update app state that tx was mined
+	    dispatch({
+		type: actions.UPDATE_PENDING_CLAIM_TX,
+		payload: {
+		    txHash: null,
+		    amount: null,
+		    isPending: false
+		}
+	    });	  	    
+	}
 	
-	return { response, txHash };
     };
 }
 
@@ -141,20 +211,9 @@ export const waitForPendingTxMined = () => {
 	const state = getState();
 	// wait only if there is pending tx
 	const { isPending, txHash } = state.data.pendingClaimTx;
-
-	console.log({txHash, isPending });
 	
 	if (isPending) {
 	    const txReceipt = await identitySDK.waitForTxReceipt(txHash);
-	    console.log({txReceipt});
-	    
-	    // check if needed to update wallet address (which is smart-contract address)
-	    if (!state.data.wallet.address) {
-		console.log("identity doesn't exist");
-		let newIdentity = txReceipt.logs[0] && txReceipt.logs[0].address;
-		console.log({newIdentity});
-		dispatch(addIdentityContract(newIdentity));
-	    }
 
 	    // update balance
 	    await dispatch(fetchBalance());
@@ -173,12 +232,11 @@ export const waitForPendingTxMined = () => {
 }
 
 
-export const onPressRedeemBtn = (navigator) => {
+export const onPressRedeemBtn = () => {
     return async (dispatch, getState) => {
 
 
 	const linkInClipboard = await Clipboard.getString();
-	console.log({ linkInClipboard });
 
 	// No link detected alert
 	const linkBase = 'https://daily-relayer.herokuapp.com/#/claim?';
@@ -193,49 +251,8 @@ export const onPressRedeemBtn = (navigator) => {
 	    return null;
 	}
 
-	
-	try {
+	await dispatch(claimLink(linkInClipboard));	
 
-	    // update app state that tx was mined
-	    dispatch({
-		type: actions.UPDATE_PENDING_CLAIM_TX,
-		payload: {
-		    txHash: null,
-		    amount: null,
-		    isPending: true
-		}
-	    });
-	    
-	    // parse url
-	    const urlParams = linkInClipboard.substring(linkInClipboard.search('claim?') + 6);
-	    const parsedParams = qs.parse(urlParams);
-	    const { a: amount, from: sender, sig: sigSender, pk: transitPK } = parsedParams;
-
-
-	    await dispatch(claimLink({
-		amount,
-		sender,
-		sigSender,
-		transitPK,
-		navigator
-	    }));
-
-	    
-	} catch (err) {
-		console.log("There was an error claiming the link");
-	    console.log(err);
-	    Alert.alert("Link is invalid", "The link you copied doesn’t exist or has already been redeemed.");
-
-	    // update app state that tx was mined
-	    dispatch({
-		type: actions.UPDATE_PENDING_CLAIM_TX,
-		payload: {
-		    txHash: null,
-		    amount: null,
-		    isPending: false
-		}
-	    });	  	    
-	}
     };
 }
 
@@ -247,14 +264,8 @@ const generateClaimLinkWithPK = ({
     navigator
 }) => {
     return async (dispatch, getState) => {	
-	console.log("in generateClaimLinkWithPK");
 	const state = getState();
 	const identityAddress = state.data.wallet.address;
-	console.log({
-	    amount,
-	    identityPK,
-	    identityAddress
-	});
 		
 	// send transaction
 	const link = await identitySDK.generateLink({
@@ -262,9 +273,7 @@ const generateClaimLinkWithPK = ({
 	    privateKey: identityPK,
 	    identityAddress
 	});
-	console.log({link});
 
-	
 	// navigate to Receiving Screen
 	navigator.push({
 	    screen: 'dailywallet.ShareLinkScreen', // unique ID registered with Navigation.registerScreen
@@ -293,8 +302,6 @@ export const generateClaimLink = ({
     return async (dispatch, getState) => {
 	// onSuccess callback
 	const onSuccess = (privateKey) => {
-	    console.log("got private Key: ", privateKey);
-
 	    dispatch(generateClaimLinkWithPK({
 	    	amount,
 		navigator,
@@ -348,3 +355,15 @@ export function deleteWallet() {
 }
 
 
+export function claimFromDeepLink (url) {
+    return async (dispatch, getState) => {
+	const state = getState();
+	
+	// if wallet hasn't been setup yet
+	if (!state.data.keystore.pubKeyAddress) {
+	    alert("Please setup a wallet first");
+	}
+
+	dispatch(claimLink(url));
+    }
+}
