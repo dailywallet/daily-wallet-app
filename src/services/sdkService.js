@@ -12,11 +12,11 @@ const SECRET_KEY = Config.SECRET_KEY;
 
 class UniversalLoginSDK {
 	start() {
-		const serverUrl = 'https://daily-relayer.herokuapp.com';
+		this.serverUrl = 'https://daily-relayer.herokuapp.com';
 		this.provider = new providers.JsonRpcProvider('https://ropsten.infura.io');
 
 		this.sdk = new EthereumIdentitySDK(
-			serverUrl,
+			this.serverUrl,
 			this.provider,
 		);
 
@@ -38,7 +38,7 @@ class UniversalLoginSDK {
 		let { privateKey: transitPrivKey } = await generatePrivateKey();
 		transitPrivKey = '0x' + transitPrivKey;
 		const { sigSender, transitPK } = this.sdk.generateLink({ privateKey, token: TOKEN_ADDRESS, amount, transitPrivKey });
-		const url = `${serverUrl}/#/claim?sig=${sigSender}&pk=${transitPrivKey}&a=${amount}&from=${identityAddress}`;
+		const url = `${this.serverUrl}/#/claim?sig=${sigSender}&pk=${transitPrivKey}&a=${amount}&from=${identityAddress}`;
 		return url;
 	}
 
