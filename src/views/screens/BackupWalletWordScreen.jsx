@@ -46,8 +46,9 @@ class BackupWalletWordScreen extends React.Component {
 		<View style={{ flex: 1,
 			       backgroundColor: '#fff'}}>
                 <View style={{marginTop: 100}}>
-                    <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Write the number and word in paper</Text>
-                <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>{n}. {word}</Text>
+                <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Write the number and word in paper</Text>
+                <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>{n}</Text>		
+                <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>{word}</Text>
                 </View>
                 <View style={{marginTop: 180, padding: 20}}>
                 </View>

@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {  View, TouchableOpacity, Text, Image, RefreshControl, Platform, ActionSheetIOS, TextInput } from 'react-native';
-import { startMnemonicBackup } from './../../actions/wallet';
-import { changeAppRoot } from 'DailyWallet/src/actions/app';
+import { recoverFromMnemonic } from './../../actions/wallet';
+//import { recoverFromMnemonic } from 'DailyWallet/src/actions/wallet';
 import { formatAmount } from '../../utils/helpers';
 import styles from './styles';
 import { Alert, Clipboard } from 'react-native';
 
 
-class BackupWalletInputWordScreen extends React.Component {
+class RecoverMnemonicScreen extends React.Component {
     static navigatorStyle = {
 	orientation: 'portrait',	
         navBarTextColor: 'white',
@@ -24,32 +24,35 @@ class BackupWalletInputWordScreen extends React.Component {
         this.props.navigator.setTitle({ title: 'Daily' });
     }
 
-    _checkWord() {
-	return (this.props.word === this.state.inputWord.toLowerCase());
-    }
     
     _onContinuePress () {
-	const { mnemonic, leftWords } = this.props;
+	const { mnemonic, n } = this.props;
+	console.log({mnemonic, n})
 
-	// validate mnemonic word
-	if (!this._checkWord()) {
-	    alert("Incorrect word #" + this.props.n);
+	if (this.state.inputWord.length === 0) {
+	    alert("Input Can't be empty");
 	    return null;
 	}
-
-	const updatedWords = leftWords.split(" ");
-	updatedWords.shift();
-	console.log({updatedWords})
 	
-	if (updatedWords.length > 0) { 
+	const newMnemonic = [...mnemonic, this.state.inputWord.toLowerCase()].join(" ");
+
+	if (mnemonic.length < 11) { 
 	     //  navigate to next screen
 	    this.props.navigator.push({
-	 	screen: 'dailywallet.BackupWalletInputWordScreen',
-	 	passProps: { mnemonic, leftWords: updatedWords.join(" ")}
+	 	screen: 'dailywallet.RecoverMnemonicScreen',
+	 	passProps: { mnemonic:  newMnemonic }
 	    });
 	} else {
-	    //Alert.alert("Success!", "You have successfully backed up your wallet.");
-	    this.props.navigator.popToRoot({});
+	    this._recoverFromMnemonic(newMnemonic);
+	}
+    }
+
+    async _recoverFromMnemonic(mnemonic) {
+	try {
+	    await this.props.recoverFromMnemonic(mnemonic, this.props.navigator);
+	} catch (err) {
+	    console.log({err});
+	    alert(err);
 	}
     }
     
@@ -58,11 +61,10 @@ class BackupWalletInputWordScreen extends React.Component {
 		<View style={{ flex: 1,
 			       backgroundColor: '#fff'}}>
                 <View style={{marginTop: 100}}>
-                <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Type the words again to confirm</Text>
+                <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Type the words from the recovery paper</Text>
                 <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>{this.props.n}</Text>				
 		</View>
 		<View style={{ flexDirection: 'row', justifyContent: 'center'}}>
-		
                 <TextInput
             autoFocus={true}
 	    ref={ref => this.textInputRef = ref}
@@ -87,14 +89,19 @@ class BackupWalletInputWordScreen extends React.Component {
 
 const mapStateToProps = (state, props) => {
     console.log({props})    
-    const { mnemonic, leftWords } = props;
-    const word = leftWords.split(" ")[0].toLowerCase();
-    const n = mnemonic.split(" ").indexOf(word) + 1;
+    let { mnemonic } = props;
+    if (mnemonic.length > 0) { 
+	mnemonic = mnemonic.split(" ");
+    } else {
+	mnemonic = [];
+    }
+    console.log({mnemonic})
+    const n = mnemonic.length + 1;
 
     return {
-	word,
+	mnemonic, 
 	n
     }
 }
 
-export default connect(mapStateToProps, { changeAppRoot })( BackupWalletInputWordScreen);
+export default connect(mapStateToProps, { recoverFromMnemonic })(RecoverMnemonicScreen);

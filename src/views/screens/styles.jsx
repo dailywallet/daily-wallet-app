@@ -38,6 +38,7 @@ export default {
     centeredFlex: {
         flex: 1,
         alignItems: 'center',
+	justifyContent: 'center'
     },
     infoText: {
 	// paddingTop: 40,

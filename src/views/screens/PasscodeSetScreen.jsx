@@ -21,7 +21,9 @@ class PasscodeSetScreen extends React.Component {
                 </View>
                 <View style={styles.pinContainer}>
                     <PinView
-                        onComplete={(code, clear) => this.props.navigator.push({ screen: 'dailywallet.PasscodeSetScreenConfirm', passProps: { code } })}
+                        onComplete={(code, clear) => this.props.navigator.push({ screen: 'dailywallet.PasscodeSetScreenConfirm', 
+passProps: { code, 
+onConfirm: this.props.onConfirm } })}
                         pinLength={4}
                         inputActiveBgColor='#0ED226'
                     />
