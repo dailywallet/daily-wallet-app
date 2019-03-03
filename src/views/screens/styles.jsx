@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 const divider = 1.5;
 
 export default {
@@ -47,6 +48,15 @@ export default {
         textAlign: 'center',
         fontSize: 20,
         color: 'gray'
+    },
+    addressInput: {
+	width: '90%',
+	...Platform.select({
+	    ios: {
+		borderBottomColor: 'black',
+		borderBottomWidth: 1 
+	    }
+	})
     },
     pinContainer: { 
         flex: 3,

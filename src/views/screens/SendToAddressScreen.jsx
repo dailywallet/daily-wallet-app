@@ -42,8 +42,6 @@ class SendToAddressScreen extends React.Component {
 	}
 
 	try {
-
-	    
 	    this.props.sendToAddress({
 	    	amount: this.state.amount,
 		address: this.state.address,
@@ -64,15 +62,14 @@ class SendToAddressScreen extends React.Component {
 	}
 
 	// we don't want users to have . input	
-	// const hasSecondDot = val.substr(val.indexOf('.')+1).indexOf('.') >= 0;
-	// if (hasSecondDot) {
 	if (val.indexOf('.') >= 0) {	
 	    return;
 	}
 
 	this.setState({ amount: val});	
     }
-    
+
+   
     render() {
         return (
             <ScrollView
@@ -101,7 +98,7 @@ class SendToAddressScreen extends React.Component {
                             keyboardType='default'
                            autoFocus={false}
                            placeholder="Ethereum Address, 0x123...000"
-                           style={{width: 200, borderBottomColor: 'black', borderBottomWidth: 1 }}
+                           style={styles.addressInput}
                             onChangeText={(address) => { this.setState({ address })}}
 			    value={this.state.address}
                             underlineColorAndroid='black'
