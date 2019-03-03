@@ -5,6 +5,7 @@ import com.facebook.react.ReactPackage;
 import com.reactnativenavigation.NavigationApplication;
 import com.bitgo.randombytes.RandomBytesPackage;
 import co.airbitz.fastcrypto.RNFastCryptoPackage;
+import org.reactnative.camera.RNCameraPackage;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,7 +25,8 @@ public class MainApplication extends NavigationApplication {
 	return Arrays.<ReactPackage>asList(
 					   // eg. new VectorIconsPackage()
 					   new RandomBytesPackage(),
-					   new RNFastCryptoPackage()
+					   new RNFastCryptoPackage(),
+					   new RNCameraPackage()					   
 					   );
     }
     
