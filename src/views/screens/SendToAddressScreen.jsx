@@ -12,8 +12,8 @@ class SendToAddressScreen extends React.Component {
     constructor(props) {
         super(props);
 	this.state = {
-            amount: '',
-	    address: ''
+            amount: this.props.amount || '',
+	    address: this.props.address || ''
 	};
     }
 
@@ -35,7 +35,6 @@ class SendToAddressScreen extends React.Component {
 
 	try { 
 	    const checksumAddress = utils.getAddress(this.state.address);
-	    console.log({checksumAddress})
 	} catch (err) {
 	    alert("Invalid address");
 	    return;

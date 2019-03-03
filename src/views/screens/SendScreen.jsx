@@ -39,6 +39,11 @@ class SendScreen extends React.Component {
                     id: 'sendToAddress',
                     title: 'Send To Address',
                     showAsAction: 'withText'
+                },
+                {
+                    id: 'scan',
+                    title: 'Scan QR-Code',
+                    showAsAction: 'withText'
                 },		
 	    ]
 	}
@@ -51,8 +56,20 @@ class SendScreen extends React.Component {
     onNavigatorEvent(event) {
         if (event.type == 'NavBarButtonPress') {
             if (event.id == 'sendToAddress') {
-		this.props.navigator.push({ screen: 'dailywallet.SendToAddressScreen' });
-            } else if (event.id == 'settingsIOS') {
+		this.props.navigator.push({
+		    screen: 'dailywallet.SendToAddressScreen',
+		    passProps: {
+			amount: this.state.amount
+		    }
+		});
+            } else if (event.id == 'scan') {
+		this.props.navigator.push({
+		    screen: 'dailywallet.ScanScreen',
+		    passProps: {
+			amount: this.state.amount
+		    }
+		});
+	    } else if (event.id == 'settingsIOS') {
 		this._showActionSheetIOS();
             }    
         }
