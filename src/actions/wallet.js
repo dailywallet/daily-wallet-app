@@ -160,6 +160,8 @@ export const claimLink = (link) => {
 	    const { a: amount, from: sender, sig: sigSender, pk: transitPK } = parsedParams;
 
 	    const receiverPubKey = state.data.keystore.pubKeyAddress;
+
+	    console.log({receiverPubKey});
 	    
 	    // send transaction
 	    const { response, txHash }  = await identitySDK.transferByLink({
@@ -373,20 +375,39 @@ const sendToAddressWithPK = ({ amount, address, navigator, identityPK }) => {
     return async (dispatch, getState) => {	
 	const state = getState();
 	
-	const result = identitySDK.transferToAddress({
+	const result = await identitySDK.transferToAddress({
 	    to: address,
 	    from: state.data.wallet.address,
-	    amount,
+	    amount: amount,
 	    privateKey: identityPK
 	});
 
 	console.log({result});
 
+	// update redux store 
+	dispatch({
+	    type: actions.UPDATE_PENDING_CLAIM_TX,
+	    payload: {
+		txHash: result.txHash,
+		amount: amount * -1,
+		isPending: true
+	    }
+	});
+
+
+	// subscribe for mining event
+	dispatch(waitForPendingTxMined());
+
+	// pop navigator to root
+	navigator.popToRoot({});  
+
+	// dismiss modal
 	Navigation.dismissModal({
 	    animationType: 'slide-down' // 'none' / 'slide-down' , dismiss animation for the modal (optional, default 'slide-down')
 	});		
     }
 }
+
 
 export const sendToAddress = ({
     amount,

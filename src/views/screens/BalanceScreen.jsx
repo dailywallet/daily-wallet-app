@@ -108,17 +108,32 @@ class BalanceScreen extends React.Component {
     }
 
     _renderStatusBar() {
-        if (this.props.isPendingTx) {
-	    return (
-                <View style={{...styles.statusBarContainer }}>
-                  <Text style={{ ...styles.balance, fontSize: 28 / 1.5, marginTop: 7}}>
-		    { this.props.pendingAmount ? 
-			`+ $${formatAmount(this.props.pendingClaimTx.amount / 100)} is pending` :
-		     'Checking copied link...' }
-                  </Text>
+        if (!(this.props.isPendingTx)) {
+	    return null;
+	}
+	let title, sign, backgroundColor;
+	backgroundColor = 'rgba(38,207,54,0.3)';
+	if (this.props.pendingAmount) {
+	    const amount = formatAmount(Math.abs(this.props.pendingClaimTx.amount / 100));
+	    if (this.props.pendingClaimTx.amount > 0) { 
+		sign = "+";
+	    } else {
+		sign = "-";
+		backgroundColor = 'rgba(38, 86, 207, 0.3)';
+	    }	    
+	    title = `${sign} $${amount} is pending`;
+	} else  {
+	    title = 'Checking copied link...';
+	}
+	
+	return (
+                <View style={{...styles.statusBarContainer, backgroundColor }}>
+                <Text style={{ ...styles.balance, fontSize: 28 / 1.5, marginTop: 7}}>
+		{ title }
+            </Text>
                 </View>
-	    );
-        }
+	);
+        
     }
 
 
