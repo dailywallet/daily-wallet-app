@@ -138,8 +138,8 @@ export const startMnemonicBackup = (navigator) => {
     };
 }
 
-
 export const claimLink = (link) => {
+
     return async (dispatch, getState) => {	
 	const state = getState();
 	console.log("in claim link");
