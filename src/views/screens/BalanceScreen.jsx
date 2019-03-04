@@ -149,11 +149,11 @@ class BalanceScreen extends React.Component {
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
                     <View style={{ alignItems: 'center', marginBottom: 50 }}>
-                      <TouchableOpacity onPress={() => this.props.onPressRedeemBtn(this.props.navigator)}>
-                        <Image source={require('./../../img/redeem_icon.png')}></Image>
-			<Text style={{ ...styles.balance, fontSize: 28 / 1.5, width: 100, marginTop: 8}}>Redeem link</Text>
-                        </TouchableOpacity>
-                    </View>
+                <TouchableOpacity onPress={() => this.props.navigator.push({ screen: 'dailywallet.ReceiveScreen' })} >
+                <Image source={require('./../../img/redeem_icon.png')}></Image>
+		<Text style={{ ...styles.balance, fontSize: 28 / 1.5, width: 100, marginTop: 8}}>Receive</Text>
+                </TouchableOpacity>
+                </View>
                     <View style={{ alignItems: 'center', marginBottom: 10 }}>
                         <TouchableOpacity onPress={() => this.props.navigator.push({ screen: 'dailywallet.SendScreen' })}>
                           <Image source={require('./../../img/send_icon.png')}></Image>

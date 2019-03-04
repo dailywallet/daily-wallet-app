@@ -36,6 +36,7 @@
     "react-native-navigation": "^1.1.426",
     "react-native-os": "^1.0.1",
     "react-native-pin-view": "^2.0.1",
+    "react-native-qrcode": "^0.2.7",
     "react-native-camera": "^1.6.4",
     "react-native-qrcode-scanner": "^1.1.0",
     "react-native-randombytes": "^3.5.1",
