@@ -28,6 +28,7 @@
     "querystring-es3": "~0.2.0",
     "react": "16.6.0-alpha.8af6728",
     "react-native": "0.54.3",
+    "react-native-config": "^0.11.7",
     "react-native-crypto": "^2.1.2",
     "react-native-fast-crypto": "^1.5.6",
     "react-native-http": "tradle/react-native-http#834492d",
@@ -49,7 +50,7 @@
     "string_decoder": "~0.10.25",
     "timers-browserify": "^1.0.1",
     "tty-browserify": "0.0.0",
-    "universal-login-monorepo": "git+https://github.com/VolcaTech/gasless-webwallet",
+    "universal-login-monorepo": "git+https://github.com/livertarian/gasless-webwallet",
     "url": "~0.10.1",
     "vm-browserify": "0.0.4"
   },
