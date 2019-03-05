@@ -12,8 +12,7 @@ class ShareLinkScreen extends React.Component {
     }    
 
     render() {
-	const amount = this.props.amount / 100;
-	console.log("link", this.props.link);
+	const { amount } = this.props;
         return (
             <View style={styles.screenContainer}>
                 <View style={styles.centeredFlex}>

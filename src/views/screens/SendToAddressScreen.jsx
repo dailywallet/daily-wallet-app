@@ -42,7 +42,7 @@ class SendToAddressScreen extends React.Component {
 
 	try {
 	    this.props.sendToAddress({
-	    	amount: this.state.amount,
+	    	amount: this.state.amount / 100,
 		address: this.state.address,
 	    	navigator: this.props.navigator
 	    });

@@ -75,7 +75,8 @@ export const fetchBalance = () => {
 	    }
 	} 
 	let balance = await identitySDK.getBalance(address);
-	balance = Number(balance.toString()) / 100;
+	balance = utils.formatUnits(balance, 18);
+	console.log(balance)
 	dispatch(updateBalance(balance));
     };
 }
@@ -177,7 +178,7 @@ export const claimLink = (link) => {
 		type: actions.UPDATE_PENDING_CLAIM_TX,
 		payload: {
 		    txHash,
-		    amount,
+		    amount: utils.formatUnits(amount, 18),
 		    isPending: true
 		}
 	    });

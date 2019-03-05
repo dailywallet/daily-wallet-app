@@ -1,4 +1,5 @@
 import React from 'react';
+import { utils } from 'ethers';
 import { connect } from 'react-redux';
 import { ScrollView, View, TouchableOpacity, Text, Image, RefreshControl, Platform, ActionSheetIOS } from 'react-native';
 import { deleteWallet, fetchBalance, onPressRedeemBtn } from './../../actions/wallet';
@@ -114,7 +115,8 @@ class BalanceScreen extends React.Component {
 	let title, sign, backgroundColor;
 	backgroundColor = 'rgba(38,207,54,0.3)';
 	if (this.props.pendingAmount) {
-	    const amount = formatAmount(Math.abs(this.props.pendingClaimTx.amount / 100));
+	    let amount = Math.abs(this.props.pendingClaimTx.amount);
+	    amount = formatAmount(amount);
 	    if (this.props.pendingClaimTx.amount > 0) { 
 		sign = "+";
 	    } else {

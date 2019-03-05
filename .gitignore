@@ -234,3 +234,6 @@ android/build/
 
 *.keystore
 .env
+.env.production
+.env.ropsten
+.env.debug

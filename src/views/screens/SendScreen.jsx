@@ -95,13 +95,13 @@ class SendScreen extends React.Component {
 	    return;
 	}	
 	
-	if (this.props.balance < this.state.amount / 100) {
+	if (Number(this.props.balance) < this.state.amount / 100) {
 	    alert(`Amount should be less than balance ($${formatAmount(this.props.balance)})`);
 	    return;
 	}
-	try { 
+	try {
 	    this.props.generateClaimLink({
-		amount: this.state.amount,
+		amount: this.state.amount / 100,
 		navigator: this.props.navigator
 	    });
 	} catch(err) {
