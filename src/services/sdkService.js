@@ -3,19 +3,25 @@ import { providers, Wallet, utils } from 'ethers';
 import TokenService from './tokenService';
 import IdentityFactoryService from './IdentityFactoryService';
 import { generatePrivateKey } from './keystoreService.js';
+import Config from 'react-native-config';
 
-// #todo  move to config
-const TOKEN_ADDRESS = '0x0566C17c5E65d760243b9c57717031c708f13d26';
-const IDENTITY_FACTORY_ADDRESS = '0x0B90af7936A2e83eC29F1f1c59BEEaCaD5Fa0448';
+
+const {
+    TOKEN_ADDRESS,
+    IDENTITY_FACTORY_ADDRESS,
+    SECRET_KEY,
+    RELAYER_HOST,
+    ETHEREUM_RPC_URL
+} = Config;
 
 
 class UniversalLoginSDK {
     start() {
-	const serverUrl = 'https://gasless-ropsten.eth2phone.com';
-	this.provider = new providers.JsonRpcProvider('https://ropsten.infura.io');
-
+	
+	this.provider = new providers.JsonRpcProvider();
+	
 	this.sdk = new EthereumIdentitySDK(
-	    serverUrl,
+	    RELAYER_HOST,
 	    this.provider,
 	);
 
@@ -37,7 +43,7 @@ class UniversalLoginSDK {
 	let { privateKey: transitPrivKey }  = await generatePrivateKey();
 	transitPrivKey = '0x' + transitPrivKey;
 	const { sigSender, transitPK } = this.sdk.generateLink({ privateKey, token: TOKEN_ADDRESS, amount, transitPrivKey });
-	const url  = `https://gasless-wallet.volca.tech/#/claim?sig=${sigSender}&pk=${transitPrivKey}&a=${amount}&from=${identityAddress}`;
+	const url  = `${RELAYER_HOST}/#/claim?sig=${sigSender}&pk=${transitPrivKey}&a=${amount}&from=${identityAddress}`;
 	return url;
     }
 
