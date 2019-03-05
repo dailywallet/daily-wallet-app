@@ -10,6 +10,7 @@ const {
     TOKEN_ADDRESS,
     IDENTITY_FACTORY_ADDRESS,
     SECRET_KEY,
+    LINK_BASE,
     RELAYER_HOST,
     ETHEREUM_RPC_URL
 } = Config;
@@ -43,7 +44,7 @@ class UniversalLoginSDK {
 	let { privateKey: transitPrivKey }  = await generatePrivateKey();
 	transitPrivKey = '0x' + transitPrivKey;
 	const { sigSender, transitPK } = this.sdk.generateLink({ privateKey, token: TOKEN_ADDRESS, amount, transitPrivKey });
-	const url  = `${RELAYER_HOST}/#/claim?sig=${sigSender}&pk=${transitPrivKey}&a=${amount}&from=${identityAddress}`;
+	const url  = `${LINK_BASE}/#/claim?sig=${sigSender}&pk=${transitPrivKey}&a=${amount}&from=${identityAddress}`;
 	return url;
     }
 
