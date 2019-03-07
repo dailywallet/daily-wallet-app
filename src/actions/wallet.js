@@ -70,13 +70,15 @@ export const fetchBalance = () => {
 	
 	if (!address) {
 	    address = await identitySDK.getIdentityByPublicKey(state.data.keystore.pubKeyAddress);
-	    if (address !== '0x0000000000000000000000000000000000000000') { 
+	    if (String(address) !== '0x0000000000000000000000000000000000000000') { 
 		dispatch(addIdentityContract(address));
+	    } else {
+		return null;
 	    }
 	} 
 	let balance = await identitySDK.getBalance(address);
 	balance = utils.formatUnits(balance, 18);
-	console.log(balance)
+	console.log({balance, address})
 	dispatch(updateBalance(balance));
     };
 }

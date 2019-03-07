@@ -8,7 +8,7 @@ import Config from 'react-native-config';
 console.log({Config})
 
 const {
-//    TOKEN_ADDRESS,
+    TOKEN_ADDRESS,
     IDENTITY_FACTORY_ADDRESS,
     SECRET_KEY,
     LINK_BASE,
@@ -16,7 +16,7 @@ const {
     ETHEREUM_RPC_URL
 } = Config;
 
-const TOKEN_ADDRESS = '0x841cea2a436e80561c4be35767d7b6304915a1c2';
+
 
 class UniversalLoginSDK {
     start() {
