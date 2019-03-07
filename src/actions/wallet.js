@@ -62,7 +62,7 @@ export const addIdentityContract = (identityContract) => {
 
 
 export const fetchBalance = () => {
-    return async (dispatch, getState) => {	
+    return async (dispatch, getState) => {
 	const state = getState();
 	let address = state.data.wallet.address;	
 	//don't fetch balance if wallet is not set up yet
@@ -70,6 +70,7 @@ export const fetchBalance = () => {
 	
 	if (!address) {
 	    address = await identitySDK.getIdentityByPublicKey(state.data.keystore.pubKeyAddress);
+	    console.log({address});
 	    if (String(address) !== '0x0000000000000000000000000000000000000000') { 
 		dispatch(addIdentityContract(address));
 	    } else {
