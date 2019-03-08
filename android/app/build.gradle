@@ -2,7 +2,7 @@ apply plugin: "com.android.application"
 
 
 project.ext.envConfigFiles = [
-   ropsten: ".env.ropsten",
+   releaseropsten: ".env.ropsten",
    release: ".env.production",
    debug: ".env"
 ]
@@ -48,6 +48,18 @@ android {
 		      	    abiFilters "armeabi-v7a", "x86"
 		      }
        }
+
+signingConfigs {
+      release {
+      storeFile file("my-release-key.keystore")
+      storePassword "KNAFff12"
+      keyAlias "my-key-alias"
+      keyPassword "KNAFff12"
+      }
+}
+								
+
+
 splits {
 abi {
 reset()
@@ -58,6 +70,8 @@ include "armeabi-v7a", "x86"
 }
 
 
+
+
 buildTypes {
   debug {
     applicationIdSuffix ".debug"
@@ -65,11 +79,12 @@ buildTypes {
   release {
     minifyEnabled enableProguardInReleaseBuilds
     proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+    signingConfig signingConfigs.release    
   }
-  ropsten {
-    //  initWith debug
+  releaseropsten {
+    initWith release
     applicationIdSuffix ".ropsten"
-    // signingConfig signingConfigs.releasestaging
+    signingConfig signingConfigs.release
 }
 								 
 }
