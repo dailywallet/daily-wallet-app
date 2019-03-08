@@ -1,8 +1,16 @@
 apply plugin: "com.android.application"
 
-apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
-import com.android.build.OutputFile
+
+project.ext.envConfigFiles = [
+   ropsten: ".env.ropsten",
+   release: ".env.production",
+   debug: ".env"
+]
+
+
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: project(':react-native-config').projectDir.getPath() + "/dotenv.gradle"
+
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -13,6 +21,10 @@ apply from: "../../node_modules/react-native/react.gradle"
       * the correct one based on the CPU architecture of their device.
        */
        def enableSeparateBuildPerCPUArchitecture = false
+
+import com.android.build.OutputFile
+
+
 
 /**
 * Run Proguard to shrink the Java bytecode in release builds.
@@ -25,6 +37,9 @@ android {
 
 	defaultConfig {
 		      applicationId "com.dailywallet"
+      		      resValue "string", "build_config_package", "com.dailywallet"
+
+
 		      minSdkVersion 16
 		      targetSdkVersion 23
 		      versionCode 1
@@ -41,11 +56,22 @@ universalApk false  // If true, also generate a universal APK
 include "armeabi-v7a", "x86"
 }
 }
+
+
 buildTypes {
-release {
-minifyEnabled enableProguardInReleaseBuilds
-proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+  debug {
+    applicationIdSuffix ".debug"
+  }			      
+  release {
+    minifyEnabled enableProguardInReleaseBuilds
+    proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+  }
+  ropsten {
+    //  initWith debug
+    applicationIdSuffix ".ropsten"
+    // signingConfig signingConfigs.releasestaging
 }
+								 
 }
 // applicationVariants are e.g. debug, release
 applicationVariants.all { variant ->

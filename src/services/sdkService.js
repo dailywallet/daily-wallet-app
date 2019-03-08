@@ -15,7 +15,7 @@ const {
     ETHEREUM_RPC_URL
 } = Config;
 
-
+console.log({Config})
 
 class UniversalLoginSDK {
     start() {

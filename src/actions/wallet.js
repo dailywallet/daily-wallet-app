@@ -67,7 +67,8 @@ export const fetchBalance = () => {
 	const state = getState();
 	let address = state.data.wallet.address;	
 	//don't fetch balance if wallet is not set up yet
-	if (!state.data.keystore.pubKeyAddress) { return null; } 
+	if (!state.data.keystore.pubKeyAddress) { return null; }
+	console.log({address});
 	
 	if (!address) {
 	    address = await identitySDK.getIdentityByPublicKey(state.data.keystore.pubKeyAddress);
