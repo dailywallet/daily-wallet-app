@@ -50,6 +50,11 @@ class BalanceScreen extends React.Component {
                     id: 'infoButton',
                     title: 'Info',
                     showAsAction: 'withText'
+                },
+                {
+                    id: 'ShowAddressButton',
+                    title: 'Show address',
+                    showAsAction: 'withText'
                 },		
 	    ]
 	}
@@ -65,6 +70,8 @@ class BalanceScreen extends React.Component {
                 this._deleteWallet();
             } else if (event.id == 'infoButton') {
 		this.props.navigator.push({ screen: 'dailywallet.InfoScreen' });
+            } else if (event.id == 'showAddressButton') {
+		this.props.navigator.push({ screen: 'dailywallet.ReceiveScreen' });		
             } else if (event.id == 'settingsIOS') {
 		this._showActionSheetIOS();
             } else if (event.id == 'recoveryButton') {
@@ -76,12 +83,12 @@ class BalanceScreen extends React.Component {
 
     _showActionSheetIOS() {
 	ActionSheetIOS.showActionSheetWithOptions( {
-	    options: ['Cancel', 'Info', 'Save wallet to paper', 'Delete Wallet'],
+	    options: ['Cancel', 'Show Address', 'Save wallet to paper', 'Delete Wallet'],
 	    destructiveButtonIndex: 3,
 	    cancelButtonIndex: 0,
 	},  (buttonIndex) => {
 	    if (buttonIndex === 1) {
-		this.props.navigator.push({ screen: 'dailywallet.InfoScreen' });
+		this.props.navigator.push({ screen: 'dailywallet.ReceiveScreen' });
 	    } else if (buttonIndex === 2) {
 		this.props.navigator.push({ screen: 'dailywallet.BackupWalletStartScreen' });
 	    } else if (buttonIndex === 3) {
@@ -151,9 +158,9 @@ class BalanceScreen extends React.Component {
                 </View>
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
                     <View style={{ alignItems: 'center', marginBottom: 50 }}>
-                <TouchableOpacity onPress={() => this.props.navigator.push({ screen: 'dailywallet.ReceiveScreen' })} >
+                <TouchableOpacity onPress={() => this.props.onPressRedeemBtn()} >
                 <Image source={require('./../../img/redeem_icon.png')}></Image>
-		<Text style={{ ...styles.balance, fontSize: 28 / 1.5, width: 100, marginTop: 8}}>Receive</Text>
+		<Text style={{ ...styles.balance, fontSize: 28 / 1.5, width: 100, marginTop: 8}}>Redeem Link</Text>
                 </TouchableOpacity>
                 </View>
                     <View style={{ alignItems: 'center', marginBottom: 10 }}>
