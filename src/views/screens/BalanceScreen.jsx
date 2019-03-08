@@ -52,7 +52,7 @@ class BalanceScreen extends React.Component {
                     showAsAction: 'withText'
                 },
                 {
-                    id: 'ShowAddressButton',
+                    id: 'showAddressButton',
                     title: 'Show address',
                     showAsAction: 'withText'
                 },		
