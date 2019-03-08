@@ -5,6 +5,7 @@ const qs = require('querystring');
 import {changeAppRoot} from './app';
 import identitySDK from 'DailyWallet/src/services/sdkService';
 import * as ksService from './../services/keystoreService';
+import Config from 'react-native-config';
 
 
 export const actions = {
@@ -78,7 +79,7 @@ export const fetchBalance = () => {
 	    }
 	} 
 	let balance = await identitySDK.getBalance(address);
-	balance = utils.formatUnits(balance, 18);
+	balance = utils.formatUnits(balance, Config.TOKEN_DECIMALS);
 	console.log({balance, address})
 	dispatch(updateBalance(balance));
     };
@@ -181,7 +182,7 @@ export const claimLink = (link) => {
 		type: actions.UPDATE_PENDING_CLAIM_TX,
 		payload: {
 		    txHash,
-		    amount: utils.formatUnits(amount, 18),
+		    amount: utils.formatUnits(amount, Config.TOKEN_DECIMALS),
 		    isPending: true
 		}
 	    });

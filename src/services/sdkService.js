@@ -5,7 +5,6 @@ import IdentityFactoryService from './IdentityFactoryService';
 import { generatePrivateKey } from './keystoreService.js';
 import Config from 'react-native-config';
 
-console.log({Config})
 
 const {
     TOKEN_ADDRESS,
@@ -46,7 +45,7 @@ class UniversalLoginSDK {
 	let { privateKey: transitPrivKey }  = await generatePrivateKey();
 	transitPrivKey = '0x' + transitPrivKey;
 	// parse units in atomic values
-	const amountAtomic = utils.parseUnits(String(amount), 18).toString();
+	const amountAtomic = utils.parseUnits(String(amount), Config.TOKEN_DECIMALS).toString();
 	console.log({amount})
 	const { sigSender, transitPK } = this.sdk.generateLink({ privateKey, token: TOKEN_ADDRESS, amount: amountAtomic, transitPrivKey });
 	const url  = `${LINK_BASE}/#/claim?sig=${sigSender}&pk=${transitPrivKey}&a=${amountAtomic}&from=${identityAddress}`;
@@ -55,7 +54,7 @@ class UniversalLoginSDK {
 
     async transferToAddress({ amount, to, privateKey, from }) {
 
-	const amountAtomic = utils.parseUnits(String(amount), 18).toHexString();
+	const amountAtomic = utils.parseUnits(String(amount), Config.TOKEN_DECIMALS).toHexString();
 	console.log({amount, amountAtomic})
 	const erc20Data = '0xa9059cbb' + utils.hexZeroPad(to, 32).substring(2) + utils.hexZeroPad(amountAtomic, 32).substring(2);
 	const message = {
