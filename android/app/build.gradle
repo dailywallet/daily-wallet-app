@@ -2,9 +2,8 @@ apply plugin: "com.android.application"
 
 
 project.ext.envConfigFiles = [
-   releaseropsten: ".env.ropsten",
-   release: ".env.production",
-   debug: ".env"
+   mainnet: ".env.production",
+   ropsten: ".env.ropsten",
 ]
 
 
@@ -34,7 +33,9 @@ def enableProguardInReleaseBuilds = false
 android {
 	compileSdkVersion 26
 	buildToolsVersion '26.0.3'
-
+        flavorDimensions "default"  // <-- !!! add this line !!!
+	    
+	
 	defaultConfig {
 		      applicationId "com.dailywallet"
       		      resValue "string", "build_config_package", "com.dailywallet"
@@ -48,6 +49,7 @@ android {
 		      	    abiFilters "armeabi-v7a", "x86"
 		      }
        }
+lintOptions { checkReleaseBuilds false }
 
 signingConfigs {
       release {
@@ -74,20 +76,26 @@ include "armeabi-v7a", "x86"
 
 buildTypes {
   debug {
-    applicationIdSuffix ".debug"
+    // applicationIdSuffix ".debug"
   }			      
   release {
     minifyEnabled enableProguardInReleaseBuilds
     proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
     signingConfig signingConfigs.release    
   }
-  releaseropsten {
-    initWith release
-    applicationIdSuffix ".ropsten"
-    signingConfig signingConfigs.release
 }
-								 
+
+productFlavors {
+  mainnet {
+     applicationId 'com.dailywallet.mainnet'
+  }
+  ropsten {
+     applicationId 'com.dailywallet.ropsten'
+  }
 }
+
+
+
 // applicationVariants are e.g. debug, release
 applicationVariants.all { variant ->
 variant.outputs.each { output ->
