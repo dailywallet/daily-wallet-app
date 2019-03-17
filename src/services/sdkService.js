@@ -1,5 +1,5 @@
 import EthereumIdentitySDK from 'universal-login-monorepo/universal-login-sdk';
-import { providers, Wallet, utils } from 'ethers';
+import { providers, Wallet, utils, constants } from 'ethers';
 import TokenService from './tokenService';
 import IdentityFactoryService from './IdentityFactoryService';
 import { generatePrivateKey } from './keystoreService.js';
@@ -27,14 +27,14 @@ class UniversalLoginSDK {
 	    this.provider,
 	);
 
-	this.tokenService = new TokenService(TOKEN_ADDRESS, this.provider);
 	this.identityFactoryService = new IdentityFactoryService(IDENTITY_FACTORY_ADDRESS, this.provider);
  	this.sdk.start();
 	console.log("universal Login SDK started");
     }
 
     transferByLink(params) {
-	return this.sdk.transferByLink({...params, token: TOKEN_ADDRESS});
+	const token = TOKEN_ADDRESS === '0x000000000000000000000000000000000000000' ? constants.AddressZero : TOKEN_ADDRESS;
+	return this.sdk.transferByLink({...params, token});
     }
 
     async getIdentityByPublicKey(keystoreAddress) {
@@ -52,10 +52,29 @@ class UniversalLoginSDK {
 	return url;
     }
 
-    async transferToAddress({ amount, to, privateKey, from }) {
+    async transferToAddress(params) {
+	if (TOKEN_ADDRESS === '0x000000000000000000000000000000000000000') {
+	    return this.transferEther(params);
+	} else {
+	    return this.transferERC20(params);	    
+	}
+    }
 
+    async transferEther({ amount, to, privateKey, from }) {
 	const amountAtomic = utils.parseUnits(String(amount), Config.TOKEN_DECIMALS).toHexString();
-	console.log({amount, amountAtomic})
+	const message = {
+	    to,
+	    from,
+	    value: amountAtomic,
+	    gasPrice: 0,
+	    gasToken: TOKEN_ADDRESS
+	};
+	return await this.sdk.execute(message, privateKey);
+    }
+    
+
+    async transferERC20({ amount, to, privateKey, from }) {
+	const amountAtomic = utils.parseUnits(String(amount), Config.TOKEN_DECIMALS).toHexString();
 	const erc20Data = '0xa9059cbb' + utils.hexZeroPad(to, 32).substring(2) + utils.hexZeroPad(amountAtomic, 32).substring(2);
 	const message = {
 	    to: TOKEN_ADDRESS,
@@ -63,17 +82,27 @@ class UniversalLoginSDK {
 	    value: 0,
 	    data: erc20Data,
 	    gasPrice: 0,
-	    gasToken: TOKEN_ADDRESS 
+	    gasToken: TOKEN_ADDRESS
 	};
 	return await this.sdk.execute(message, privateKey);
     }
+
     
     waitForTxReceipt(params) {
 	return this.sdk.waitForTxReceipt(params);
     }
 
-    getBalance(address) {
-	return this.tokenService.getBalance(address);
+    async getBalance(address) {
+	if (TOKEN_ADDRESS === '0x000000000000000000000000000000000000000') {
+	    // Look up the balance
+	    let balance = await this.provider.getBalance(address);
+	    return utils.formatEther(balance);
+	} else {
+	    const tokenService = new TokenService(TOKEN_ADDRESS, this.provider);	    
+	    let balance = await tokenService.getBalance(address);
+	    balance = utils.formatUnits(balance, Config.TOKEN_DECIMALS);
+	    return balance;	    
+	}
     }
     
 }

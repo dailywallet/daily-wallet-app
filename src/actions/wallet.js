@@ -80,7 +80,6 @@ export const fetchBalance = () => {
 	    }
 	} 
 	let balance = await identitySDK.getBalance(address);
-	balance = utils.formatUnits(balance, Config.TOKEN_DECIMALS);
 	console.log({balance, address})
 	dispatch(updateBalance(balance));
     };
