@@ -27,9 +27,18 @@ class ReceiveScreen extends React.Component {
 	alert("Address is copied to your clipboard");
     }
 
-    render() {
-        return (
-            <View style={styles.screenContainer}>
+    _renderQRCode() {
+	if (!this.props.address) {
+	    return (
+		<View style={styles.balanceContainer}>
+		    <Text style={{marginTop: 20, textAlign: 'center'}}>
+		    To create an account, get claiming link from an existing user and redeem it.
+		    </Text>
+		    </View>
+	    );
+	}
+
+	return (
 		<TouchableOpacity onPress={this._onAddressPress.bind(this)} style={styles.balanceContainer}>
 		<QRCode
 	    value={this.props.address}
@@ -37,8 +46,15 @@ class ReceiveScreen extends React.Component {
 		/>
 		<Text style={{marginTop: 20}}>{this.props.address}</Text>
 		<Text style={{color: '#aaa'}}>Click to copy</Text>
-		</TouchableOpacity>
+		</TouchableOpacity>		
+	)
 
+    }
+
+    render() {
+        return (
+            <View style={styles.screenContainer}>
+		{ this._renderQRCode() }
                 <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
                     <View style={{ alignItems: 'center', marginBottom: 50 }}>
                       <TouchableOpacity onPress={() => this.props.onPressRedeemBtn(this.props.navigator)}>
