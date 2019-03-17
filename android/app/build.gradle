@@ -4,6 +4,7 @@ apply plugin: "com.android.application"
 project.ext.envConfigFiles = [
    mainnet: ".env.production",
    ropsten: ".env.ropsten",
+   xdai: ".env.xdai"
 ]
 
 
@@ -89,6 +90,9 @@ productFlavors {
   mainnet {
      applicationId 'com.dailywallet.mainnet'
   }
+  xdai {
+     applicationId 'com.dailywallet.xdai'
+  }  
   ropsten {
      applicationId 'com.dailywallet.ropsten'
   }

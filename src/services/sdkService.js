@@ -7,7 +7,6 @@ import Config from 'react-native-config';
 
 
 const {
-    TOKEN_ADDRESS,
     IDENTITY_FACTORY_ADDRESS,
     SECRET_KEY,
     LINK_BASE,
@@ -16,6 +15,8 @@ const {
 } = Config;
 
 console.log({Config})
+
+const TOKEN_ADDRESS = Config.TOKEN_ADDRESS === '0x000000000000000000000000000000000000000' ? constants.AddressZero : Config.TOKEN_ADDRESS;
 
 class UniversalLoginSDK {
     start() {
@@ -33,8 +34,7 @@ class UniversalLoginSDK {
     }
 
     transferByLink(params) {
-	const token = TOKEN_ADDRESS === '0x000000000000000000000000000000000000000' ? constants.AddressZero : TOKEN_ADDRESS;
-	return this.sdk.transferByLink({...params, token});
+	return this.sdk.transferByLink({...params, token: TOKEN_ADDRESS});
     }
 
     async getIdentityByPublicKey(keystoreAddress) {
@@ -53,7 +53,7 @@ class UniversalLoginSDK {
     }
 
     async transferToAddress(params) {
-	if (TOKEN_ADDRESS === '0x000000000000000000000000000000000000000') {
+	if (TOKEN_ADDRESS === constants.AddressZero) {
 	    return this.transferEther(params);
 	} else {
 	    return this.transferERC20(params);	    
@@ -93,7 +93,7 @@ class UniversalLoginSDK {
     }
 
     async getBalance(address) {
-	if (TOKEN_ADDRESS === '0x000000000000000000000000000000000000000') {
+	if (TOKEN_ADDRESS === constants.AddressZero) {
 	    // Look up the balance
 	    let balance = await this.provider.getBalance(address);
 	    return utils.formatEther(balance);
