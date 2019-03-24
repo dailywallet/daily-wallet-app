@@ -6,6 +6,7 @@ import { recoverFromMnemonic } from './../../actions/wallet';
 import { formatAmount } from '../../utils/helpers';
 import styles from './styles';
 import { Alert, Clipboard } from 'react-native';
+import i18n from 'DailyWallet/src/i18n';
 
 
 class RecoverMnemonicScreen extends React.Component {
@@ -19,6 +20,12 @@ class RecoverMnemonicScreen extends React.Component {
     state = {
 	inputWord: ''
     }
+
+    // translate helper
+    t(text) {
+	return i18n.t(`BackupScreen.${text}`);
+    }
+
     
     componentWillMount() {
         this.props.navigator.setTitle({ title: 'Daily' });
@@ -30,7 +37,7 @@ class RecoverMnemonicScreen extends React.Component {
 	console.log({mnemonic, n})
 
 	if (this.state.inputWord.length === 0) {
-	    alert("Input Can't be empty");
+	    alert(this.t("input_cant_be_empty"));
 	    return null;
 	}
 	
@@ -61,7 +68,7 @@ class RecoverMnemonicScreen extends React.Component {
 		<View style={{ flex: 1,
 			       backgroundColor: '#fff'}}>
                 <View style={{marginTop: 100}}>
-                <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Type the words from the recovery paper</Text>
+                <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>{ this.t("type_the_words_from_the_recovery_paper")}</Text>
                 <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>{this.props.n}</Text>				
 		</View>
 		<View style={{ flexDirection: 'row', justifyContent: 'center'}}>
@@ -79,7 +86,7 @@ class RecoverMnemonicScreen extends React.Component {
                 </View>
                 <View style={styles.centeredFlex}>
                 <TouchableOpacity style={{...styles.buttonContainer, width: 165}} onPress={this._onContinuePress.bind(this)}>
-                <Text style={styles.buttonText}>Continue</Text>
+                      <Text style={styles.buttonText}>{ this.t("continue") }</Text>
                     </TouchableOpacity>
                 </View>		
             </View>

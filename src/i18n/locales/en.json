@@ -31,7 +31,9 @@
 	"amount_should_be_more_than_0": "Amount should be more than 0",
 	"amount_should_be_less_than_balance": "Amount should be less than balance",
 	"you_are_sending": "You're sending",
-	"send": "Send"
+	"send": "Send",
+	"invalid_ethereum_address": "Please provide correct Ethereum address",
+	"error": "Error"
     },
     "PincodeScreen": {
 	"close": "Close",
@@ -56,6 +58,12 @@
 	"your_phone_has": "You phone has",
 	"save_paper_instructions": "You can save your money to a long password that you should write on a piece of paper. It’s like a poem with 12 words.",
 	"save_paper_warning": "Anyone who finds the paper can use your money, so store it in a safe place!",
-	"continue": "Continue"
+	"continue": "Continue",
+
+	"write_the_number_and_word_in_paper": "Write the number and word in paper",
+	"incorrect_word": "Incorrect word",
+	"type_the_words_again_to_confirm": "Type the words again to confirm",
+	"type_the_words_from_the_recovery_paper": "Type the words from the recovery paper",
+	"input_cant_be_empty": "Input can't be empty"
     }
 }

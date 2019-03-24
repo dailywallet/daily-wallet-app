@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import {  View, TouchableOpacity, Text, Image, RefreshControl, Platform, ActionSheetIOS } from 'react-native';
 import { startMnemonicBackup } from './../../actions/wallet';
 import { formatAmount, shuffleArray } from '../../utils/helpers';
+import i18n from 'DailyWallet/src/i18n';
 import styles from './styles';
 
 
@@ -14,6 +15,12 @@ class BackupWalletWordScreen extends React.Component {
         navBarButtonColor: 'white',
     }
 
+    // translate helper
+    t(text) {
+	return i18n.t(`BackupScreen.${text}`);
+    }    
+
+    
     componentWillMount() {
         this.props.navigator.setTitle({ title: 'Daily' });
     }
@@ -46,7 +53,7 @@ class BackupWalletWordScreen extends React.Component {
 		<View style={{ flex: 1,
 			       backgroundColor: '#fff'}}>
                 <View style={{marginTop: 100}}>
-                <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Write the number and word in paper</Text>
+                <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>{ this.t("write_the_number_and_word_in_paper") }</Text>
                 <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>{n}</Text>		
                 <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>{word}</Text>
                 </View>
@@ -54,7 +61,7 @@ class BackupWalletWordScreen extends React.Component {
                 </View>
                 <View style={styles.centeredFlex}>
                 <TouchableOpacity style={{...styles.buttonContainer, width: 165}} onPress={this._onContinuePress.bind(this)}>
-                <Text style={styles.buttonText}>Continue</Text>
+                      <Text style={styles.buttonText}>{ this.t("continue") }</Text>
                     </TouchableOpacity>
                 </View>		
             </View>

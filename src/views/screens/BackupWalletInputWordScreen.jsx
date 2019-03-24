@@ -5,6 +5,7 @@ import { startMnemonicBackup } from './../../actions/wallet';
 import { changeAppRoot } from 'DailyWallet/src/actions/app';
 import { formatAmount } from '../../utils/helpers';
 import styles from './styles';
+import i18n from 'DailyWallet/src/i18n';
 import { Alert, Clipboard } from 'react-native';
 
 
@@ -19,6 +20,11 @@ class BackupWalletInputWordScreen extends React.Component {
     state = {
 	inputWord: ''
     }
+
+    // translate helper
+    t(text) {
+	return i18n.t(`BackupScreen.${text}`);
+    }    
     
     componentWillMount() {
         this.props.navigator.setTitle({ title: 'Daily' });
@@ -33,13 +39,12 @@ class BackupWalletInputWordScreen extends React.Component {
 
 	// validate mnemonic word
 	if (!this._checkWord()) {
-	    alert("Incorrect word #" + this.props.n);
+	    alert(this.t("incorrect_word") + " # " + this.props.n);
 	    return null;
 	}
 
 	const updatedWords = leftWords.split(" ");
 	updatedWords.shift();
-	console.log({updatedWords})
 	
 	if (updatedWords.length > 0) { 
 	     //  navigate to next screen
@@ -58,7 +63,7 @@ class BackupWalletInputWordScreen extends React.Component {
 		<View style={{ flex: 1,
 			       backgroundColor: '#fff'}}>
                 <View style={{marginTop: 100}}>
-                <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Type the words again to confirm</Text>
+                <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>{ this.t("type_the_words_again_to_confirm")}</Text>
                 <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>{this.props.n}</Text>				
 		</View>
 		<View style={{ flexDirection: 'row', justifyContent: 'center'}}>
@@ -77,7 +82,7 @@ class BackupWalletInputWordScreen extends React.Component {
                 </View>
                 <View style={styles.centeredFlex}>
                 <TouchableOpacity style={{...styles.buttonContainer, width: 165}} onPress={this._onContinuePress.bind(this)}>
-                <Text style={styles.buttonText}>Continue</Text>
+                      <Text style={styles.buttonText}>{ this.t("continue") }</Text>
                     </TouchableOpacity>
                 </View>		
             </View>
@@ -86,7 +91,6 @@ class BackupWalletInputWordScreen extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-    console.log({props})    
     const { mnemonic, leftWords } = props;
     const word = leftWords.split(" ")[0].toLowerCase();
     const n = mnemonic.split(" ").indexOf(word) + 1;

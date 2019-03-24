@@ -4,6 +4,7 @@ import { ScrollView, View, TouchableOpacity, Text, TextInput, ActionSheetIOS, Pl
 import { sendToAddress } from './../../actions/wallet';
 import { formatAmount } from '../../utils/helpers';
 import { utils } from 'ethers';
+import i18n from 'DailyWallet/src/i18n';
 import styles from './styles';
 
 
@@ -17,26 +18,32 @@ class SendToAddressScreen extends React.Component {
 	};
     }
 
+    // translate helper
+    t(text) {
+	return i18n.t(`SendScreen.${text}`);
+    }    
+    
+    
     onSend() {
 	if (this.state.amount <= 0) {
-	    alert(`Amount should be more than 0`);
+	    alert(this.t(`amount_should_be_more_than_0`));
 	    return;
 	}	
 	
 	if (this.props.balance < this.state.amount / 100) {
-	    alert(`Amount should be less than balance ($${formatAmount(this.props.balance)})`);
+	    alert(`${this.t("amount_should_be_less_than_balance")} ($${formatAmount(this.props.balance)})`);
 	    return;
 	}
 
 	if (!this.state.address) {
-	    alert("Please fill in the receiver address");
+	    alert(this.t(`invalid_ethereum_address`));	    
 	    return;
 	}
 
 	try { 
 	    const checksumAddress = utils.getAddress(this.state.address);
 	} catch (err) {
-	    alert("Invalid address");
+	    alert(this.t(`invalid_ethereum_address`));	    
 	    return;
 	}
 
@@ -48,7 +55,7 @@ class SendToAddressScreen extends React.Component {
 	    });
 	} catch(err) {
 	    console.log({err});
-	    alert("Error");
+	    alert(this.t("error"));
 	}
     }
 
@@ -78,7 +85,7 @@ class SendToAddressScreen extends React.Component {
                 <View style={styles.sendScreenContainer}>
                     <View style={{...styles.sendInputContainer, marginTop:60}}>
 		      <TouchableOpacity onPress={() => this.textInputRef.focus()}>
-		         <Text style={styles.sendScreenText}>You're sending ${this.state.amount && Number(this.state.amount / 100).toFixed(2)}</Text>
+		<Text style={styles.sendScreenText}>{this.t("you_are_sending")}  ${this.state.amount && Number(this.state.amount / 100).toFixed(2)}</Text>
 			</TouchableOpacity>
                         <TextInput
                             keyboardType='numeric'
@@ -107,7 +114,7 @@ class SendToAddressScreen extends React.Component {
 
                     <View style={{ alignItems: 'center' }}>
                       <TouchableOpacity style={styles.buttonContainer} onPress={this.onSend.bind(this)}>
-                            <Text style={styles.buttonText}>Send</Text>
+                <Text style={styles.buttonText}>{this.t("send")}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
