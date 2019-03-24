@@ -3,13 +3,17 @@
 	"cancel": "Отмена",
 	"show_address": "Показать адрес",
 	"save_wallet_to_paper": "Записать кошелек на бумагу",
-	"erase_wallet": "Удалить кошелек",
-	
+	"erase_wallet": "Удалить кошелек",	
 	"your_phone_has": "На вашем телефоне",
 	"is_pending": "в процессе",
 	"checking_copied_link": "Проверяем скопированную ссылку...",
 	"redeem_link": "Получить по ссылке",
-	"send_money": "Отправить деньги"	
-	
-    }
+	"send_money": "Отправить деньги"		
+    },
+    "ReceiveScreen": {
+	"your_account": "Ваш аккаунт",
+	"no_account_text": "Чтобы создать аккаунт, получите деньги через ссылку для получения",
+	"click_to_copy": "Скопировать адрес",
+	"redeem_link": "Получить по ссылке",
+    }    
 }

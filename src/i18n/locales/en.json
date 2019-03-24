@@ -4,12 +4,16 @@
 	"show_address": "Show Address",
 	"save_wallet_to_paper": "Save Wallet To Paper",
 	"erase_wallet": "Erase Wallet",
-	
-	
 	"your_phone_has": "You phone has",
 	"is_pending": "is pending",
 	"checking_copied_link": "Checking copied link...",
 	"redeem_link": "Redeem Link",
 	"send_money": "Send money"
+    },
+    "ReceiveScreen": {
+	"your_account": "Your account",
+	"no_account_text": "To create an account, get claiming link from an existing user and redeem it.",
+	"click_to_copy": "Click to copy",
+	"redeem_link": "Redeem Link",
     }
 }
