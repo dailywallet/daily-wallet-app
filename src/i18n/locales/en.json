@@ -8,8 +8,16 @@
 	"is_pending": "is pending",
 	"checking_copied_link": "Checking copied link...",
 	"redeem_link": "Redeem Link",
-	"send_money": "Send money"
+	"send_money": "Send money",
     },
+    "prompts": {
+	"erase_wallet": {
+	    "are_you_sure": "Are you sure?",
+	    "are_you_sure_you_want_to_delete_your_wallet": "Are you sure you want to delete your wallet?",
+	    "yes_delete_my_wallet": "Yes, delete my wallet",
+	    "no_dont_delete_my_wallet": "No, don't delete my wallet"
+	}
+    },    
     "ReceiveScreen": {
 	"your_account": "Your account",
 	"no_account_text": "To create an account, get claiming link from an existing user and redeem it.",

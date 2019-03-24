@@ -10,6 +10,14 @@
 	"redeem_link": "Получить по ссылке",
 	"send_money": "Отправить деньги"		
     },
+    "prompts": {
+	"erase_wallet": {
+	    "are_you_sure": "Вы уверены?",
+	    "are_you_sure_you_want_to_delete_your_wallet": "Вы уверены, что хотите удалить кошелек?",
+	    "yes_delete_my_wallet": "Да, удалите мой кошелек",
+	    "no_dont_delete_my_wallet": "Нет, не надо удалять мой кошелек"
+	}
+    },        
     "ReceiveScreen": {
 	"your_account": "Ваш аккаунт",
 	"no_account_text": "Чтобы создать аккаунт, получите деньги через ссылку для получения",

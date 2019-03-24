@@ -6,6 +6,7 @@ import {changeAppRoot} from './app';
 import identitySDK from 'DailyWallet/src/services/sdkService';
 import * as ksService from './../services/keystoreService';
 import Config from 'react-native-config';
+import i18n from 'DailyWallet/src/i18n';
 
 
 export const actions = {
@@ -343,16 +344,19 @@ export function deleteWallet() {
 	    });
 	    dispatch(changeAppRoot('IntroScreen'));	    
 	};
+
+	// translate helper
+	const t = (text) => i18n.t(`prompts.erase_wallet.${text}`);
 	
 	Alert.alert(
-	    'Are you sure?',
-	    'Are you sure you want to delete your wallet?',
+	    t("are_you_sure"),
+	    t("are_you_sure_you_want_to_delete_your_wallet"),
 	    [
 		{
-		    text: 'Yes, delete my wallet',
+		    text: t('yes_delete_my_wallet'),
 		    onPress: () => onSuccess()
 		},
-		{text: "No, don't delete my wallet", onPress: () => console.log('Cancelled')},		
+		{text: t("no_dont_delete_my_wallet"), onPress: () => console.log('Cancelled')},		
 		{cancelable: true},	
 	    ]
 	);
