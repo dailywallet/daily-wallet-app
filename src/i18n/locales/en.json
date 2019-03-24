@@ -34,7 +34,6 @@
 	"send": "Send"
     },
     "PincodeScreen": {
-	"send_via_link": "Send via link",
 	"close": "Close",
 	"wrong_pin_try_again": "Wrong PIN, try again",
 	"enter_your_4_digit_passcode": "Enter your 4-digit passcode",
@@ -52,5 +51,11 @@
     "IntroScreen": {
 	"create_new_wallet": "Create New Wallet",
 	"recover_paper_wallet": "Recover Paper Wallet"
+    },
+    "BackupScreen": {
+	"your_phone_has": "You phone has",
+	"save_paper_instructions": "You can save your money to a long password that you should write on a piece of paper. It’s like a poem with 12 words.",
+	"save_paper_warning": "Anyone who finds the paper can use your money, so store it in a safe place!",
+	"continue": "Continue"
     }
 }

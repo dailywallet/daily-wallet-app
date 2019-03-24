@@ -34,7 +34,6 @@
 	"send": "Отправить"
     },
     "PincodeScreen": {
-	"send_via_link": "Отправить по ссылке",
 	"close": "Закрыть",
 	"wrong_pin_try_again": "Неправильный PIN, попробуйте еще",
 	"enter_your_4_digit_passcode": "Введите ваш 4-значный код",
@@ -52,6 +51,11 @@
     "IntroScreen": {
 	"create_new_wallet": "Создать кошелек",
 	"recover_paper_wallet": "Восстановить кошелек"
+    },
+    "BackupScreen": {
+	"your_phone_has": "На вашем телефоне",
+	"save_paper_instructions": "Вы можете записать мнемоник-фразу. Это как поэма из 12 слов.",
+	"save_paper_warning": "Любой с данной фразой сможет распоряжаться вашими деньгами. Храните ее в надежном месте!",
+	"continue": "Продолжить"
     }
-
 }

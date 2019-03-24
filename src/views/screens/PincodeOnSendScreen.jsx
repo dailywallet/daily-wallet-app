@@ -29,7 +29,7 @@ class PincodeOnSendScreen extends React.Component {
     }    
     
     componentWillMount() {
-        this.props.navigator.setTitle({ title: this.t('send_via_link') });
+        //this.props.navigator.setTitle({ title: this.t('send_via_link') });
         this.props.navigator.setButtons({
             leftButtons: [
                 {
