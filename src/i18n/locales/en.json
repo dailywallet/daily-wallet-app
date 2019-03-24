@@ -44,5 +44,9 @@
 	"share_the_link": "Share the link",
 	"share_the_link_to_send": "Share the link to send",
 	"share": "Share"
+    },
+    "IntroScreen": {
+	"create_new_wallet": "Create New Wallet",
+	"recover_paper_wallet": "Recover Paper Wallet"
     }
 }

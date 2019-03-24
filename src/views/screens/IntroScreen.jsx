@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { View, TouchableOpacity, Text, } from 'react-native';
 import { generateKeystore } from './../../actions/wallet';
 import styles from './styles';
-
+import i18n from 'DailyWallet/src/i18n';
 
 class IntroScreen extends React.Component {
     static navigatorStyle = {
@@ -13,6 +13,12 @@ class IntroScreen extends React.Component {
         navBarButtonColor: 'white',
     }
 
+    // translate helper
+    t(text) {
+	return i18n.t(`IntroScreen.${text}`);
+    }
+    
+    
     componentWillMount() {
         this.props.navigator.setTitle({ title: 'Daily Wallet' });
     }
@@ -31,10 +37,10 @@ class IntroScreen extends React.Component {
             <View style={styles.screenContainerCentered}>
                 <View style={styles.centeredFlex}>
                 <TouchableOpacity style={{...styles.buttonContainer, width: 220, marginBottom: 20}} onPress={this._onCreateBtnPress.bind(this)}>
-                   <Text style={styles.buttonText}>Create New Wallet</Text>
+                <Text style={styles.buttonText}>{ this.t("create_new_wallet") }</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={{...styles.buttonContainer, width: 220}} onPress={this._onRecoverBtnPress.bind(this)}>
-                   <Text style={styles.buttonText}>Recover paper wallet</Text>
+                   <Text style={styles.buttonText}>{ this.t("recover_paper_wallet") }</Text>
                 </TouchableOpacity>
                 </View>		
             </View>

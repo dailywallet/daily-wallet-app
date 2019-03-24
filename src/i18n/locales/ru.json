@@ -44,6 +44,10 @@
 	"share_the_link": "Поделитесь ссылкой",
 	"share_the_link_to_send": "Поделитесь ссылкой чтобы отправить",
 	"share": "Поделиться"
-    }    
+    },
+    "IntroScreen": {
+	"create_new_wallet": "Создать кошелек",
+	"recover_paper_wallet": "Восстановить кошелек"
+    }
 
 }
