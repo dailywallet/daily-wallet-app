@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { ScrollView, View, TouchableOpacity, Text, Image, RefreshControl, Platform, ActionSheetIOS } from 'react-native';
 import { deleteWallet, fetchBalance, onPressRedeemBtn } from './../../actions/wallet';
 import { formatAmount } from '../../utils/helpers';
+import i18n from 'DailyWallet/src/i18n';
 import styles from './styles';
 
 
@@ -38,22 +39,22 @@ class BalanceScreen extends React.Component {
 	    rightButtons = [
                 {
 		    id: 'deleteWallet',
-		    title: 'Erase wallet',
+		    title: this.t('erase_wallet'),
                     showAsAction: 'withText'
                 },
                 {
                     id: 'recoveryButton',
-                    title: 'Save wallet to paper',
+                    title: this.t('save_wallet_to_paper'),
                     showAsAction: 'withText'
                 },				
-                {
-                    id: 'infoButton',
-                    title: 'Info',
-                    showAsAction: 'withText'
-                },
+                // {
+                //     id: 'infoButton',
+                //     title: 'Info',
+                //     showAsAction: 'withText'
+                // },
                 {
                     id: 'showAddressButton',
-                    title: 'Show address',
+                    title: this.t('show_address'),
                     showAsAction: 'withText'
                 },		
 	    ]
@@ -68,8 +69,8 @@ class BalanceScreen extends React.Component {
         if (event.type == 'NavBarButtonPress') {
             if (event.id == 'deleteWallet') {
                 this._deleteWallet();
-            } else if (event.id == 'infoButton') {
-		this.props.navigator.push({ screen: 'dailywallet.InfoScreen' });
+            // } else if (event.id == 'infoButton') {
+	    // 	this.props.navigator.push({ screen: 'dailywallet.InfoScreen' });
             } else if (event.id == 'showAddressButton') {
 		this.props.navigator.push({ screen: 'dailywallet.ReceiveScreen' });		
             } else if (event.id == 'settingsIOS') {
@@ -83,7 +84,7 @@ class BalanceScreen extends React.Component {
 
     _showActionSheetIOS() {
 	ActionSheetIOS.showActionSheetWithOptions( {
-	    options: ['Cancel', 'Show Address', 'Save wallet to paper', 'Delete Wallet'],
+	    options: [this.t('cancel'), this.t('show_address'), this.t('save_wallet_to_paper'), this.t('erase_wallet')],
 	    destructiveButtonIndex: 3,
 	    cancelButtonIndex: 0,
 	},  (buttonIndex) => {
@@ -108,7 +109,6 @@ class BalanceScreen extends React.Component {
             try {
                 await this.props.fetchBalance();
             } catch (err) {
-                console.log(err);
                 alert("Error")
             }
             this.setState({ fetchingBalance: false });
@@ -130,9 +130,9 @@ class BalanceScreen extends React.Component {
 		sign = "-";
 		backgroundColor = 'rgba(38, 86, 207, 0.3)';
 	    }	    
-	    title = `${sign} $${amount} is pending`;
+	    title = `${sign} $${amount} ${this.t("is_pending")}`;
 	} else  {
-	    title = 'Checking copied link...';
+	    title = this.t("checking_copied_link");
 	}
 	
 	return (
@@ -145,6 +145,10 @@ class BalanceScreen extends React.Component {
         
     }
 
+    // translate helper
+    t(text) {
+	return i18n.t(`BalanceScreen.${text}`);
+    }
 
     render() {
         return (
@@ -152,7 +156,7 @@ class BalanceScreen extends React.Component {
                 refreshControl={<RefreshControl onRefresh={this.onRefresh.bind(this)} refreshing={this.state.fetchingBalance} />}
             >
                 <View style={styles.balanceContainer}>
-                    <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>Your phone has</Text>
+                <Text style={{ ...styles.balance, fontSize: 28 / 1.5 }}>{this.t("your_phone_has")}</Text>
                     <Text style={{ ...styles.balance, fontSize: 60 / 1.5 }}>${formatAmount(this.props.balance)}</Text>
                     {this._renderStatusBar()}
                 </View>
@@ -160,13 +164,13 @@ class BalanceScreen extends React.Component {
                     <View style={{ alignItems: 'center', marginBottom: 50 }}>
                 <TouchableOpacity onPress={() => this.props.onPressRedeemBtn()} >
                 <Image source={require('./../../img/redeem_icon.png')}></Image>
-		<Text style={{ ...styles.balance, fontSize: 28 / 1.5, width: 100, marginTop: 8}}>Redeem Link</Text>
+		<Text style={{ ...styles.balance, fontSize: 28 / 1.5, width: 100, marginTop: 8}}>{this.t("redeem_link")}</Text>
                 </TouchableOpacity>
                 </View>
                     <View style={{ alignItems: 'center', marginBottom: 10 }}>
                         <TouchableOpacity onPress={() => this.props.navigator.push({ screen: 'dailywallet.SendScreen' })}>
                           <Image source={require('./../../img/send_icon.png')}></Image>
-			  <Text style={{ ...styles.balance, fontSize: 28 / 1.5, width: 100, marginTop: 8}}>Send money</Text>			  
+			  <Text style={{ ...styles.balance, fontSize: 28 / 1.5, width: 100, marginTop: 8}}>{this.t("send_money")}</Text>			  
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -177,7 +181,6 @@ class BalanceScreen extends React.Component {
 
 
 function mapStateToProps(state) {
-    console.log({state})
     return {
         balance: state.data.wallet.balance,
 	pendingClaimTx: state.data.pendingClaimTx,

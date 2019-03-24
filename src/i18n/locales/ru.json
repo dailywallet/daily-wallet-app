@@ -1,0 +1,15 @@
+{
+    "BalanceScreen": {
+	"cancel": "Отмена",
+	"show_address": "Показать адрес",
+	"save_wallet_to_paper": "Записать кошелек на бумагу",
+	"erase_wallet": "Удалить кошелек",
+	
+	"your_phone_has": "На вашем телефоне",
+	"is_pending": "в процессе",
+	"checking_copied_link": "Проверяем скопированную ссылку...",
+	"redeem_link": "Получить по ссылке",
+	"send_money": "Отправить деньги"	
+	
+    }
+}

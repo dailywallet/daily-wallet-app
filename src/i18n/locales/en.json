@@ -1,0 +1,15 @@
+{
+    "BalanceScreen": {
+	"cancel": "Cancel",
+	"show_address": "Show Address",
+	"save_wallet_to_paper": "Save Wallet To Paper",
+	"erase_wallet": "Erase Wallet",
+	
+	
+	"your_phone_has": "You phone has",
+	"is_pending": "is pending",
+	"checking_copied_link": "Checking copied link...",
+	"redeem_link": "Redeem Link",
+	"send_money": "Send money"
+    }
+}
