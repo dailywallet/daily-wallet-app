@@ -37,7 +37,11 @@
 	"send_via_link": "Send via link",
 	"close": "Close",
 	"wrong_pin_try_again": "Wrong PIN, try again",
-	"enter_your_4_digit_passcode": "Enter your 4-digit passcode"
+	"enter_your_4_digit_passcode": "Enter your 4-digit passcode",
+	"enter_a_4_digit_passcode": "Enter a 4-digit passcode",	
+	"you_ll_need_it_everytime": "You'll need to enter it every time you send money.",
+	"codes_do_not_match_try_again": "Codes do not match, try again",
+	"confirm_your_passcode": "Confirm your passcode"
     },
     "ShareLinkScreen": {
 	"hey_i_ve_sent_you": "Hey, I've sent you",

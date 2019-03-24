@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import PinView from 'react-native-pin-view';
+import i18n from 'DailyWallet/src/i18n';
 import styles from './styles';
 
 
@@ -15,6 +16,10 @@ class PasscodeSetScreenConfirm extends React.Component {
 	decrypting: false
     }
 
+    // translate helper
+    t(text) {
+	return i18n.t(`PincodeScreen.${text}`);
+    }    
 
     onComplete(code, clear) {
 	this.setState({decrypting: true});
@@ -26,7 +31,7 @@ class PasscodeSetScreenConfirm extends React.Component {
         if (code === this.props.code) {
             await this.props.onConfirm(this.props.code);
         } else {
-            alert("Codes do not match, try again");
+            alert(this.t("codes_do_not_match_try_again"));
             clear();
         }
 	this.setState({decrypting:false});	
@@ -36,7 +41,7 @@ class PasscodeSetScreenConfirm extends React.Component {
         return (
             <View style={styles.screenContainer}>
                 <View style={styles.centeredFlex}>
-                  <Text style={{...styles.infoText, paddingTop: 60}}>Confirm your passcode</Text>
+                <Text style={{...styles.infoText, paddingTop: 60}}>{ this.t("confirm_your_passcode") }</Text>
                 </View>
 		{this.state.decrypting ? (
 		    <ActivityIndicator

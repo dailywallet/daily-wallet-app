@@ -37,7 +37,11 @@
 	"send_via_link": "Отправить по ссылке",
 	"close": "Закрыть",
 	"wrong_pin_try_again": "Неправильный PIN, попробуйте еще",
-	"enter_your_4_digit_passcode": "Введите ваш 4-значный код"
+	"enter_your_4_digit_passcode": "Введите ваш 4-значный код",
+	"enter_a_4_digit_passcode": "Выберите 4-значный код",
+	"you_ll_need_it_everytime": "Вам он будет необходим при каждой отправке денег.",
+	"codes_do_not_match_try_again": "Код не совпадает с введеным ранее. Попробуйте еще.",
+	"confirm_your_passcode": "Подвердите код"	
     },
     "ShareLinkScreen": {
 	"hey_i_ve_sent_you": "Привет, я отправил тебе",
