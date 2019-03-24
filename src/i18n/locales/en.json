@@ -22,12 +22,19 @@
 	"scan_qr_code": "Scan QR-Code",
 	"amount_should_be_more_than_0": "Amount should be more than 0",
 	"amount_should_be_less_than_balance": "Amount should be less than balance",
-	"you_are_sending": "You're sending"
+	"you_are_sending": "You're sending",
+	"send": "Send"
     },
     "PincodeScreen": {
 	"send_via_link": "Send via link",
 	"close": "Close",
 	"wrong_pin_try_again": "Wrong PIN, try again",
 	"enter_your_4_digit_passcode": "Enter your 4-digit passcode"
+    },
+    "ShareLinkScreen": {
+	"hey_i_ve_sent_you": "Hey, I've sent you",
+	"share_the_link": "Share the link",
+	"share_the_link_to_send": "Share the link to send",
+	"share": "Share"
     }
 }

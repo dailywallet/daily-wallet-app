@@ -139,7 +139,7 @@ class SendScreen extends React.Component {
                 <View style={styles.sendScreenContainer}>
                     <View style={{...styles.sendInputContainer, marginTop:80}}>
 		      <TouchableOpacity onPress={() => this.textInputRef.focus()}>
-		<Text style={styles.sendScreenText}>${this.t("you_are_sending")} ${this.state.amount && Number(this.state.amount / 100).toFixed(2)}</Text>
+		<Text style={styles.sendScreenText}>{this.t("you_are_sending")} ${this.state.amount && Number(this.state.amount / 100).toFixed(2)}</Text>
 			</TouchableOpacity>
                         <TextInput
                             keyboardType='numeric'
@@ -154,7 +154,7 @@ class SendScreen extends React.Component {
                     </View>
                     <View style={{ alignItems: 'center' }}>
                       <TouchableOpacity style={styles.buttonContainer} onPress={this.onSend.bind(this)}>
-                            <Text style={styles.buttonText}>Send</Text>
+                <Text style={styles.buttonText}>{this.t("send")}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
