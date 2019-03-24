@@ -4,6 +4,7 @@ import { View, TextInput, Text, ActivityIndicator } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import PinView from 'react-native-pin-view';
 import { decryptKeystore } from './../../services/keystoreService';
+import i18n from 'DailyWallet/src/i18n';
 import styles from './styles';
 
 
@@ -22,14 +23,18 @@ class PincodeOnSendScreen extends React.Component {
 	};
       }
 
-
+    // translate helper
+    t(text) {
+	return i18n.t(`PincodeScreen.${text}`);
+    }    
+    
     componentWillMount() {
-        this.props.navigator.setTitle({ title: 'Send via link' });
+        this.props.navigator.setTitle({ title: this.t('send_via_link') });
         this.props.navigator.setButtons({
             leftButtons: [
                 {
                     id: 'closeModal',
-                    title: 'Close'
+                    title: this.t('close')
                 }
             ],
         });
@@ -59,14 +64,13 @@ class PincodeOnSendScreen extends React.Component {
 
 	    // check that pincode is correct
             if (address.toUpperCase() !== pubKeyAddress.toUpperCase()) {
-		throw new Error("Wrong PIN, try again");
+		throw new Error(this.t("wrong_pin_try_again"));
 	    }
 	    
-            //this.props.navigator.push({ screen: 'dailywallet.ShareLinkScreen', passProps: { amount: this.props.amount } });
 	    this.props.onSuccess(privateKey);
         } catch (e) {
             console.log('callback error: ', e);
-            alert("Wrong PIN, try again");
+            alert(this.t("wrong_pin_try_again"));
             clear();
 	    this.setState({decrypting:false});	    
         }
@@ -79,7 +83,7 @@ class PincodeOnSendScreen extends React.Component {
         return (
             <View style={styles.screenContainer}>
                 <View style={styles.centeredFlex}>
-                  <Text style={{ ...styles.infoText, marginTop: 60}}>Enter your 4-digit passcode</Text>
+                <Text style={{ ...styles.infoText, marginTop: 60}}>{ this.t("enter_your_4_digit_passcode") }</Text>
                 </View>
 
 		{this.state.decrypting ? (

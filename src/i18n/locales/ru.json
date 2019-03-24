@@ -23,6 +23,12 @@
 	"amount_should_be_more_than_0": "Сумма должна быть более 0",
 	"amount_should_be_less_than_balance": "Сумма не может быть больше вашего баланса",
 	"you_are_sending": "Вы отправляете"
+    },
+    "PincodeScreen": {
+	"send_via_link": "Отправить по ссылке",
+	"close": "Закрыть",
+	"wrong_pin_try_again": "Неправильный PIN, попробуйте еще",
+	"enter_your_4_digit_passcode": "Введите ваш 4-значный код"
     }
 
 }
