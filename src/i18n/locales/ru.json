@@ -15,5 +15,14 @@
 	"no_account_text": "Чтобы создать аккаунт, получите деньги через ссылку для получения",
 	"click_to_copy": "Скопировать адрес",
 	"redeem_link": "Получить по ссылке",
-    }    
+    },
+    "SendScreen": {
+	"cancel": "Отмена",
+	"send_to_address": "Отправить на адрес",
+	"scan_qr_code": "Сканировать QR-код",
+	"amount_should_be_more_than_0": "Сумма должна быть более 0",
+	"amount_should_be_less_than_balance": "Сумма не может быть больше вашего баланса",
+	"you_are_sending": "Вы отправляете"
+    }
+
 }

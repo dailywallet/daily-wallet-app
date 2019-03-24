@@ -15,5 +15,13 @@
 	"no_account_text": "To create an account, get claiming link from an existing user and redeem it.",
 	"click_to_copy": "Click to copy",
 	"redeem_link": "Redeem Link",
+    },
+    "SendScreen": {
+	"cancel": "Cancel",
+	"send_to_address": "Send To Address",
+	"scan_qr_code": "Scan QR-Code",
+	"amount_should_be_more_than_0": "Amount should be more than 0",
+	"amount_should_be_less_than_balance": "Amount should be less than balance",
+	"you_are_sending": "You're sending"
     }
 }

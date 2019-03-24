@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { ScrollView, View, TouchableOpacity, Text, TextInput, ActionSheetIOS, Platform } from 'react-native';
 import { generateClaimLink } from './../../actions/wallet';
 import { formatAmount } from '../../utils/helpers';
+import i18n from 'DailyWallet/src/i18n';
 import styles from './styles';
 
 
@@ -22,6 +23,11 @@ class SendScreen extends React.Component {
 	};
     }
 
+    // translate helper
+    t(text) {
+	return i18n.t(`SendScreen.${text}`);
+    }    
+
     componentWillMount() {
         this.props.navigator.setTitle({ title: 'Daily' });
 	let rightButtons = [];
@@ -37,12 +43,12 @@ class SendScreen extends React.Component {
 	    rightButtons = [
                 {
                     id: 'sendToAddress',
-                    title: 'Send To Address',
+                    title: this.t('send_to_address'),
                     showAsAction: 'withText'
                 },
                 {
                     id: 'scan',
-                    title: 'Scan QR-Code',
+                    title: this.t('scan_qr_code'),
                     showAsAction: 'withText'
                 },		
 	    ]
@@ -77,7 +83,7 @@ class SendScreen extends React.Component {
 
     _showActionSheetIOS() {
 	ActionSheetIOS.showActionSheetWithOptions( {
-	    options: ['Cancel', 'Send To Address'],
+	    options: [this.t('cancel'), this.t('send_to_address')],
 	    destructiveButtonIndex: 3,
 	    cancelButtonIndex: 0,
 	},  (buttonIndex) => {
@@ -91,12 +97,12 @@ class SendScreen extends React.Component {
 
     onSend() {
 	if (this.state.amount <= 0) {
-	    alert(`Amount should be more than 0`);
+	    alert(this.t(`amount_should_be_more_than_0`));
 	    return;
 	}	
 	
 	if (Number(this.props.balance) < this.state.amount / 100) {
-	    alert(`Amount should be less than balance ($${formatAmount(this.props.balance)})`);
+	    alert(`${this.t("amount_should_be_less_than_balance")} ($${formatAmount(this.props.balance)})`);
 	    return;
 	}
 	try {
@@ -110,23 +116,17 @@ class SendScreen extends React.Component {
 	}
     }
 
-    _handleInput(val) {
-	console.log({newVal: val, oldVal: this.state.amount});
-	
+    _handleInput(val) {	
 	// we don't want users to have , input
 	if (val.indexOf(',') >= 0) {
 	    return;
 	}
 
 	// we don't want users to have . input	
-	// const hasSecondDot = val.substr(val.indexOf('.')+1).indexOf('.') >= 0;
-	// if (hasSecondDot) {
 	if (val.indexOf('.') >= 0) {	
 	    return;
 	}
 
-
-	
 	this.setState({ amount: val});	
     }
     
