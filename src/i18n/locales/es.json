@@ -1,3 +1,69 @@
 {
+    "BalanceScreen": {
+	"cancel": "Cancelar",
+	"show_address": "Mostrar dirección",
+	"save_wallet_to_paper": "Respaldar Dinero En Papel",
+	"erase_wallet": "Eliminar Billetera",
+	"your_phone_has": "Tu teléfono tiene",
+	"is_pending": "está pendiente",
+	"checking_copied_link": "Revisando enlace...",
+	"redeem_link": "Usar Código Copiado",
+	"send_money": "Enviar Dinero",
+    },
+    "prompts": {
+	"erase_wallet": {
+	    "are_you_sure": "Estás seguro?",
+	    "are_you_sure_you_want_to_delete_your_wallet": "¿Estás seguro de querer eliminar esta billetera?",
+	    "yes_delete_my_wallet": "Sí, eliminar la billetera",
+	    "no_dont_delete_my_wallet": "No, conservar esta billetera"
+	}
+    },    
+    "ReceiveScreen": {
+	"your_account": "Tu cuenta",
+	"no_account_text": "Para crear una cuenta, obtén un código de un usuario existente y canjéalo.",
+	"click_to_copy": "Toca aquí para copiar",
+	"redeem_link": "Canjear Enlace",
+    },
+    "SendScreen": {
+	"cancel": "Cancelar",
+	"send_to_address": "Enviar A Dirección ETH",
+	"scan_qr_code": "Escanear Código QR",
+	"amount_should_be_more_than_0": "El monto debe ser mayor a 0",
+	"amount_should_be_less_than_balance": "No tienes suficientes fondos",
+	"you_are_sending": "Estás enviando",
+	"send": "Enviar",
+	"invalid_ethereum_address": "Utiliza una dirección ETH válida",
+	"error": "Error"
+    },
+    "PincodeScreen": {
+	"close": "Cerrar",
+	"wrong_pin_try_again": "PIN incorrecto, intenta de nuevo",
+	"enter_your_4_digit_passcode": "Introduce tu PIN de 4 dígitos",
+	"enter_a_4_digit_passcode": "Introduce un PIN de 4",	
+	"you_ll_need_it_everytime": "Necesitarás utilizarlo cada vez que desees enviar dinero.",
+	"codes_do_not_match_try_again": "Los PIN no son iguales, intenta de nuevo",
+	"confirm_your_passcode": "Confirma tu PIN"
+    },
+    "ShareLinkScreen": {
+	"hey_i_ve_sent_you": "Hola, esto es un cheque de",
+	"share_the_link": "Comparte el enlace",
+	"share_the_link_to_send": "Comparte el enlace para enviar",
+	"share": "Compartir"
+    },
+    "IntroScreen": {
+	"create_new_wallet": "Crear Nueva Billetera",
+	"recover_paper_wallet": "Recuperar Billetera Usada"
+    },
+    "BackupScreen": {
+	"your_phone_has": "Tu teléfono tiene",
+	"save_paper_instructions": "Puedes guardar tu dinero anotando una serie de palabras que deberías anotar en un cuaderno. Es como un poema con 12 palabras.",
+	"save_paper_warning": "Cualquiera que consiga el papel puede usar tu dinero, así que guárdalo en un lugar seguro.",
+	"continue": "Continuar",
 
+	"write_the_number_and_word_in_paper": "Escribe el número y la palabra en un cuaderno",
+	"incorrect_word": "Palabra incorrecta",
+	"type_the_words_again_to_confirm": "Escribe las palabras de nuevo para confirmar",
+	"type_the_words_from_the_recovery_paper": "Escribe las palabras del cuaderno de",
+	"input_cant_be_empty": "Debes escribir las palabras"
+    }
 }
