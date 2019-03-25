@@ -26,13 +26,14 @@
 	"no_link_title": "No link detected",
 	"no_link_text": "Copy the text with the link from your messaging application, open Daily Wallet, and tap on Redeem link again.",
 	"wait_link_title": "Wait for previous claim link",
-	"wait_link_text": "You can't claim several links at the same time. Please wait until the first link is redeemed."
+	"wait_link_text": "You can't claim several links at the same time. Please wait until the first link is redeemed.",
     },
     "ReceiveScreen": {
 	"your_account": "Your account",
 	"no_account_text": "To create an account, get claiming link from an existing user and redeem it.",
 	"click_to_copy": "Click to copy",
 	"redeem_link": "Redeem Link",
+	"address_copied_to_clipboard": "Address is copied to your clipboard"
     },
     "SendScreen": {
 	"cancel": "Cancel",

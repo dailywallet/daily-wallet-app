@@ -31,7 +31,7 @@ class ReceiveScreen extends React.Component {
     
     _onAddressPress() {
 	Clipboard.setString(this.props.address);
-	alert("Address is copied to your clipboard");
+	alert(this.t("address_copied_to_clipboard"));
     }
 
     _renderQRCode() {

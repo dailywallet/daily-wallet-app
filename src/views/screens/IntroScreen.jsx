@@ -36,10 +36,10 @@ class IntroScreen extends React.Component {
         return (
             <View style={styles.screenContainerCentered}>
                 <View style={styles.centeredFlex}>
-                <TouchableOpacity style={{...styles.buttonContainer, width: 220, marginBottom: 20}} onPress={this._onCreateBtnPress.bind(this)}>
+                <TouchableOpacity style={{...styles.buttonContainer, width: 280, marginBottom: 20}} onPress={this._onCreateBtnPress.bind(this)}>
                 <Text style={styles.buttonText}>{ this.t("create_new_wallet") }</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={{...styles.buttonContainer, width: 220}} onPress={this._onRecoverBtnPress.bind(this)}>
+                <TouchableOpacity style={{...styles.buttonContainer, width: 280}} onPress={this._onRecoverBtnPress.bind(this)}>
                    <Text style={styles.buttonText}>{ this.t("recover_paper_wallet") }</Text>
                 </TouchableOpacity>
                 </View>		
