@@ -5,7 +5,7 @@ import es from './locales/es.json';
 import ru from './locales/ru.json';
 
 i18n.defaultLocale = 'en';
-i18n.locale = 'ru';
+i18n.locale = 'es';
 i18n.fallbacks = true;
 i18n.translations = { en, es, ru };
 

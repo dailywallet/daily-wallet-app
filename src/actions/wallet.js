@@ -122,8 +122,10 @@ export const startMnemonicBackup = (navigator) => {
 	    const state = getState();
 	    const { ciphertext, iv } =  state.data.mnemonic;
 	    const mnemonic = await ksService.decryptMnemonicWithPK(ciphertext, iv, privateKey);
-	    if (!mnemonic) { 
-		alert("Error while decrypting mnemonic");
+	    if (!mnemonic) {
+		const msg_text = "error_while_decrypting_mnemonic";		
+		const msg = i18n.t(`alerts.${msg_text}`);
+		alert(msg);
 		return null;
 	    } 
 
@@ -196,7 +198,10 @@ export const claimLink = (link) => {
 	    
 	} catch (err) {
 	    console.log(err);
-	    Alert.alert("Link is invalid", "The link you copied doesn’t exist or has already been redeemed.");
+
+	    const alert_title = i18n.t("alerts.invalid_link_title");
+	    const alert_text = i18n.t("alerts.invalid_link_text");	    	    	    
+	    Alert.alert(alert_title, alert_text);
 
 	    // update app state that tx was mined
 	    dispatch({
@@ -247,14 +252,19 @@ export const onPressRedeemBtn = () => {
 
 	// No link detected alert
 	const linkBase = '/#/claim?';
-	if (!(linkInClipboard && linkInClipboard.indexOf(linkBase) > -1)) { 
-	    Alert.alert("No link detected", "Copy the text with the link from your messaging application, open Daily Wallet, and tap on Redeem link again.");
+	if (!(linkInClipboard && linkInClipboard.indexOf(linkBase) > -1)) {
+
+	    const alert_title = i18n.t("alerts.no_link_title");
+	    const alert_text = i18n.t("alerts.no_link_text");	    	    
+	    Alert.alert(alert_title, alert_text);
 	    return null;
 	}
 
 	const state = getState();
-	if (state.data.pendingClaimTx.isPending) { 
-	    Alert.alert("Wait for previous claim link", "You can't claim several links at the same time. Please wait until the first link is redeemed.");
+	if (state.data.pendingClaimTx.isPending) {
+	    const alert_title = i18n.t("alerts.wait_link_title");
+	    const alert_text = i18n.t("alerts.wait_link_text");	    	    
+	    Alert.alert(alert_title, alert_text);	    
 	    return null;
 	}
 
@@ -371,7 +381,9 @@ export function claimFromDeepLink (url) {
 	
 	// if wallet hasn't been setup yet
 	if (!state.data.keystore.pubKeyAddress) {
-	    alert("Please setup a wallet first");
+	    const msg_text = "please_setup_a_wallet_first";
+	    const msg = i18n.t(`alerts.${msg_text}`);
+	    alert(msg);
 	}
 
 	dispatch(claimLink(url));
