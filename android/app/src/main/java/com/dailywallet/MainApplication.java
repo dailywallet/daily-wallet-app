@@ -9,6 +9,8 @@ import org.reactnative.camera.RNCameraPackage;
 import java.util.Arrays;
 import java.util.List;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
+import com.reactcommunity.rnlocalize.RNLocalizePackage;
+
 
 public class MainApplication extends NavigationApplication {
 
@@ -25,7 +27,8 @@ public class MainApplication extends NavigationApplication {
 					   // eg. new VectorIconsPackage()
 					   new RandomBytesPackage(),
 					   new RNFastCryptoPackage(),
-					   new RNCameraPackage(),			       
+					   new RNCameraPackage(),
+					   new RNLocalizePackage(),
 					   new ReactNativeConfigPackage()
 					   );
     }

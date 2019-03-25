@@ -116,6 +116,7 @@ versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
 }
 
 dependencies {
+    compile project(':react-native-localize')
     compile project(':react-native-camera')
     compile project(':react-native-config')
     compile fileTree(dir: 'libs', include: ['*.jar'])
