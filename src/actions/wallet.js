@@ -22,6 +22,11 @@ export const generateKeystore = (password) => {
     return async (dispatch, getState) => {
 	const { address, privateKey, mnemonic } = await ksService.generatePrivateKey();
         const { keystore, encryptedMnemonic } = await ksService.generateKeystore({password, mnemonic, privateKey});
+
+	// add identity address
+	const computedIdentityAddress = identitySDK.computeIdentityAddress(address);
+	dispatch(addIdentityContract(computedIdentityAddress));
+	
         dispatch({
             type: actions.GENERATE_KEYSTORE,
             payload: { keystore, address, encryptedMnemonic }
@@ -75,9 +80,9 @@ export const fetchBalance = () => {
 	    address = await identitySDK.getIdentityByPublicKey(state.data.keystore.pubKeyAddress);
 	    console.log({address});
 	    if (String(address) !== '0x0000000000000000000000000000000000000000') { 
-		dispatch(addIdentityContract(address));
+	    	dispatch(addIdentityContract(address));
 	    } else {
-		return null;
+	    	return null;
 	    }
 	} 
 	let balance = await identitySDK.getBalance(address);

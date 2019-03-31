@@ -5,6 +5,7 @@ import { onPressRedeemBtn } from './../../actions/wallet';
 import QRCode from 'react-native-qrcode';
 import i18n from 'DailyWallet/src/i18n';
 import styles from './styles';
+import identitySDK from 'DailyWallet/src/services/sdkService';
 
 
 class ReceiveScreen extends React.Component {
@@ -35,15 +36,15 @@ class ReceiveScreen extends React.Component {
     }
 
     _renderQRCode() {
-	if (!this.props.address) {
-	    return (
-		<View style={styles.balanceContainer}>
-		    <Text style={{marginTop: 20, textAlign: 'center'}}>
-		    { this.t("no_account_text") }
-		    </Text>
-		    </View>
-	    );
-	}
+	// if (!this.props.address) {
+	//     return (
+	// 	<View style={styles.balanceContainer}>
+	// 	    <Text style={{marginTop: 20, textAlign: 'center'}}>
+	// 	    { this.t("no_account_text") }
+	// 	    </Text>
+	// 	    </View>
+	//     );
+	// }
 
 	return (
 		<TouchableOpacity onPress={this._onAddressPress.bind(this)} style={styles.balanceContainer}>
@@ -77,8 +78,9 @@ class ReceiveScreen extends React.Component {
 
 
 function mapStateToProps(state) {
+    console.log({state})
     return {
-        address: state.data.wallet.address
+        address: state.data.wallet.address //identitySDK.computeIdentityAddress(state.data.keystore.pubKeyAddress)
     }
 }
 

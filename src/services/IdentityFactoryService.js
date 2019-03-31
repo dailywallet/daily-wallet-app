@@ -13,7 +13,8 @@ class IdentityFactoryService {
 	const publicKey = '0x000000000000000000000000' + keystoreAddress.substring(2);
 	console.log({publicKey});
 	return this.identityFactoryContract.getIdentity(publicKey);
-    }
+    }    
+    
 }
 
 export default IdentityFactoryService;

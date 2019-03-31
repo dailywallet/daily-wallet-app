@@ -3,11 +3,13 @@ import { providers, Wallet, utils, constants } from 'ethers';
 import TokenService from './tokenService';
 import IdentityFactoryService from './IdentityFactoryService';
 import { generatePrivateKey } from './keystoreService.js';
+import { computeIdentityAddress } from '../utils/computeIdentityAddress';
 import Config from 'react-native-config';
 
 
 const {
     IDENTITY_FACTORY_ADDRESS,
+    IDENTITY_LIB_ADDRESS,
     SECRET_KEY,
     LINK_BASE,
     RELAYER_HOST,
@@ -104,6 +106,11 @@ class UniversalLoginSDK {
 	    return balance;	    
 	}
     }
+
+    computeIdentityAddress(keystoreAddress) {	
+	return computeIdentityAddress(keystoreAddress, IDENTITY_FACTORY_ADDRESS, IDENTITY_LIB_ADDRESS);
+    }
+
     
 }
 
