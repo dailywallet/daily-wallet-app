@@ -68,6 +68,22 @@ export const addIdentityContract = (identityContract) => {
 }
 
 
+export const fetchDaiBalance = () => {
+    return async (dispatch, getState) => {
+	const state = getState();
+	let address = state.data.wallet.address;
+	if (!address) { return null; }
+
+	const daiBalance = await identitySDK.getDaiBalance(address);
+	
+	console.log({ daiBalance });
+
+	if (Number(daiBalance) > 0) {
+	    alert(`Depositing $${daiBalance}. It may take about 5 mins...` ); 
+	}
+    }    
+}
+
 export const fetchBalance = () => {
     return async (dispatch, getState) => {
 	const state = getState();
@@ -88,6 +104,7 @@ export const fetchBalance = () => {
 	let balance = await identitySDK.getBalance(address);
 	console.log({balance, address})
 	dispatch(updateBalance(balance));
+	dispatch(fetchDaiBalance());
     };
 }
 

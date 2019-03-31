@@ -13,7 +13,9 @@ const {
     SECRET_KEY,
     LINK_BASE,
     RELAYER_HOST,
-    ETHEREUM_RPC_URL
+    XDAI_RPC_URL,
+    DAI_ADDRESS,
+    MAINNET_RPC_URL
 } = Config;
 
 console.log({Config})
@@ -23,14 +25,15 @@ const TOKEN_ADDRESS = Config.TOKEN_ADDRESS === '0x000000000000000000000000000000
 class UniversalLoginSDK {
     start() {
 	
-	this.provider = new providers.JsonRpcProvider(ETHEREUM_RPC_URL);
+	this.xdaiProvider = new providers.JsonRpcProvider(XDAI_RPC_URL);
+	this.mainnetProvider = new providers.JsonRpcProvider(MAINNET_RPC_URL);
 	
 	this.sdk = new EthereumIdentitySDK(
 	    RELAYER_HOST,
-	    this.provider,
+	    this.xdaiProvider,
 	);
 
-	this.identityFactoryService = new IdentityFactoryService(IDENTITY_FACTORY_ADDRESS, this.provider);
+	this.identityFactoryService = new IdentityFactoryService(IDENTITY_FACTORY_ADDRESS, this.xdaiProvider);
  	this.sdk.start();
 	console.log("universal Login SDK started");
     }
@@ -94,17 +97,18 @@ class UniversalLoginSDK {
 	return this.sdk.waitForTxReceipt(params);
     }
 
+    // get balance on mainnet
+    async getDaiBalance(address) {
+	const tokenService = new TokenService(DAI_ADDRESS, this.mainnetProvider);	    
+	let balance = await tokenService.getBalance(address);
+	balance = utils.formatUnits(balance, Config.TOKEN_DECIMALS);
+	return balance;	    
+    }
+
+    
     async getBalance(address) {
-	if (TOKEN_ADDRESS === constants.AddressZero) {
-	    // Look up the balance
-	    let balance = await this.provider.getBalance(address);
-	    return utils.formatEther(balance);
-	} else {
-	    const tokenService = new TokenService(TOKEN_ADDRESS, this.provider);	    
-	    let balance = await tokenService.getBalance(address);
-	    balance = utils.formatUnits(balance, Config.TOKEN_DECIMALS);
-	    return balance;	    
-	}
+	let balance = await this.xdaiProvider.getBalance(address);
+	return utils.formatEther(balance);
     }
 
     computeIdentityAddress(keystoreAddress) {	
