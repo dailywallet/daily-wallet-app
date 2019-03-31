@@ -79,7 +79,9 @@ export const fetchDaiBalance = () => {
 	console.log({ daiBalance });
 
 	if (Number(daiBalance) > 0) {
-	    alert(`Depositing $${daiBalance}. It may take about 5 mins...` ); 
+	    const result = await identitySDK.moveDaiToXdai(state.data.keystore.pubKeyAddress);
+	    alert(`Depositing $${daiBalance}. It may take about 5 mins...` );	    
+	    console.log({result})
 	}
     }    
 }

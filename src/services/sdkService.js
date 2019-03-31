@@ -115,7 +115,25 @@ class UniversalLoginSDK {
 	return computeIdentityAddress(keystoreAddress, IDENTITY_FACTORY_ADDRESS, IDENTITY_LIB_ADDRESS);
     }
 
-    
+   // #TODO: move to sdk lib
+   async moveDaiToXdai(managementKey) {
+       const url = `${RELAYER_HOST}/identity/move-dai-to-xdai`;
+       const body = JSON.stringify({
+	   managementKey
+       });
+	
+       const response = await fetch(url, {
+	   headers: {'Content-Type': 'application/json; charset=utf-8'},
+	   method: 'POST',
+	   body
+       });
+	const responseJson = await response.json();
+	console.log({response, responseJson});
+	if (response.status === 201) {
+	    return { response, txHash: responseJson.transaction.hash };
+	}
+	throw new Error(`${responseJson.error}`);	
+   }
 }
 
 export default new UniversalLoginSDK();
